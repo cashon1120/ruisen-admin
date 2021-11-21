@@ -12,6 +12,7 @@ import {
   AutoComplete,
   Card,
 } from 'antd';
+import Wrapper from '@/components/Wrapper/Index';
 
 const { Option } = Select;
 
@@ -105,7 +106,7 @@ const RegistrationForm = () => {
   }));
 
   return (
-    <Card title="表单展示">
+    <Wrapper title="表单展示">
       <Form
         {...formItemLayout}
         form={form}
@@ -276,7 +277,7 @@ const RegistrationForm = () => {
           </Button>
         </Form.Item>
       </Form>
-    </Card>
+    </Wrapper>
   );
 };
 
