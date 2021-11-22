@@ -8,6 +8,8 @@ interface IPramars {
 
 const URL = 'http://www.baidu.com/';
 
+const  b = 2;
+
 const HttpRequest = function (options: IPramars) {
   const { url, method, params } = options;
   console.log('11111111111111');
