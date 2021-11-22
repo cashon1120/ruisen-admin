@@ -6,14 +6,10 @@ interface IPramars {
   params?: any;
 }
 
-const URL = 'http://www.baidu.com/';
-
-const  b = 2;
+const URL = '/';
 
 const HttpRequest = function (options: IPramars) {
   const { url, method, params } = options;
-  console.log('11111111111111');
-  console.log(params);
   const _method = method || 'POST';
   const config = {
     method: _method,
@@ -28,7 +24,7 @@ const HttpRequest = function (options: IPramars) {
 
     errorHandler: function (error: any) {
       // 异常
-      console.log('异常:', error);
+      // console.log('异常:', error);
       if (error.response) {
       }
       throw error.response; // 将错误抛出，可在catch中捕获错误
