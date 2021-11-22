@@ -1,0 +1,22 @@
+.modalForm {
+  :global {
+    .ant-modal-body {
+      padding-top: 40px;
+      padding: 5px;
+      form {
+        margin: 25px;
+      }
+      //处理区域弹窗纵向滚动条，影响了其他页面再改
+      &>div{
+        max-height: fit-content !important;
+      }
+    }
+    .ant-modal-content {
+      .ant-modal-close-x {
+        height: 45px;
+        width: 45px;
+        line-height: 45px;
+      }
+    }
+  }
+}

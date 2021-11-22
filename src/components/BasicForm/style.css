@@ -1,0 +1,35 @@
+.page-form-container {
+  max-height: 100%;
+  overflow: auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 0 !important;
+}
+@media (min-width: 1366px) {
+  .page-form-container {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+@media (min-width: 1920px) {
+  .page-form-container {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+.page-form-container .ant-form-item-extra {
+  font-size: 12px !important;
+}
+.page_form_button {
+  text-align: center;
+  bottom: 0;
+  background-color: #fff;
+  left: 0;
+  right: 0;
+  padding-top: 30px;
+}
+.page_form_button button {
+  margin-right: 15px;
+}

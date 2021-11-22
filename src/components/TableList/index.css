@@ -1,0 +1,31 @@
+.tableWrapper {
+  display: none;
+  background-color: transparent;
+}
+.tableWrapper .tableContent {
+  background-color: transparent;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table td,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table tr,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table th,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table div,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table thead,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table tbody,
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table table {
+  color: #767a81;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table .ant-table-header .ant-table-thead > tr > th {
+  background-color: #fafbff;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table .ant-table-body tbody tr.ant-table-row:nth-child(even) td {
+  background-color: #fff;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table .ant-table-body tbody tr.ant-table-row:nth-child(odd) td {
+  background-color: #fafbff;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table .ant-table-body tbody tr.ant-table-row.row-active td {
+  background-color: #eceffe;
+}
+.tableWrapper .tableContent .tableContainer .table_wrapper_expand .ant-table .ant-table-body tbody tr.ant-table-row:hover td {
+  background-color: #eceffe;
+}

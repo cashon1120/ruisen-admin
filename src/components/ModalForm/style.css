@@ -1,0 +1,15 @@
+.modalForm :global .ant-modal-body {
+  padding-top: 40px;
+  padding: 5px;
+}
+.modalForm :global .ant-modal-body form {
+  margin: 25px;
+}
+.modalForm :global .ant-modal-body > div {
+  max-height: fit-content !important;
+}
+.modalForm :global .ant-modal-content .ant-modal-close-x {
+  height: 45px;
+  width: 45px;
+  line-height: 45px;
+}

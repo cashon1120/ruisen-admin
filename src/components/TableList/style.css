@@ -1,0 +1,136 @@
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-item-link,
+.action {
+  color: #666 !important;
+}
+.ant-pagination-item-active a,
+.ant-pagination-item-active a:hover {
+  color: #fff !important;
+}
+.ant-table table tr.row-active td {
+  color: #fff;
+}
+.expandTableWrapper {
+  flex: 1;
+}
+.expandTableWrapper .table_wrapper_expend {
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+}
+.expandTableWrapper .tableContainer {
+  flex: 1;
+  overflow: hidden;
+}
+.expandTableWrapper .content {
+  background-color: #fff;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.expandTableWrapper :global .ant-table-selection-column {
+  width: 52px !important;
+}
+.expandTableWrapper :global .ant-pagination-item-active a,
+.expandTableWrapper :global .ant-pagination-item-active:hover a {
+  color: #000;
+}
+.expandTableWrapper :global .ant-table table {
+  border-collapse: collapse;
+  position: relative;
+}
+.expandTableWrapper :global .ant-table table th {
+  background-color: #fbfbfb !important;
+}
+.expandTableWrapper :global .ant-table table th,
+.expandTableWrapper :global .ant-table table td {
+  position: relative;
+}
+.expandTableWrapper :global .ant-table table th::after,
+.expandTableWrapper :global .ant-table table td::after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border-right: 1px solid #eee;
+}
+.tableWrapper {
+  padding: 0;
+  background-color: #fff;
+  flex: 1;
+}
+.tableWrapper .content {
+  background-color: #fff;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.tableWrapper .content .tableContainer {
+  flex: 1;
+  overflow: hidden;
+}
+.tableWrapper :global .ant-table-thead > tr:not(:last-child) > th[colspan] {
+  border-bottom: 1px solid #eee !important;
+}
+.tableWrapper :global .ant-table.ant-table-small .ant-table-footer,
+.tableWrapper :global .ant-table.ant-table-small .ant-table-thead > tr > th,
+.tableWrapper :global .ant-table.ant-table-small .ant-table-tbody > tr > td,
+.tableWrapper :global .ant-table.ant-table-small tfoot > tr > th,
+.tableWrapper :global .ant-table.ant-table-small tfoot > tr > td {
+  height: auto;
+}
+.tableWrapper :global .clickRowStyl {
+  background-color: #cbf2ff;
+}
+.tableWrapper :global .ant-table-column-sorters {
+  padding: 0 !important;
+}
+.tableWrapper :global .ant-table table {
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+.tableWrapper :global .ant-table table tr {
+  background-color: #fff;
+}
+.tableWrapper :global .ant-table table tr th {
+  background-color: #fff;
+}
+.tableWrapper :global .ant-table table tr td,
+.tableWrapper :global .ant-table table tr th {
+  height: 52px;
+  padding: 14px;
+  min-width: 52px;
+  box-sizing: border-box;
+}
+.tableWrapper :global .ant-table table tr td.ant-table-selection-column,
+.tableWrapper :global .ant-table table tr th.ant-table-selection-column {
+  padding: 0 !important;
+}
+.tableWrapper :global .ant-table table tr:nth-child(odd) {
+  background-color: #fbfbfb;
+}
+.tableWrapper :global .ant-table table tr:nth-child(odd) td {
+  background: #fbfbfb;
+}
+.tableWrapper :global .ant-table table tr:nth-child(even) {
+  background-color: #fff;
+}
+.tableWrapper :global .ant-table table tr:nth-child(even) td {
+  background: #fff;
+}
+.tableWrapper :global .ant-table table tr.ant-table-placeholder td {
+  background-color: #fff;
+}
+.tableWrapper :global .ant-table table tr.ant-table-placeholder:hover td {
+  background-color: #fff;
+}
+.tableWrapper :global .ant-table table tr.row-active td {
+  background-color: #00b4ed;
+  color: #fff;
+}
+.tableWrapper :global .ant-table table th,
+.tableWrapper :global .ant-table table tr:nth-child(even) {
+  background-color: #f4f5f6 !important;
+}

@@ -43,7 +43,7 @@
     name: '表格',
     icon: 'table',
     path: '/list',
-    component: './TableList',
+    component: './Table',
   },
   {
     name: '表单',
@@ -54,25 +54,25 @@
   {
     name: '详情',
     icon: 'profile',
-    path: '/form',
+    path: '/detail',
     component: './TableList',
   },
   {
     name: '结果',
     icon: 'check-circle',
-    path: '/form',
+    path: '/result',
     component: './TableList',
   },
   {
     name: '异常',
     icon: 'warning',
-    path: '/form',
+    path: '/warning',
     component: './TableList',
   },
   {
     name: '个人',
-    icon: 'warning',
-    path: '/form',
+    icon: 'user',
+    path: '/user',
     component: './TableList',
   },
   {

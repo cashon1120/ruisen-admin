@@ -1,0 +1,180 @@
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-item-link,
+.action {
+  color: #666 !important;
+}
+
+.ant-pagination-item-active {
+
+  a,
+  a:hover {
+    color: #fff !important;
+  }
+}
+
+.ant-table table tr.row-active {
+  td {
+    color: #fff;
+  }
+}
+
+.expandTableWrapper {
+  flex: 1;
+
+  .table_wrapper_expend {
+    border-top : 1px solid #eee;
+    border-left: 1px solid #eee;
+  }
+
+  .tableContainer {
+    flex    : 1;
+    overflow: hidden;
+  }
+
+  .content {
+    background-color: #fff;
+    display         : flex;
+    height          : 100%;
+    flex-direction  : column;
+  }
+
+  :global {
+    .ant-table-selection-column {
+      width: 52px !important;
+    }
+    .ant-pagination-item-active,
+    .ant-pagination-item-active:hover {
+      a {
+        color: #000;
+      }
+    }
+    .ant-table table {
+      border-collapse: collapse;
+      position       : relative;
+
+      th {
+        background-color: #fbfbfb !important;
+      }
+
+      th,
+      td {
+        position: relative;
+
+        &::after {
+          content     : '';
+          display     : block;
+          position    : absolute;
+          right       : 0;
+          top         : 0;
+          height      : 100%;
+          border-right: 1px solid #eee;
+        }
+      }
+    }
+  }
+}
+
+.tableWrapper {
+  padding         : 0;
+  background-color: #fff;
+  flex            : 1;
+
+  .content {
+    background-color: #fff;
+    display         : flex;
+    height          : 100%;
+    flex-direction  : column;
+
+    .tableContainer {
+      flex    : 1;
+      overflow: hidden;
+    }
+  }
+
+  :global {
+    .ant-table-thead>tr:not(:last-child)>th[colspan] {
+      border-bottom: 1px solid #eee !important;
+    }
+
+    .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td{
+      height: auto;
+    }
+
+    .clickRowStyl {
+      background-color: #cbf2ff;
+    }
+
+    .ant-table-column-sorters {
+      padding: 0 !important;
+    }
+
+
+
+    .ant-table table {
+      border-collapse: collapse;
+      border         : 1px solid #eee;
+
+      tr {
+        background-color: #fff;
+
+        th {
+          background-color: #fff;
+        }
+
+        td,
+        th {
+          height      : 52px;
+          padding     : 14px;
+          min-width   : 52px;
+          box-sizing  : border-box;
+
+          &.ant-table-selection-column {
+            padding: 0 !important;
+          }
+        }
+      }
+
+      tr:nth-child(odd) {
+        background-color: #fbfbfb;
+
+        td {
+          background: #fbfbfb;
+        }
+      }
+
+      tr:nth-child(even) {
+        background-color: #fff;
+
+        td {
+          background: #fff;
+        }
+      }
+
+      tr.ant-table-placeholder {
+        td {
+          background-color: #fff;
+        }
+      }
+
+      tr.ant-table-placeholder:hover {
+        td {
+          background-color: #fff;
+        }
+      }
+
+      tr.row-active {
+        td {
+          // background-color: #d1e9ff;
+          background-color: #00b4ed;
+          color: #fff;
+        }
+      }
+
+      th,
+      tr:nth-child(even) {
+        background-color: #f4f5f6 !important;
+      }
+    }
+  }
+}
