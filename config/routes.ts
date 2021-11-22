@@ -19,23 +19,20 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
+    path: '/home',
+    name: '首页',
     icon: 'smile',
-    component: './Welcome',
+    component: './Home',
   },
   {
     path: '/admin',
-    name: 'admin',
+    name: '管理',
     icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
     routes: [
       {
         path: '/admin/sub-page',
         name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
+        component: './Home',
       },
       {
         component: './404',
@@ -43,14 +40,44 @@
     ],
   },
   {
-    name: 'list.table-list',
+    name: '表格',
     icon: 'table',
     path: '/list',
     component: './TableList',
   },
   {
+    name: '表单',
+    icon: 'form',
+    path: '/form',
+    component: './form',
+  },
+  {
+    name: '详情',
+    icon: 'profile',
+    path: '/form',
+    component: './TableList',
+  },
+  {
+    name: '结果',
+    icon: 'check-circle',
+    path: '/form',
+    component: './TableList',
+  },
+  {
+    name: '异常',
+    icon: 'warning',
+    path: '/form',
+    component: './TableList',
+  },
+  {
+    name: '个人',
+    icon: 'warning',
+    path: '/form',
+    component: './TableList',
+  },
+  {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/home',
   },
   {
     component: './404',
