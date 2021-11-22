@@ -49,15 +49,15 @@ const Table = () => {
   }
 
 
- const getRef = (options: any) => {
+  const getRef = (options: any) => {
   tableRef = options
- }
+  }
 
- const [visible, setVisible] = useState(false)
- const [loading, setLoading] = useState(false)
- const handleSubmitModal = (values: any) => {
+  const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const handleSubmitModal = (values: any) => {
 
- }
+  }
 
   return <>
     <TablePage url="api/test" deleteUrl="api/delete/343434" onRef={getRef} columns={columns} defaultParams={defaultParams} searchItems={searchItems} title="这是一个表格" />
