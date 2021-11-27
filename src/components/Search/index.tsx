@@ -130,7 +130,6 @@ class Search extends React.Component<SearchProps, SearchState> {
   }
 
   onChange = (formItem: FormItem, e: any) => {
-    console.log(formItem, e);
     const value = (e && e.target && e.target.value) || e;
     formItem.onChange && formItem.onChange(formItem.name, value);
   };

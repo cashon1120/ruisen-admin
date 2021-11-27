@@ -54,7 +54,7 @@ const TablePage = (props: IProps) => {
       }
       // 处理时间段
       if (key === 'rangeTime') {
-        if (values.rangeTime !== null) {
+        if (values.rangeTime) {
           values.startTime = values[key][0].format('YYYY-MM-DD');
           values.endTime = values[key][1].format('YYYY-MM-DD');
         } else {
@@ -86,10 +86,9 @@ const TablePage = (props: IProps) => {
     setLoading(true);
     HttpRequest({ url, method: 'get', params: options })
       .then((res: any) => {
-        if (res.code !== 20000) return;
         setLoading(false);
-        setData(res.data.recordList);
-        setTotal(res.data.count);
+        setData(res.recordList);
+        setTotal(res.count);
       })
       .catch(() => {
         setLoading(false);
@@ -101,12 +100,9 @@ const TablePage = (props: IProps) => {
   const deleteData = (deleteOptions: any) => {
     setLoading(true);
     HttpRequest({ url: deleteUrl || '', params: deleteOptions })
-      .then((res: any) => {
-        if (res.code !== 20000) {
-          message.error(res.message);
-          return;
-        }
-        message.success(res.message);
+      .then(() => {
+        setLoading(false);
+        message.success('操作成功');
         getData();
       })
       .catch(() => {

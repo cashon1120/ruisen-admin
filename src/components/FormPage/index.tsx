@@ -59,12 +59,8 @@ const FormPage = (props: IProps) => {
     }
     setLoading(true);
     HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl }).then(
-      (res: any) => {
+      () => {
         setLoading(false);
-        if (res.code !== 20000) {
-          message.error(res.message);
-          return;
-        }
         message.success('操作成功');
         history.goBack();
       },

@@ -1,4 +1,6 @@
 import { extend } from 'umi-request';
+import {history} from 'umi'
+import {message} from 'antd'
 
 interface IPramars {
   url: string;
@@ -37,7 +39,21 @@ const HttpRequest = function (options: IPramars) {
   };
   const request = extend(config);
   // 注意这里的请求地址
-  return request(URL + url);
+  return new Promise((resolve: any, reject: any) => {
+    request((URL + url).toLocaleLowerCase()).then((res: any) => {
+      if(res.code === 52005){
+        history.replace('/login')
+        reject()
+        return
+      }
+      if(res.code !== 20000){
+        message.error(res.message)
+        reject()
+        return
+      }
+      resolve(res.data)
+    })
+  })
 };
 
 export default HttpRequest;

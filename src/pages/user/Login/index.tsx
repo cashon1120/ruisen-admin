@@ -13,20 +13,15 @@ const Login = () => {
     values.captchaKey = captcha.key;
     delete values.remember;
     HttpRequest({ url: '/admin/login', params: values }).then((res: any) => {
-      if (res.code !== 20000) {
-        message.error(res.message);
-        return;
-      }
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('useInfo', res.data);
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('useInfo', res);
       history.push('/home');
     });
   };
 
   const getCaptcha = () => {
     HttpRequest({ url: '/admin/captcha', method: 'get' }).then((res: any) => {
-      if (res.code !== 20000) return;
-      setCaptch(res.data);
+      setCaptch(res);
     });
   };
 
