@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Search, { FormItem } from '@/components/Search';
 import Wrapper from '../Wrapper/Index';
 import TableList, { TableColums } from '@/components/TableList/';
 import HttpRequest from '@/utils/request';
 import { message } from 'antd';
 
+interface DeleteOptions {
+  data: any;
+  method?: 'post';
+}
+
 export interface RefFunctions {
-  deleteData: (params: any) => void;
+  deleteData: (params: DeleteOptions) => void;
   getData: (page?: number) => void;
 }
 interface IProps {
@@ -27,8 +32,9 @@ const TablePage = (props: IProps) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>([]);
   const [total, setTotal] = useState(1);
+  const currentPage = useRef(1);
   const [params, setParams] = useState({
-    current: 1,
+    current: currentPage.current,
     size: 10,
     ...defaultParams,
   });
@@ -39,6 +45,7 @@ const TablePage = (props: IProps) => {
     if (tableBody[0]) {
       tableBody[0].scrollTop = 0;
     }
+    currentPage.current = current;
     setParams({
       ...params,
       current,
@@ -46,7 +53,7 @@ const TablePage = (props: IProps) => {
     });
   };
 
-  const handleSearch = (values: any, page: number = 1) => {
+  const handleSearch = (values: any) => {
     Object.keys(values).map((key: string) => {
       // 处理单个时间
       if (values[key] !== null && typeof values[key] === 'object' && values[key].format) {
@@ -65,24 +72,22 @@ const TablePage = (props: IProps) => {
         delete values.rangeTime;
       }
     });
-
     setParams({
       ...params,
-      current: page,
+      current: 1,
       ...values,
     });
   };
 
-  const getData = (page?: number) => {
+  const getData = () => {
     const options: any = { ...params };
-    page ? (options.current = page) : null;
-    delete options.totalCount;
     // 删除为空的key
     Object.keys(options).map((key: string) => {
       if (options[key] === '') {
         delete options[key];
       }
     });
+
     setLoading(true);
     HttpRequest({ url, method: 'get', params: options })
       .then((res: any) => {
@@ -97,17 +102,17 @@ const TablePage = (props: IProps) => {
 
   useEffect(getData, [params]);
 
-  const deleteData = (deleteOptions: any) => {
+  const deleteData = (options: DeleteOptions) => {
+    const { data, method = 'delete' } = options;
     setLoading(true);
-    HttpRequest({ url: deleteUrl || '', params: deleteOptions })
-      .then(() => {
-        setLoading(false);
-        message.success('操作成功');
-        getData();
-      })
-      .catch(() => {
-        setLoading(false);
+    HttpRequest({ url: deleteUrl || '', params: data, method }).then(() => {
+      setLoading(false);
+      message.success('操作成功');
+      setParams({
+        ...params,
+        current: currentPage.current,
       });
+    });
   };
 
   useEffect(() => {

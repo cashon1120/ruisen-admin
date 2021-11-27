@@ -16,7 +16,7 @@ const NewsList = () => {
       title: '图片',
       dataIndex: 'image',
       key: 'image',
-      render: (res: string) => <img src={res} style={{ height: 50 }} />,
+      render: (image: string) => <img src={image} style={{ height: 50 }} />,
     },
     {
       title: '链接',
@@ -43,7 +43,7 @@ const NewsList = () => {
           <Popconfirm
             placement="topLeft"
             title="确定要删除该数据吗？"
-            onConfirm={() => tableRef.deleteData({ data: { id: record.id }, method: 'post' })}
+            onConfirm={() => tableRef.deleteData({ data: { id: record.id } })}
           >
             <Button size="small" type="default" className="tab-btn">
               删除
@@ -72,12 +72,12 @@ const NewsList = () => {
   return (
     <>
       <TablePage
-        title="资讯列表"
+        title="资源列表"
         columns={columns}
         searchItems={searchItems}
-        url="news/list"
+        url="admin/resources"
         deleteUrl="news/delete"
-        addPath="/news/create"
+        addPath="/admin/resources"
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

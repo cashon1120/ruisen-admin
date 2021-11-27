@@ -33,21 +33,24 @@ interface IProps {
   createUrl: string;
   updateUrl: string;
   children: any;
+  backPath: string;
   imageList?: any;
   data?: any;
   getUrl?: string;
   rules?: any;
+  type?: 'json' | 'formData';
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, imageList } = props;
+  const { data, title, createUrl, updateUrl, imageList, backPath, type } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
   const onFinish = (values: any) => {
+    console.log(values);
     // 图片处理
     Object.keys(values).forEach((key: string) => {
-      if (imageList[key]) {
+      if (imageList && imageList[key]) {
         values[key] = imageList[key];
       }
     });
@@ -58,7 +61,7 @@ const FormPage = (props: IProps) => {
       };
     }
     setLoading(true);
-    HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl }).then(
+    HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type }).then(
       () => {
         setLoading(false);
         message.success('操作成功');
@@ -93,7 +96,11 @@ const FormPage = (props: IProps) => {
               提交
             </Button>
 
-            <Button type="default" onClick={history.goBack} style={{ marginLeft: 15 }}>
+            <Button
+              type="default"
+              onClick={() => history.push(backPath)}
+              style={{ marginLeft: 15 }}
+            >
               返回
             </Button>
           </Form.Item>

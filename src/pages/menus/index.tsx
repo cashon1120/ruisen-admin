@@ -7,21 +7,36 @@ let tableRef: RefFunctions = {} as RefFunctions;
 const NewsList = () => {
   const columns = [
     {
-      title: '标题',
-      dataIndex: 'title',
-      key: 'title',
-    },
-
-    {
-      title: '图片',
-      dataIndex: 'image',
-      key: 'image',
-      render: (res: string) => <img src={res} style={{ height: 50 }} />,
+      title: '菜单名',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: '链接',
-      dataIndex: 'link',
-      key: 'link',
+      title: '路径',
+      dataIndex: 'path',
+      key: 'path',
+    },
+    {
+      title: '组件',
+      dataIndex: 'component',
+      key: 'component',
+    },
+    {
+      title: '是否禁用',
+      dataIndex: 'isDisable',
+      key: 'isDisable',
+      render: (res: number) => (res === 0 ? '否' : '是'),
+    },
+    {
+      title: '是否隐藏',
+      dataIndex: 'isHidden',
+      key: 'isHidden',
+      render: (res: number) => (res === 0 ? '否' : '是'),
+    },
+    {
+      title: '排序',
+      dataIndex: 'orderNum',
+      key: 'orderNum',
     },
     {
       title: '添加时间',
@@ -36,7 +51,7 @@ const NewsList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/news/create', { record })}
+            onClick={() => history.push('/menus/create', { record })}
           >
             编辑
           </Button>
@@ -56,10 +71,10 @@ const NewsList = () => {
 
   const searchItems = [
     {
-      label: '标题',
-      name: 'title',
+      label: '关键词',
+      name: 'keywords',
       componentType: 'Input',
-      placeholder: '请输入搜索内容',
+      placeholder: '请输入搜索关键词',
     },
     {
       label: '时间段',
@@ -75,9 +90,9 @@ const NewsList = () => {
         title="资讯列表"
         columns={columns}
         searchItems={searchItems}
-        url="news/list"
-        deleteUrl="news/delete"
-        addPath="/news/create"
+        url="admin/menus"
+        deleteUrl="admin/menus"
+        addPath="/menus/create"
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>
