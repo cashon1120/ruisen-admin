@@ -1,13 +1,36 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
+import { history } from 'umi';
 import HttpRequest from '@/utils/request';
 
 import styles from './index.less';
 const Login = () => {
+  const [captcha, setCaptch] = useState({
+    key: 0,
+    data: '',
+  });
   const onFinish = (values: any) => {
-    console.log(values);
-    HttpRequest({ url: '/login', params: { a: 1 } }).then((res: any) => console.log(res));
+    values.captchaKey = captcha.key;
+    delete values.remember;
+    HttpRequest({ url: '/admin/login', params: values }).then((res: any) => {
+      if (res.code !== 20000) {
+        message.error(res.message);
+        return;
+      }
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('useInfo', res.data);
+      history.push('/home');
+    });
   };
+
+  const getCaptcha = () => {
+    HttpRequest({ url: '/admin/captcha', method: 'get' }).then((res: any) => {
+      if (res.code !== 20000) return;
+      setCaptch(res.data);
+    });
+  };
+
+  useEffect(getCaptcha, []);
 
   return (
     <div className={styles.outer}>
@@ -15,13 +38,13 @@ const Login = () => {
         <h2>瑞森房管家后台管理系统</h2>
         <Form
           name="normal_login"
-          className="login-form"
           initialValues={{
             remember: true,
           }}
           onFinish={onFinish}
         >
           <Form.Item
+            label="账号"
             name="username"
             rules={[
               {
@@ -30,9 +53,10 @@ const Login = () => {
               },
             ]}
           >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="账号" />
+            <Input placeholder="账号" />
           </Form.Item>
           <Form.Item
+            label="密码"
             name="password"
             rules={[
               {
@@ -41,7 +65,24 @@ const Login = () => {
               },
             ]}
           >
-            <Input prefix={<LockOutlined />} type="password" placeholder="密码" />
+            <Input type="password" placeholder="密码" />
+          </Form.Item>
+
+          <Form.Item label="验证码" rules={[{ required: true }]}>
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item
+                  name="captcha"
+                  noStyle
+                  rules={[{ required: true, message: '请输入验证码' }]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <img src={captcha.data} className={styles.captch} onClick={getCaptcha} />
+              </Col>
+            </Row>
           </Form.Item>
 
           <Form.Item>

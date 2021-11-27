@@ -1,23 +1,23 @@
-import React from 'react'
-import { Table } from 'antd'
-import Pagination, {PaginationProps} from '@/components/Pagination'
-import { debouncing } from '@/utils/commonUtils'
+import React from 'react';
+import { Table } from 'antd';
+import Pagination, { PaginationProps } from '@/components/Pagination';
+import { debouncing } from '@/utils/commonUtils';
 
-import styles from './style.less'
+import styles from './style.less';
 interface TableListState {
-  maxHeight: number | undefined
-  rowId: number
+  maxHeight: number | undefined;
+  rowId: number;
 }
 
 export interface TableColums {
-  title: string
-  dataIndex?: string
-  key?: string
-  width?: number
-  render?: any
-  ellipsis?: boolean
-  [name: string]: any
-  visible?: any
+  title: string;
+  dataIndex?: string;
+  key?: string;
+  width?: number;
+  render?: any;
+  ellipsis?: boolean;
+  [name: string]: any;
+  visible?: any;
 }
 
 /**
@@ -37,166 +37,168 @@ export interface TableColums {
  * @param {onRowSelection} 选中行回调, 注意和 onRowClick 区分
  */
 interface TableProps extends Partial<PaginationProps> {
-  data: any[]
-  columns: TableColums[]
-  loading: boolean
-  onChange?: (page: number, pageSize?: number) => void | undefined
-  onTableChange?: (pagination: any, filters: any, sorter: any, extra: any) => void
-  rowKey?: string
-  showOrderNumber?: boolean
-  scrollHeight?: number
-  scrollWidth?: number
-  onRowClick?: (record: any) => void
-  activeRowKey?: number
-  selectedRowKeys?: any[]
-  rowSelectionType?: string
-  noCheckAll?: boolean //是否需要全选按钮，加上无全选
-  onRowSelection?: (selectedRowKeys: any[], selectedRows: any) => void
-  pagination?: boolean
-  disableSetTrHeight?: boolean
-  className?: any
-  isNumberFlex?: boolean
-  trHeight?: number | undefined
-  expandable?: any
-  orderTitle?: string
+  data: any[];
+  columns: TableColums[];
+  loading: boolean;
+  onChange?: (page: number, pageSize?: number) => void | undefined;
+  onTableChange?: (pagination: any, filters: any, sorter: any, extra: any) => void;
+  rowKey?: string;
+  showOrderNumber?: boolean;
+  scrollHeight?: number;
+  scrollWidth?: number;
+  onRowClick?: (record: any) => void;
+  activeRowKey?: number;
+  selectedRowKeys?: any[];
+  rowSelectionType?: string;
+  noCheckAll?: boolean; //是否需要全选按钮，加上无全选
+  onRowSelection?: (selectedRowKeys: any[], selectedRows: any) => void;
+  pagination?: boolean;
+  disableSetTrHeight?: boolean;
+  className?: any;
+  isNumberFlex?: boolean;
+  trHeight?: number | undefined;
+  expandable?: any;
+  orderTitle?: string;
   //双击弹窗控制
-  setEditId?: (id: number) => void
-  showEditModal?: () => void
-  style?: any //自定义外层样式
-  color?: string
-  pageSizeOptions?: string[]
-  size?: 'small' | 'large' | 'middle'
+  setEditId?: (id: number) => void;
+  showEditModal?: () => void;
+  style?: any; //自定义外层样式
+  color?: string;
+  pageSizeOptions?: string[];
+  size?: 'small' | 'large' | 'middle';
 }
 
 class TableList extends React.Component<TableProps, TableListState> {
   constructor(props: TableProps) {
-    super(props)
+    super(props);
     this.state = {
       maxHeight: undefined,
       rowId: -1,
-    }
+    };
   }
 
   onRowSelect = (selectedRowKeys: any[], selectedRows: any[]) => {
-    const { onRowSelection } = this.props
-    onRowSelection && onRowSelection(selectedRowKeys, selectedRows)
-  }
+    const { onRowSelection } = this.props;
+    onRowSelection && onRowSelection(selectedRowKeys, selectedRows);
+  };
 
   componentDidMount() {
-    this.setMaxHeight()
-    window.addEventListener('resize', debouncing(this.setMaxHeight, 500), false)
+    this.setMaxHeight();
+    window.addEventListener('resize', debouncing(this.setMaxHeight, 500), false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', debouncing(this.setMaxHeight, 500))
+    window.removeEventListener('resize', debouncing(this.setMaxHeight, 500));
   }
 
   componentWillReceiveProps(nextProps: Readonly<TableProps>, nextContext: any): void {
-    const { scrollHeight } = nextProps
-    const { maxHeight } = this.state
+    const { scrollHeight } = nextProps;
+    const { maxHeight } = this.state;
     if (this.calculateMaxHeight(scrollHeight) !== maxHeight) {
       this.setState({
         maxHeight: this.calculateMaxHeight(scrollHeight),
-      })
+      });
     }
   }
 
   setMaxHeight = () => {
-    const maxHeight = this.calculateMaxHeight()
+    const maxHeight = this.calculateMaxHeight();
     this.setState({
       maxHeight,
-    })
-  }
+    });
+  };
 
   calculateMaxHeight = (_scrollHeight?: number) => {
-    const scrollHeight = _scrollHeight ?? this.props.scrollHeight
-    const { pagination = true } = this.props
-    const windowHeight = window.innerHeight
-    const bottomHeight = pagination ? 75 : 30
-    const tableWrapper = this.refs.tableWrapper as HTMLDivElement
-    let offsetTop: number = 0
-    let theadHeight: number = 0
+    const scrollHeight = _scrollHeight ?? this.props.scrollHeight;
+    const { pagination = true } = this.props;
+    const windowHeight = window.innerHeight;
+    const bottomHeight = pagination ? 75 : 30;
+    const tableWrapper = this.refs.tableWrapper as HTMLDivElement;
+    let offsetTop: number = 0;
+    let theadHeight: number = 0;
     if (tableWrapper && tableWrapper.getBoundingClientRect && tableWrapper.getElementsByTagName) {
-      offsetTop = tableWrapper.getBoundingClientRect().y
-      theadHeight = tableWrapper.getElementsByTagName('thead')[0].offsetHeight
+      offsetTop = tableWrapper.getBoundingClientRect().y;
+      theadHeight = tableWrapper.getElementsByTagName('thead')[0].offsetHeight;
     }
     if (theadHeight == 0) {
-      theadHeight = 52
+      theadHeight = 52;
     }
-    return scrollHeight ? scrollHeight - theadHeight - bottomHeight : windowHeight - offsetTop - theadHeight - bottomHeight
-  }
+    return scrollHeight
+      ? scrollHeight - theadHeight - bottomHeight
+      : windowHeight - offsetTop - theadHeight - bottomHeight;
+  };
 
   setClassName = (record: any) => {
-    const { activeRowKey, rowKey } = this.props
+    const { activeRowKey, rowKey } = this.props;
     if (activeRowKey) {
-      const key = rowKey ? rowKey : 'ID'
-      return record[key] === activeRowKey ? `row-active` : null
+      const key = rowKey ? rowKey : 'ID';
+      return record[key] === activeRowKey ? `row-active` : null;
     }
     if (record.id) {
-      const { rowId } = this.state
+      const { rowId } = this.state;
       if (rowId != -1 && activeRowKey) {
-        return record.id === this.state.rowId ? 'row-active' : null
+        return record.id === this.state.rowId ? 'row-active' : null;
       }
-      return null
+      return null;
     }
-    return null
-  }
+    return null;
+  };
 
   onRow = (record: any) => {
     return {
       onClick: (e: any) => {
-        const forbidTag = ['A', 'BUTTON', 'INPUT'] // 点击这些元素的时候不进行操作
-        if (forbidTag.includes(e.target.tagName)) return
-        const { onRowClick, data, rowKey = 'ID' } = this.props
+        const forbidTag = ['A', 'BUTTON', 'INPUT']; // 点击这些元素的时候不进行操作
+        if (forbidTag.includes(e.target.tagName)) return;
+        const { onRowClick, data, rowKey = 'ID' } = this.props;
         this.setState({
           rowId: record[rowKey],
-        })
-        this.props.setEditId && this.props.setEditId(record[rowKey])
+        });
+        this.props.setEditId && this.props.setEditId(record[rowKey]);
         if (onRowClick) {
           for (let i = 0; i < data.length; i++) {
             if (data[i][rowKey] === record[rowKey]) {
-              onRowClick(record)
-              break
+              onRowClick(record);
+              break;
             }
           }
         }
       },
       onDoubleClick: (e: any) => {
-        this.props.showEditModal && this.props.showEditModal()
+        this.props.showEditModal && this.props.showEditModal();
       },
-    }
-  }
+    };
+  };
 
   setTrHeight = () => {
-    const { disableSetTrHeight, trHeight } = this.props
-    if (disableSetTrHeight) return
+    const { disableSetTrHeight, trHeight } = this.props;
+    if (disableSetTrHeight) return;
     setTimeout(() => {
-      const table: any = this.refs.tableWrapper
-      if (!table) return
-      const tr = table.getElementsByClassName('ant-table-row')
-      const len = tr.length
+      const table: any = this.refs.tableWrapper;
+      if (!table) return;
+      const tr = table.getElementsByClassName('ant-table-row');
+      const len = tr.length;
       if (trHeight) {
         for (let i = 0; i < len; i++) {
-          tr[i].style.height = `${trHeight}px`
+          tr[i].style.height = `${trHeight}px`;
         }
       } else {
         for (let i = 0; i < len; i++) {
-          tr[i].style.height = `auto`
+          tr[i].style.height = `auto`;
         }
       }
-    }, 0)
-  }
+    }, 0);
+  };
 
   handlePageChange = (page: number, pageSize?: number) => {
-    const {onChange} = this.props
-    onChange && onChange(page, pageSize)
-  }
+    const { onChange } = this.props;
+    onChange && onChange(page, pageSize);
+  };
 
   // 延迟修改, 解决初次进入页面时 page 为 1 造成的错误
-  setPageTimer: any = null
+  setPageTimer: any = null;
   setDefaultPage = (page: number | undefined, pageSize: number | undefined) => {
-    clearTimeout(this.setPageTimer)
-  }
+    clearTimeout(this.setPageTimer);
+  };
 
   render() {
     let {
@@ -225,10 +227,9 @@ class TableList extends React.Component<TableProps, TableListState> {
       color,
       pageSizeOptions,
       size,
-    } = this.props
-    this.setDefaultPage(currentPage, pageSize)
+    } = this.props;
+    this.setDefaultPage(currentPage, pageSize);
 
-    const { maxHeight } = this.state
     // 设置序号字段
     if (showOrderNumber && columns[0].key !== 'orderNum') {
       let numberColumn: any = {
@@ -236,30 +237,30 @@ class TableList extends React.Component<TableProps, TableListState> {
         dataIndex: 'orderNum',
         key: 'orderNum',
         width: 60,
-      }
-      if (isNumberFlex) numberColumn.fixed = 'left'
-      columns.unshift(numberColumn)
+      };
+      if (isNumberFlex) numberColumn.fixed = 'left';
+      columns.unshift(numberColumn);
     }
 
     columns.forEach((item: any) => {
-      item.ellipsis = true
-    })
+      item.ellipsis = true;
+    });
 
     if (!Array.isArray(data)) {
-      data = []
+      data = [];
     }
     // 全局添加自动省略字段
-    ;(data || []).forEach((item: any, index: number) => {
+    (data || []).forEach((item: any, index: number) => {
       // 设置序号
       if (pageSize && currentPage) {
         if (showOrderNumber) {
           // 不显示序号(一般用于最后一行平均值, 需要在传入数据时设置)
-          if (item.disableShowMainOrder) return
-          item.orderNum = index + 1 + pageSize * (currentPage - 1)
+          if (item.disableShowMainOrder) return;
+          item.orderNum = index + 1 + pageSize * (currentPage - 1);
         }
       }
-    })
-    const rowSelectionProps: any = {}
+    });
+    const rowSelectionProps: any = {};
     if (onRowSelection) {
       !noCheckAll
         ? (rowSelectionProps.rowSelection = {
@@ -276,13 +277,13 @@ class TableList extends React.Component<TableProps, TableListState> {
             onChange: this.onRowSelect,
             //禁用点击项目:比如某项属性是item.disabled=true，该选项不能被点击
             getCheckboxProps: (item: any) => ({ disabled: item.disabled }),
-          })
+          });
     }
-    this.setTrHeight()
+    this.setTrHeight();
+
     return (
       <div
         className={`${!expandable ? styles.tableWrapper : styles.expandTableWrapper} tableWrapper`}
-
         data-color={color}
         style={style}
       >
@@ -293,7 +294,6 @@ class TableList extends React.Component<TableProps, TableListState> {
                 expandable={expandable || null}
                 className={className}
                 dataSource={data || []}
-                scroll={{scrollToFirstRowOnChange: true, x: scrollWidth, y: maxHeight}}
                 loading={loading}
                 rowKey={rowKey || columns[0].dataIndex}
                 columns={columns || []}
@@ -324,8 +324,8 @@ class TableList extends React.Component<TableProps, TableListState> {
           ) : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default TableList
+export default TableList;

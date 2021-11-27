@@ -1,14 +1,14 @@
 ﻿export default [
   {
-    path: '/user',
+    path: '/login',
     layout: false,
     routes: [
       {
-        path: '/user',
+        path: '/login',
         routes: [
           {
             name: '登录',
-            path: '/user/login',
+            path: '/login',
             component: './user/Login',
           },
         ],
@@ -39,6 +39,45 @@
       },
     ],
   },
+  {
+    name: '资讯管理',
+    icon: 'table',
+    path: '/news',
+    redircet: '/news/list',
+    // hideChildrenInMenu: true,
+    routes: [
+      {
+        name: '资讯列表',
+        path: '/news/list',
+        component: './news/index',
+      },
+      {
+        name: '添加资讯',
+        path: '/news/create',
+        component: './news/create',
+      },
+    ],
+  },
+  // {
+  //   name: '资讯管理',
+  //   icon: 'table',
+  //   path: '/news',
+  //   redirect: '/news/list',
+  //   hideChildrenInMenu: true,
+  //   routes: [
+  //     {
+  //       name: '资讯列表',
+  //       path: '/news/list',
+  //       hideInMenu: true,
+  //       component: './news/index',
+  //     },
+  //     {
+  //       name: '添加资讯',
+  //       path: '/news/create',
+  //       component: './news/create',
+  //     },
+  //   ],
+  // },
   {
     name: '表格',
     icon: 'table',
