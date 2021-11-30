@@ -1,54 +1,71 @@
-import { Space } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import {useState} from 'react'
+import {Space} from 'antd';
+import {Menu, Dropdown, Form, Input} from 'antd'
 import React from 'react';
-import { SelectLang } from 'umi';
-import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
+import ModalForm from '../ModalForm';
 
 export type SiderTheme = 'light' | 'dark';
 
-const GlobalHeaderRight: React.FC = () => {
-  const [navTheme, layout] = ['dark', 'mix'];
+const GlobalHeaderRight : React.FC = () => {
 
-  let className = styles.right;
+  const handleEditPassword = () => {
 
-  if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
-    className = `${styles.right}  ${styles.dark}`;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('useInfo')
+    location.href = '/login'
+  }
+  const menu = (
+    <Menu style={{marginTop: 10}}>
+      <Menu.Item onClick={() => setVisible(true)}>修改密码</Menu.Item>
+      <Menu.Item onClick={handleLogout}>退出登录</Menu.Item>
+    </Menu>
+  );
+
+  const getUserName = () => {
+    const userInfo = localStorage.getItem('useInfo')
+    if(userInfo){
+      return JSON.parse(userInfo)
+    }
+    return null
+  }
+
+  const userInfo = getUserName()
+
+  const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const handleSubmitModal = () => {
+
+  }
+
   return (
-    <Space className={className}>
-      <HeaderSearch
-        className={`${styles.action} ${styles.search}`}
-        placeholder="站内搜索"
-        defaultValue="umi ui"
-        options={[
-          { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
-          {
-            label: <a href="next.ant.design">Ant Design</a>,
-            value: 'Ant Design',
-          },
-          {
-            label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: 'Pro Table',
-          },
-          {
-            label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: 'Pro Layout',
-          },
-        ]}
-        // onSearch={value => {
-        //   console.log('input', value);
-        // }}
-      />
-      <span
-        className={styles.action}
-        onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
-        }}
+    <Space>
+      {/* <Dropdown overlay={menu}> */}
+      <Dropdown overlay={menu}>
+        <a onClick={e => e.preventDefault()}>
+          {userInfo.id ? <><img className={styles.avatar} src={userInfo.avatar} />{userInfo.nickname}</> : '未登录'}
+        </a>
+      </Dropdown>
+      <ModalForm
+        title="修改密码"
+        onFinish={handleSubmitModal}
+        visible={visible}
+        loading={loading}
+        onCancel={() => setVisible(false)}
       >
-        <QuestionCircleOutlined />
-      </span>
-      <SelectLang className={styles.action} />
+        <Form.Item name="oldPassword" label="旧密码" rules={[{ required: true, message: '旧密码不能为空！' }]}>
+            <Input placeholder="请输入旧密码！" />
+        </Form.Item>
+        <Form.Item name="newPassword" label="新密码" rules={[{ required: true, message: '新密码不能为空！' }]}>
+            <Input placeholder="请输入新密码！" />
+        </Form.Item>
+        <Form.Item name="reNewPassword" label="确认密码" rules={[{ required: true, message: '确认密码不能为空！' }]}>
+            <Input placeholder="请输入确认密码！" />
+        </Form.Item>
+      </ModalForm>
     </Space>
   );
 };

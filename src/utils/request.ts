@@ -1,40 +1,70 @@
 import { extend } from 'umi-request';
+import { history } from 'umi';
+import { message } from 'antd';
 
 interface IPramars {
   url: string;
-  method?: 'GET' | 'POST' | 'get' | 'post';
+  method?: 'get' | 'post' | 'delete';
   params?: any;
+  type?: 'json' | 'formData';
 }
 
-const URL = '/';
+// export const URL = 'http://162.14.73.204:8081/';
+export const URL = '/api/';
 
 const HttpRequest = function (options: IPramars) {
-  const { url, method, params } = options;
-  const _method = method || 'POST';
-  const config = {
-    method: _method,
-    params: _method == 'GET' || _method == 'get' ? params : {}, // 如果是get请求使用 params
-    data: _method == 'POST' || _method == 'post' ? params : '', // 如果是post请求使用 data
+  let { url, method, params, type } = options;
+  method = method || 'post';
+  let formData: any = params;
+
+  // post 有的是用body,有的是用 json
+  if (method === 'post' && type !== 'json') {
+    formData = new FormData();
+    Object.keys(params).map((item) => {
+      if (params[item]) {
+        formData.append(item, params[item]);
+      }
+    });
+  }
+
+  const config: any = {
+    method,
+    params: method === 'get' ? params : {},
+    data: formData,
     timeout: 60000,
     headers: {
-      token: '123123123123123',
+      token: localStorage.getItem('token'),
     },
-    prefix: '', // 统一设置 url 前缀
-    suffix: '', // 统一设置 url 后缀
-
     errorHandler: function (error: any) {
-      // 异常
-      // console.log('异常:', error);
       if (error.response) {
       }
-      throw error.response; // 将错误抛出，可在catch中捕获错误
+      throw error.response;
     },
   };
-  console.log(url + '请求参数:', config);
-
   const request = extend(config);
   // 注意这里的请求地址
-  return request(URL + url);
+  return new Promise((resolve: any, reject: any) => {
+    request((URL + url).toLocaleLowerCase()).then((res: any) => {
+      if (res.code === 52005) {
+        history.replace('/login');
+        reject();
+        return;
+      }
+      if (res.code !== 20000) {
+        message.error(res.message);
+        reject();
+        return;
+      }
+      if (url === 'admin/menus') {
+        const data = res.data;
+        res.data = {
+          recordList: data,
+          count: data.length,
+        };
+      }
+      resolve(res.data);
+    });
+  });
 };
 
 export default HttpRequest;
