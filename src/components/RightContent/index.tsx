@@ -1,63 +1,88 @@
-import {useState} from 'react'
-import {Space} from 'antd';
-import {Menu, Dropdown, Form, Input, message} from 'antd'
+import { useState } from 'react';
+import { Space } from 'antd';
+import { Menu, Dropdown, Form, Input, message } from 'antd';
 import React from 'react';
 import styles from './index.less';
 import ModalForm from '../ModalForm';
 import HttpRequest from '@/utils/request';
+import Uploader from '@/components/Upload';
 
 export type SiderTheme = 'light' | 'dark';
 
-const GlobalHeaderRight : React.FC = () => {
-  const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const handleSubmitModal = (values: any) => {
-    if(values.newPassword !== values.reNewPassword){
-      message.error('两次密码输入不一致')
-      return
-    }
-    delete values.reNewPassword
-    setLoading(true)
-    HttpRequest({method: 'put', url: 'admin/users/password', params: values, type: 'json'}).then((res: any) => {
-      message.success('密码修改成功， 请重新登录')
-      setTimeout(() => {
-        handleLogout()
-      }, 2000);
-      setLoading(false)
-    }).catch(() => {
-      setLoading(false)
-    })
+const getUserName = () => {
+  const userInfo = localStorage.getItem('useInfo');
+  if (userInfo) {
+    return JSON.parse(userInfo);
   }
+  return null;
+};
+
+const userInfo = getUserName();
+
+const GlobalHeaderRight: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmitModal = (values: any) => {
+    if (values.newPassword !== values.reNewPassword) {
+      message.error('两次密码输入不一致');
+      return;
+    }
+    delete values.reNewPassword;
+    setLoading(true);
+    HttpRequest({ method: 'put', url: 'admin/users/password', params: values, type: 'json' })
+      .then((res: any) => {
+        message.success('密码修改成功， 请重新登录');
+        setTimeout(() => {
+          handleLogout();
+        }, 2000);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const [avatarVisible, setAvatarVisible] = useState(false);
+  const [avatar, setAvatar] = useState(userInfo.avatar);
+
+  const handleUpdateAvatar = () => {
+    setAvatarVisible(true);
+  };
+  const handleAvatarChange = (imgSrc: string) => {
+    message.success('修改成功')
+    setAvatarVisible(false)
+    setAvatar(imgSrc);
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('useInfo')
-    location.href = '/login'
-  }
+    localStorage.removeItem('token');
+    localStorage.removeItem('useInfo');
+    location.href = '/login';
+  };
   const menu = (
-    <Menu style={{marginTop: 10}}>
-      <Menu.Item onClick={() => setVisible(true)}>修改密码</Menu.Item>
-      <Menu.Item onClick={handleLogout}>退出登录</Menu.Item>
+    <Menu style={{ marginTop: 10 }}>
+      <Menu.Item key="password" onClick={() => setVisible(true)}>修改密码</Menu.Item>
+      <Menu.Item key="avatar" onClick={handleUpdateAvatar}>修改头像</Menu.Item>
+      <Menu.Item key="logout" onClick={handleLogout}>退出登录</Menu.Item>
     </Menu>
   );
 
-  const getUserName = () => {
-    const userInfo = localStorage.getItem('useInfo')
-    if(userInfo){
-      console.log(userInfo)
-      return JSON.parse(userInfo)
-    }
-    return null
-  }
 
-  const userInfo = getUserName()
 
   return (
     <Space>
       {/* <Dropdown overlay={menu}> */}
       <Dropdown overlay={menu}>
-        <a onClick={e => e.preventDefault()}>
-          {userInfo.id ? <><img className={styles.avatar} src={userInfo.avatar} />{userInfo.nickname}</> : '未登录'}
+        <a onClick={(e) => e.preventDefault()}>
+          {userInfo.id ? (
+            <>
+              <img className={styles.avatar} src={avatar} />
+              {userInfo.nickname}
+            </>
+          ) : (
+            '未登录'
+          )}
         </a>
       </Dropdown>
       <ModalForm
@@ -67,16 +92,51 @@ const GlobalHeaderRight : React.FC = () => {
         loading={loading}
         onCancel={() => setVisible(false)}
       >
-        <Form.Item name="oldPassword" label="旧密码" rules={[{ required: true, message: '旧密码不能为空！' }]}>
-            <Input.Password  placeholder="请输入旧密码！" />
+        <Form.Item
+          name="oldPassword"
+          label="旧密码"
+          rules={[{ required: true, message: '旧密码不能为空！' }]}
+        >
+          <Input.Password placeholder="请输入旧密码！" />
         </Form.Item>
-        <Form.Item name="newPassword" label="新密码" rules={[{ required: true, message: '新密码不能为空！' }]}>
-            <Input.Password  placeholder="请输入新密码！" />
+        <Form.Item
+          name="newPassword"
+          label="新密码"
+          rules={[{ required: true, message: '新密码不能为空！' }]}
+        >
+          <Input.Password placeholder="请输入新密码！" />
         </Form.Item>
-        <Form.Item name="reNewPassword" label="确认密码" rules={[{ required: true, message: '确认密码不能为空！' }]}>
-            <Input.Password  placeholder="请输入确认密码！" />
+        <Form.Item
+          name="reNewPassword"
+          label="确认密码"
+          rules={[{ required: true, message: '确认密码不能为空！' }]}
+        >
+          <Input.Password placeholder="请输入确认密码！" />
         </Form.Item>
       </ModalForm>
+
+      {avatarVisible ? (
+        <ModalForm
+          title="更新头像"
+          onFinish={() => setAvatarVisible(false)}
+          visible={avatarVisible}
+          loading={loading}
+          onCancel={() => setAvatarVisible(false)}
+        >
+          <Form.Item
+            name="avatar"
+            label="修改头像"
+          >
+            <Uploader
+              action="admin/users/avatar"
+              data={{ fileType: 'AVATAR' }}
+              imgSrc={avatar}
+              name="file"
+              onChange={handleAvatarChange}
+            />
+          </Form.Item>
+        </ModalForm>
+      ) : null}
     </Space>
   );
 };

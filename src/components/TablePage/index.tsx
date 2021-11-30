@@ -13,6 +13,7 @@ interface DeleteOptions {
 export interface RefFunctions {
   deleteData: (params: DeleteOptions) => void;
   getData: (page?: number) => void;
+  updateData: (key: string, record: any) => void
 }
 interface IProps {
   title: string;
@@ -32,6 +33,7 @@ const TablePage = (props: IProps) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>([]);
   const [total, setTotal] = useState(1);
+  const dataRef = useRef(data)
   const currentPage = useRef(1);
   const [params, setParams] = useState({
     current: currentPage.current,
@@ -93,6 +95,7 @@ const TablePage = (props: IProps) => {
       .then((res: any) => {
         setLoading(false);
         setData(res.recordList);
+        dataRef.current = res.recordList
         setTotal(res.count);
       })
       .catch(() => {
@@ -115,8 +118,20 @@ const TablePage = (props: IProps) => {
     });
   };
 
+  const updateData = (key: string, record: any) => {
+    dataRef.current.forEach((item: any, index: number) => {
+      if(item[key] === record[key]){
+        dataRef.current[index] = {
+          ...dataRef.current[index],
+          ...record
+        }
+      }
+    })
+    setData([...dataRef.current])
+  }
+
   useEffect(() => {
-    onRef && onRef({ deleteData, getData });
+    onRef && onRef({ deleteData, getData, updateData });
   }, []);
 
   return (

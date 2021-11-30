@@ -27,15 +27,16 @@
   {
     name: '房产管理',
     icon: 'flag',
+    path: '/house',
     routes: [
       {
         name: '房产列表',
-        path: '/admin/list',
+        path: '/house/list',
         component: './admin/index',
       },
       {
         name: '添加房产',
-        path: '/admin/create',
+        path: '/house/create',
         component: './admin/create',
       },
     ],
@@ -83,6 +84,7 @@
   {
     name: '账号管理',
     icon: 'team',
+    path: '/admin',
     routes: [
       {
         name: '管理员列表',
@@ -99,15 +101,16 @@
   {
     name: '角色管理',
     icon: 'lock',
+    path: '/role',
     routes: [
       {
         name: '管理员列表',
-        path: '/admin/list',
+        path: '/role/list',
         component: './admin/index',
       },
       {
         name: '添加管理员',
-        path: '/admin/create',
+        path: '/role/create',
         component: './admin/create',
       },
     ],

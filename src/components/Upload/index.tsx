@@ -24,6 +24,7 @@ const Uploader = (props: IProps) => {
   );
 
   const handleChange = (info: any) => {
+    console.log(info)
     if (info.file.status === 'uploading') {
       setLoading(true);
       return;
