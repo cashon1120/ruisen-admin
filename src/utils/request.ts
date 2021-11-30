@@ -4,7 +4,7 @@ import { message } from 'antd';
 
 interface IPramars {
   url: string;
-  method?: 'get' | 'post' | 'delete';
+  method?: 'get' | 'post' | 'delete' | 'put';
   params?: any;
   type?: 'json' | 'formData';
 }
