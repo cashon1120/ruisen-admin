@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
-import { Button, Popconfirm, message, TreeSelect, Switch, Modal } from 'antd';
+import { Button, Popconfirm, message, TreeSelect, Modal } from 'antd';
 import { history } from 'umi';
 
 import Loading from '@/components/Loading';
