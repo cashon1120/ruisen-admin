@@ -18,21 +18,6 @@ const NewsList = () => {
   const [sourceVisible, setSourceVisible] = useState(false);
   const [sourceData, setSourceData] = useState([]);
 
-  const handleChangeDisableState = (value: boolean, id: number) => {
-    setLoading(true);
-    HttpRequest({
-      method: 'put',
-      url: 'admin/users/disable',
-      type: 'json',
-      params: { id, isDisable: value ? 1 : 0 },
-    })
-      .then(() => {
-        message.success('操作成功');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   const getRoleList = () => {
     HttpRequest({ method: 'get', url: 'admin/menus', params: { size: 1000, current: 1 } }).then(

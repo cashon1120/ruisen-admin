@@ -28,6 +28,7 @@ interface IProps {
   onRef?: (ref: any) => void;
   pageSize?: number;
   disablePagination?: boolean;
+  scrollWidth?: number
   formatData?: (data: any) => any;
 }
 
@@ -44,6 +45,7 @@ const TablePage = (props: IProps) => {
     rowKey,
     pageSize,
     disablePagination,
+    scrollWidth,
     formatData,
   } = props;
   const [loading, setLoading] = useState(false);
@@ -177,6 +179,7 @@ const TablePage = (props: IProps) => {
         pageSize={params.size}
         totalCount={total}
         pagination={!disablePagination}
+        scrollWidth={scrollWidth}
         onChange={handlePageOrSizeChange}
         rowKey={rowKey || 'id'}
       />

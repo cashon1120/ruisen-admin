@@ -226,6 +226,7 @@ class TableList extends React.Component<TableProps, TableListState> {
       color,
       pageSizeOptions,
       size,
+      scrollWidth
     } = this.props;
     this.setDefaultPage(currentPage, pageSize);
 
@@ -279,7 +280,7 @@ class TableList extends React.Component<TableProps, TableListState> {
           });
     }
     this.setTrHeight();
-
+    console.log(scrollWidth)
     return (
       <div
         className={`${!expandable ? styles.tableWrapper : styles.expandTableWrapper} tableWrapper`}
@@ -293,6 +294,7 @@ class TableList extends React.Component<TableProps, TableListState> {
                 expandable={expandable || null}
                 className={className}
                 dataSource={data || []}
+                scroll={{x: scrollWidth}}
                 loading={loading}
                 rowKey={rowKey || columns[0].dataIndex}
                 columns={columns || []}

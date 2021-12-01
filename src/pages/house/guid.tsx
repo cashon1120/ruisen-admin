@@ -1,0 +1,104 @@
+import { useState } from 'react';
+import { Input, Button } from 'antd';
+import Uploader from '@/components/Upload';
+import {PlusOutlined} from '@ant-design/icons';
+import styles from './guide.less';
+
+interface IProps {
+  onFormChange: (data: Item[]) => void;
+}
+
+export interface Item {
+  id: number;
+  title: string;
+  icon: string;
+  description: string;
+}
+
+let index = 0;
+
+const Guid = (props: IProps) => {
+  const { onFormChange } = props;
+  const [data, setData] = useState<Item[]>([]);
+  const handleAddData = () => {
+    data.push({
+      id: index++,
+      title: '',
+      icon: '',
+      description: '',
+    });
+    onFormChange(data)
+    setData([...data]);
+  };
+
+  const handleTitleChange = (e: any, id: number) => {
+    data.forEach((item: Item) => {
+      if (item.id === id) {
+        item.title = e.target.value;
+      }
+    });
+    onFormChange(data)
+    setData([...data]);
+  };
+
+  const handleIconChange = (img: string, id: number) => {
+    data.forEach((item: Item) => {
+      if (item.id === id) {
+        item.icon = img;
+      }
+    });
+    onFormChange(data)
+    setData([...data]);
+  };
+
+  const handleDescChange =(e: any, id: number) => {
+    data.forEach((item: Item) => {
+      if (item.id === id) {
+        item.description = e.target.value;
+      }
+    });
+    onFormChange(data)
+    setData([...data]);
+  };
+
+  
+
+  const handleDelete = (id: number) => {
+    const res = data.filter((item: Item) => item.id !== id);
+    onFormChange(res)
+    setData(res);
+  };
+
+  return (
+    <>
+      <Button onClick={handleAddData}><PlusOutlined />添加业主指南</Button>
+      {data.map((item: Item) => (
+        <div key={item.id} className={styles.list}>
+          <div>
+            <label>标题</label>
+            <Input placeholder="请输入标题" onChange={(e: any) => handleTitleChange(e, item.id)} />
+          </div>
+          <div>
+            <label>图标</label>
+            <Uploader
+              action="file/upload"
+              data={{ fileType: 'HOUSE_PHOTOS' }}
+              imgSrc={item.icon}
+              name="file"
+              onChange={(img: string) => handleIconChange(img, item.id)}
+            />
+          </div>
+          <div>
+            <label>描述</label>
+            <Input.TextArea placeholder="请输入描述"  onChange={(e: any) => handleDescChange(e, item.id)} />
+          </div>
+          <div className={styles.btnWrapper}>
+            <a onClick={() => handleDelete(item.id)}>删除</a>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default Guid;

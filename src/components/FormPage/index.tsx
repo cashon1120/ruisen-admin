@@ -40,21 +40,15 @@ interface IProps {
   rules?: any;
   type?: 'json' | 'formData';
   formatValue?: (values: any) => any;
+  onRef?: (form: any) => void
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, imageList, backPath, type, formatValue } = props;
+  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
   const onFinish = (values: any) => {
-    console.log(values);
-    // 图片处理
-    Object.keys(values).forEach((key: string) => {
-      if (imageList && imageList[key]) {
-        values[key] = imageList[key];
-      }
-    });
     if (data) {
       values = {
         ...data,
@@ -84,6 +78,7 @@ const FormPage = (props: IProps) => {
   // 如果有data说明是修改或编辑, 需要设置表单的值
   useEffect(() => {
     data && setFormData();
+    onRef && onRef(form)
   }, []);
 
   return (

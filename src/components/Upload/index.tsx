@@ -4,18 +4,18 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { URL } from '@/utils/request';
 
 interface IProps {
-  imgSrc: string;
   action: string;
   data: any;
-  name: string;
-  onChange: (src: string) => void;
+  onChange: (files: any) => void;
+  maxLength?: number
 }
 
 const Uploader = (props: IProps) => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [fileList, setFileList] = useState<any>([])
   const [previewImage, setPreviewImage] = useState('');
-  const { imgSrc, onChange, action, data, name } = props;
+  const { onChange, action, data, maxLength } = props;
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -23,42 +23,49 @@ const Uploader = (props: IProps) => {
     </div>
   );
 
-  const handleChange = (info: any) => {
-    console.log(info)
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      setLoading(false);
-      setPreviewImage(info.file.response.data);
-      onChange(info.file.response.data);
-    }
-  };
-  const handlePreview = () => {
+  // const handleChange = (info: any) => {
+  //   if (info.file.status === 'uploading') {
+  //     setLoading(true);
+  //     return;
+  //   }
+  //   if (info.file.status === 'done') {
+  //     setLoading(false);
+  //     setPreviewImage(info.file.response.data);
+  //     onChange(info.file.response.data);
+  //   }
+  // };
+
+  const handleUploadChange = (files: any) => {
+    onChange(files.fileList)
+    setFileList(files.fileList)
+  }
+
+  const handlePreview = (file: any) => {
+    setPreviewImage(file.url || file.thumbUrl)
     setShowModal(true);
   };
+  console.log(fileList)
   return (
     <>
       <Upload
-        name={name}
         listType="picture-card"
         className="avatar-uploader"
-        showUploadList={false}
         onPreview={handlePreview}
         action={`${URL}${action}`}
-        onChange={handleChange}
-        accept=".png, .jpg, .jpeg, .gif"
+        fileList={fileList}
+        onChange={handleUploadChange}
         data={data}
+        accept=".png, .jpg, .jpeg, .gif"
         headers={{
           token: localStorage.getItem('token') || '',
         }}
       >
-        {imgSrc ? (
+        {/* {imgSrc ? (
           <img src={imgSrc} alt="avatar" style={{ maxWidth: '100%', maxHeight: '100%' }} />
         ) : (
           uploadButton
-        )}
+        )} */}
+        {fileList.length >= (maxLength ? maxLength : 1) ? null : uploadButton}
       </Upload>
       <Modal
         visible={showModal}

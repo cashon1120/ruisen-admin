@@ -1,5 +1,6 @@
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { history } from 'umi';
+import ImagePreview from '@/components/ImagePreview';
 import { Button, Popconfirm } from 'antd';
 
 let tableRef: RefFunctions = {} as RefFunctions;
@@ -16,7 +17,7 @@ const NewsList = () => {
       title: '图片',
       dataIndex: 'image',
       key: 'image',
-      render: (res: string) => <img src={res} style={{ height: 50 }} />,
+      render: (res: string) => <ImagePreview imgSrc={res} />,
     },
     {
       title: '链接',
