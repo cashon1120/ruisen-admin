@@ -39,10 +39,11 @@ interface IProps {
   getUrl?: string;
   rules?: any;
   type?: 'json' | 'formData';
+  formatValue?: (values: any) => any;
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, imageList, backPath, type } = props;
+  const { data, title, createUrl, updateUrl, imageList, backPath, type, formatValue } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
@@ -60,14 +61,18 @@ const FormPage = (props: IProps) => {
         ...values,
       };
     }
+    if (formatValue) {
+      values = formatValue(values);
+    }
     setLoading(true);
-    HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type }).then(
-      () => {
-        setLoading(false);
+    HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type })
+      .then(() => {
         message.success('操作成功');
         history.goBack();
-      },
-    );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const setFormData = () => {
@@ -76,6 +81,7 @@ const FormPage = (props: IProps) => {
     });
   };
 
+  // 如果有data说明是修改或编辑, 需要设置表单的值
   useEffect(() => {
     data && setFormData();
   }, []);
@@ -98,7 +104,7 @@ const FormPage = (props: IProps) => {
 
             <Button
               type="default"
-              onClick={() => history.push(backPath)}
+              onClick={() => history.push(`/${backPath.replace('/', '')}`)}
               style={{ marginLeft: 15 }}
             >
               返回

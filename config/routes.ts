@@ -99,19 +99,38 @@
     ],
   },
   {
+    name: '待办事项',
+    icon: 'diff',
+    path: '/todo',
+    routes: [
+      {
+        name: '待办列表',
+        path: '/todo/list',
+        component: './todo/index',
+      },
+      {
+        name: '添加事项',
+        path: '/todo/create',
+        component: './todo/create',
+      },
+    ],
+  },
+  {
     name: '角色管理',
     icon: 'lock',
     path: '/role',
     routes: [
       {
-        name: '管理员列表',
+        name: '角色列表',
+        icon: 'lock',
         path: '/role/list',
-        component: './admin/index',
+        component: './role/index',
       },
       {
-        name: '添加管理员',
+        name: '添加角色',
+        icon: 'lock',
         path: '/role/create',
-        component: './admin/create',
+        component: './role/create',
       },
     ],
   },
@@ -132,6 +151,7 @@
       },
     ],
   },
+
   {
     name: '系统日志',
     icon: 'crown',

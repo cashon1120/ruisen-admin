@@ -6,69 +6,95 @@ import Uploader from '@/components/Upload';
 const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
 
-  const [imgSrc, setImgSrc] = useState(record ? record.image : '');
-  const [imageList, setImageList] = useState({ image: '' });
+  const [avatar, setAvatar] = useState(record ? record.image : '');
+  const [imageList, setImageList] = useState({ avatar: '' });
 
   const handleChange = (imgSrc: string) => {
-    setImgSrc(imgSrc);
-    setImageList({ image: imgSrc });
+    setAvatar(imgSrc);
+    setImageList({ avatar: imgSrc });
   };
 
   return (
     <>
       <FormPage
-        title={record ? '编辑资讯' : '添加资讯'}
-        createUrl="/news/add"
-        updateUrl="/news/update"
-        backPath="/news/list"
+        title={record ? '编辑账号' : '添加账号'}
+        createUrl="admin/users/add"
+        updateUrl="admin/users/add"
+        backPath="/admin/list"
         data={record}
         imageList={imageList}
+        type="json"
       >
         <Form.Item
-          name="title"
-          label="标题"
+          name="username"
+          label="用户名"
           rules={[
             {
               required: true,
-              message: '请输入标题',
+              message: '请输入用户名',
             },
           ]}
         >
-          <Input placeholder="请输入标题" />
+          <Input placeholder="请输用户名" maxLength={20} />
         </Form.Item>
 
         <Form.Item
-          name="link"
-          label="链接"
+          name="nickname"
+          label="昵称"
           rules={[
             {
               required: true,
-              message: '请输入链接!',
-            },
-            {
-              pattern:
-                /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/,
-              message: '请输入正确的网址',
+              message: '请输入昵称',
             },
           ]}
         >
-          <Input placeholder="请输入链接 http://" />
+          <Input placeholder="请输昵称" maxLength={20} />
         </Form.Item>
 
         <Form.Item
-          name="image"
-          label="图片"
+          name="password"
+          label="密码"
           rules={[
             {
               required: true,
-              message: '请输上传图片!',
+              message: '请输入密码!',
+            },
+          ]}
+        >
+          <Input placeholder="请输入密码" maxLength={30} minLength={6} />
+        </Form.Item>
+
+        <Form.Item
+          name="email"
+          label="邮箱"
+          rules={[
+            {
+              required: true,
+              message: '请输入邮箱!',
+            },
+            {
+              pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
+              message: '请输入正确的邮箱',
+            },
+          ]}
+        >
+          <Input placeholder="请输入邮箱" />
+        </Form.Item>
+
+        <Form.Item
+          name="avatar"
+          label="头像"
+          rules={[
+            {
+              required: true,
+              message: '请输上传头像!',
             },
           ]}
         >
           <Uploader
             action="file/upload"
-            data={{ fileType: 'NEWS' }}
-            imgSrc={imgSrc}
+            data={{ fileType: 'AVATAR' }}
+            imgSrc={avatar}
             name="file"
             onChange={handleChange}
           />

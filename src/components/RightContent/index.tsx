@@ -9,7 +9,7 @@ import Uploader from '@/components/Upload';
 
 export type SiderTheme = 'light' | 'dark';
 
-const getUserName = () => {
+const getUserInfo = () => {
   const userInfo = localStorage.getItem('useInfo');
   if (userInfo) {
     return JSON.parse(userInfo);
@@ -17,11 +17,12 @@ const getUserName = () => {
   return null;
 };
 
-const userInfo = getUserName();
+const userInfo = getUserInfo();
 
 const GlobalHeaderRight: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [visibleInfo, setVisibleInfo] = useState(false);
 
   const handleSubmitModal = (values: any) => {
     if (values.newPassword !== values.reNewPassword) {
@@ -42,7 +43,7 @@ const GlobalHeaderRight: React.FC = () => {
         setLoading(false);
       });
   };
-
+  const [currentData, setCurrentDta] = useState<any>({});
   const [avatarVisible, setAvatarVisible] = useState(false);
   const [avatar, setAvatar] = useState(userInfo.avatar);
 
@@ -50,9 +51,31 @@ const GlobalHeaderRight: React.FC = () => {
     setAvatarVisible(true);
   };
   const handleAvatarChange = (imgSrc: string) => {
-    message.success('修改成功')
-    setAvatarVisible(false)
+    message.success('修改成功');
+    setAvatarVisible(false);
     setAvatar(imgSrc);
+  };
+
+  const handleUpdateUserIfno = () => {
+    setCurrentDta(getUserInfo());
+    setVisibleInfo(true);
+  };
+
+  const handleSubmitInfo = (values: any) => {
+    HttpRequest({
+      method: 'put',
+      url: 'admin/users/info',
+      type: 'json',
+      params: values,
+    })
+      .then(() => {
+        message.success('操作成功');
+        localStorage.setItem('useInfo', { ...getUserInfo(), ...values });
+        setVisibleInfo(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleLogout = () => {
@@ -62,13 +85,20 @@ const GlobalHeaderRight: React.FC = () => {
   };
   const menu = (
     <Menu style={{ marginTop: 10 }}>
-      <Menu.Item key="password" onClick={() => setVisible(true)}>修改密码</Menu.Item>
-      <Menu.Item key="avatar" onClick={handleUpdateAvatar}>修改头像</Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout}>退出登录</Menu.Item>
+      <Menu.Item key="password" onClick={() => setVisible(true)}>
+        修改密码
+      </Menu.Item>
+      <Menu.Item key="avatar" onClick={handleUpdateAvatar}>
+        修改头像
+      </Menu.Item>
+      <Menu.Item key="info" onClick={handleUpdateUserIfno}>
+        修改资料
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={handleLogout}>
+        退出登录
+      </Menu.Item>
     </Menu>
   );
-
-
 
   return (
     <Space>
@@ -123,10 +153,7 @@ const GlobalHeaderRight: React.FC = () => {
           loading={loading}
           onCancel={() => setAvatarVisible(false)}
         >
-          <Form.Item
-            name="avatar"
-            label="修改头像"
-          >
+          <Form.Item name="avatar" label="修改头像">
             <Uploader
               action="admin/users/avatar"
               data={{ fileType: 'AVATAR' }}
@@ -134,6 +161,29 @@ const GlobalHeaderRight: React.FC = () => {
               name="file"
               onChange={handleAvatarChange}
             />
+          </Form.Item>
+        </ModalForm>
+      ) : null}
+
+      {visibleInfo ? (
+        <ModalForm
+          title="个人信息"
+          onFinish={handleSubmitInfo}
+          visible={true}
+          loading={loading}
+          initialValues={currentData}
+          onCancel={() => setVisibleInfo(false)}
+        >
+          <Form.Item
+            name="nickname"
+            label="昵称"
+            rules={[{ required: true, message: '昵称不能为空！' }]}
+          >
+            <Input placeholder="请输入昵称！" />
+          </Form.Item>
+
+          <Form.Item name="intro" label="介绍">
+            <Input placeholder="请输入介绍！" />
           </Form.Item>
         </ModalForm>
       ) : null}

@@ -12,7 +12,8 @@ export default defineConfig({
   hash: true,
   antd: {},
   dva: {
-    hmr: true,
+    hmr: false,
+    immer: true,
   },
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout

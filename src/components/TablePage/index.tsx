@@ -7,13 +7,14 @@ import { message } from 'antd';
 
 interface DeleteOptions {
   data: any;
-  method?: 'post';
+  queryParams?: string;
+  method?: 'post' | 'delete';
 }
 
 export interface RefFunctions {
   deleteData: (params: DeleteOptions) => void;
   getData: (page?: number) => void;
-  updateData: (key: string, record: any) => void
+  updateData: (key: string, record: any) => void;
 }
 interface IProps {
   title: string;
@@ -25,19 +26,34 @@ interface IProps {
   deleteUrl?: string;
   rowKey?: string;
   onRef?: (ref: any) => void;
+  pageSize?: number;
+  disablePagination?: boolean;
+  formatData?: (data: any) => any;
 }
 
 const TablePage = (props: IProps) => {
-  const { title, columns, searchItems, url, defaultParams, onRef, deleteUrl, addPath, rowKey } =
-    props;
+  const {
+    title,
+    columns,
+    searchItems,
+    url,
+    defaultParams,
+    onRef,
+    deleteUrl,
+    addPath,
+    rowKey,
+    pageSize,
+    disablePagination,
+    formatData,
+  } = props;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>([]);
   const [total, setTotal] = useState(1);
-  const dataRef = useRef(data)
+  const dataRef = useRef(data);
   const currentPage = useRef(1);
   const [params, setParams] = useState({
     current: currentPage.current,
-    size: 10,
+    size: pageSize || 10,
     ...defaultParams,
   });
 
@@ -94,11 +110,15 @@ const TablePage = (props: IProps) => {
     HttpRequest({ url, method: 'get', params: options })
       .then((res: any) => {
         setLoading(false);
-        setData(res.recordList);
-        dataRef.current = res.recordList
+        let result = res.recordList;
+        if (formatData) {
+          result = formatData(result);
+        }
+        setData(result);
+        dataRef.current = result;
         setTotal(res.count);
       })
-      .catch(() => {
+      .finally(() => {
         setLoading(false);
       });
   };
@@ -106,29 +126,34 @@ const TablePage = (props: IProps) => {
   useEffect(getData, [params]);
 
   const deleteData = (options: DeleteOptions) => {
-    const { data, method = 'delete' } = options;
+    const { data, method = 'delete', queryParams } = options;
     setLoading(true);
-    HttpRequest({ url: deleteUrl || '', params: data, method }).then(() => {
-      setLoading(false);
-      message.success('操作成功');
-      setParams({
-        ...params,
-        current: currentPage.current,
+    const url = queryParams ? `${deleteUrl}/${queryParams}` : deleteUrl;
+    HttpRequest({ url: url || '', params: queryParams ? {} : data, method })
+      .then(() => {
+        setLoading(false);
+        message.success('操作成功');
+        setParams({
+          ...params,
+          current: currentPage.current,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    });
   };
 
   const updateData = (key: string, record: any) => {
     dataRef.current.forEach((item: any, index: number) => {
-      if(item[key] === record[key]){
+      if (item[key] === record[key]) {
         dataRef.current[index] = {
           ...dataRef.current[index],
-          ...record
-        }
+          ...record,
+        };
       }
-    })
-    setData([...dataRef.current])
-  }
+    });
+    setData([...dataRef.current]);
+  };
 
   useEffect(() => {
     onRef && onRef({ deleteData, getData, updateData });
@@ -151,6 +176,7 @@ const TablePage = (props: IProps) => {
         currentPage={params.current}
         pageSize={params.size}
         totalCount={total}
+        pagination={!disablePagination}
         onChange={handlePageOrSizeChange}
         rowKey={rowKey || 'id'}
       />

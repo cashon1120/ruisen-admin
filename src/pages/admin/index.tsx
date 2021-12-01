@@ -12,7 +12,6 @@ const NewsList = () => {
   const [currentData, setCurrentDta] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
-  const [visibleInfo, setVisibleInfo] = useState(false);
   const [visibleRole, setVisibleRole] = useState(false);
 
   const handleChangeDisableState = (value: boolean, id: number) => {
@@ -31,35 +30,11 @@ const NewsList = () => {
       });
   };
 
-  const handleUpdateUserIfno = (record: any) => {
-    setCurrentDta(record)
-    setVisibleInfo(true)
-  };
-  const handleSubmitInfo = (values: any) => {
-    HttpRequest({
-      method: 'put',
-      url: 'admin/users/info',
-      type: 'json',
-      params: values,
-    })
-      .then(() => {
-        message.success('操作成功');
-        setVisibleInfo(false)
-        tableRef.updateData('id', {id: currentData.id, ...values})
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }
-
   const handleUpdateRole = (record: any) => {};
 
   const menu = (record: any) => (
     <Menu>
-      <Menu.Item key="info" onClick={() => handleUpdateUserIfno(record)}>
-        更新用户信息
-      </Menu.Item>
-      <Menu.Item key="role" onClick={() => handleUpdateUserIfno(record)}>
+      <Menu.Item key="role" onClick={() => handleUpdateRole(record)}>
         修改用户角色
       </Menu.Item>
       <Menu.Item key="delete">
@@ -164,35 +139,6 @@ const NewsList = () => {
         rowKey="nickname"
         onRef={(ref: any) => (tableRef = ref)}
       />
-      {visibleInfo ?  <ModalForm
-        title="个人信息"
-        onFinish={handleSubmitInfo}
-        visible={true}
-        loading={loading}
-        initialValues={currentData}
-        onCancel={() => setVisibleInfo(false)}
-      >
-        <Form.Item
-          name="nickname"
-          label="昵称"
-          rules={[{ required: true, message: '昵称不能为空！' }]}
-        >
-          <Input placeholder="请输入昵称！" />
-        </Form.Item>
-        <Form.Item
-          name="webSite"
-          label="个人网站"
-        >
-          <Input placeholder="请输入个人网站！" />
-        </Form.Item>
-        <Form.Item
-          name="intro"
-          label="介绍"
-        >
-          <Input placeholder="请输入介绍！" />
-        </Form.Item>
-      </ModalForm> : null}
-      
     </>
   );
 };

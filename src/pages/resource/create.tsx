@@ -1,77 +1,72 @@
-import { useState } from 'react';
-import { Form, Input } from 'antd';
+import { useState, useEffect } from 'react';
+import { Form, Input, Switch, Select, TreeSelect } from 'antd';
+import HttpRequest from '@/utils/request';
 import FormPage from '@/components/FormPage';
-import Uploader from '@/components/Upload';
 
 const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
 
-  const [imgSrc, setImgSrc] = useState(record ? record.image : '');
-  const [imageList, setImageList] = useState({ image: '' });
+  const [allSource, setAllSource] = useState([]);
 
-  const handleChange = (imgSrc: string) => {
-    setImgSrc(imgSrc);
-    setImageList({ image: imgSrc });
+  useEffect(() => {
+    HttpRequest({ method: 'get', url: 'admin/resources' }).then((res: any) => {
+      setAllSource(res.recordList);
+    });
+  }, []);
+
+  const handleFormatValue = (values: any) => {
+    values.isAnonymous = values.isAnonymous ? 1 : 0;
+    return values;
   };
 
   return (
     <>
       <FormPage
         title={record ? '编辑资讯' : '添加资讯'}
-        createUrl="/news/add"
-        updateUrl="/news/update"
-        backPath="/news/list"
+        createUrl="/admin/resources"
+        updateUrl="/admin/resources"
+        backPath="/resource/list"
+        type="json"
         data={record}
-        imageList={imageList}
+        formatValue={handleFormatValue}
       >
         <Form.Item
-          name="title"
-          label="标题"
+          name="resourceName"
+          label="资源名"
           rules={[
             {
               required: true,
-              message: '请输入标题',
+              message: '请输入资源名',
             },
           ]}
         >
-          <Input placeholder="请输入标题" />
+          <Input placeholder="请输入资源名" />
         </Form.Item>
 
-        <Form.Item
-          name="link"
-          label="链接"
-          rules={[
-            {
-              required: true,
-              message: '请输入链接!',
-            },
-            {
-              pattern:
-                /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/,
-              message: '请输入正确的网址',
-            },
-          ]}
-        >
-          <Input placeholder="请输入链接 http://" />
+        <Form.Item name="url" label="资源路径">
+          <Input placeholder="请输入资源路径" />
         </Form.Item>
-
-        <Form.Item
-          name="image"
-          label="图片"
-          rules={[
-            {
-              required: true,
-              message: '请输上传图片!',
-            },
-          ]}
-        >
-          <Uploader
-            action="file/upload"
-            data={{ fileType: 'NEWS' }}
-            imgSrc={imgSrc}
-            name="file"
-            onChange={handleChange}
+        <Form.Item name="parentId" label="父资源">
+          <TreeSelect
+            style={{ width: '100%' }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={allSource}
+            placeholder="请选择父资源"
+            fieldNames={{ label: 'resourceName', value: 'id' }}
+            allowClear
+            treeDefaultExpandAll
           />
+        </Form.Item>
+        <Form.Item name="requestMethod" label="请求方式">
+          <Select placeholder="请选择请求方式">
+            <Select.Option value="POST">POST</Select.Option>
+            <Select.Option value="GET">GET</Select.Option>
+            <Select.Option value="DELETE">DELETE</Select.Option>
+            <Select.Option value="PUT">PUT</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="isAnonymous" label="是否匿名访问">
+          <Switch defaultChecked={record.isAnonymous ? true : false} />
         </Form.Item>
       </FormPage>
     </>

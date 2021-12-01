@@ -11,7 +11,6 @@ interface IPramars {
 
 // export const URL = 'http://162.14.73.204:8081/';
 export const URL = '/api/';
-
 const HttpRequest = function (options: IPramars) {
   let { url, method, params, type } = options;
   method = method || 'post';
@@ -55,7 +54,8 @@ const HttpRequest = function (options: IPramars) {
         reject();
         return;
       }
-      if (url === 'admin/menus') {
+      const shouldFormatRoutes = ['admin/menus', 'admin/resources', 'house/all/list'];
+      if (shouldFormatRoutes.includes(url)) {
         const data = res.data;
         res.data = {
           recordList: data,
