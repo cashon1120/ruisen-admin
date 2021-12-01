@@ -32,12 +32,12 @@
       {
         name: '房产列表',
         path: '/house/list',
-        component: './admin/index',
+        component: './house/index',
       },
       {
         name: '添加房产',
         path: '/house/create',
-        component: './admin/create',
+        component: './house/create',
       },
     ],
   },

@@ -14,7 +14,7 @@ const getUserInfo = () => {
   if (userInfo) {
     return JSON.parse(userInfo);
   }
-  return null;
+  return {}
 };
 
 const userInfo = getUserInfo();
@@ -70,7 +70,7 @@ const GlobalHeaderRight: React.FC = () => {
     })
       .then(() => {
         message.success('操作成功');
-        localStorage.setItem('useInfo', { ...getUserInfo(), ...values });
+        localStorage.setItem('useInfo', JSON.stringify({ ...getUserInfo(), ...values }));
         setVisibleInfo(false);
       })
       .finally(() => {
