@@ -41,7 +41,7 @@ const CreateNews = (props: any) => {
         title={record ? '编辑事项' : '添加事项'}
         createUrl="to/do/list/add"
         updateUrl="to/do/list/update"
-        backPath="/todo/list"
+        backPath="/todo"
         data={record}
         dateKeys={['payDate', 'payEndDate', 'belongsDate']}
         onRef={(from: any) => (formInstance = from)}

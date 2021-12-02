@@ -16,9 +16,9 @@ const CreateNews = (props: any) => {
     <>
       <FormPage
         title={record ? '编辑资讯' : '添加资讯'}
-        createUrl="/news/add"
-        updateUrl="/news/update"
-        backPath="/news/list"
+        createUrl="news/add"
+        updateUrl="news/update"
+        backPath="/news"
         data={record}
         onRef={(from: any) => (formInstance = from)}
       >

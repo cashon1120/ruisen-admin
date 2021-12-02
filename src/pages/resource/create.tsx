@@ -23,9 +23,9 @@ const CreateNews = (props: any) => {
     <>
       <FormPage
         title={record ? '编辑资讯' : '添加资讯'}
-        createUrl="/admin/resources"
-        updateUrl="/admin/resources"
-        backPath="/resource/list"
+        createUrl="admin/resources"
+        updateUrl="admin/resources"
+        backPath="/resource"
         type="json"
         data={record}
         formatValue={handleFormatValue}

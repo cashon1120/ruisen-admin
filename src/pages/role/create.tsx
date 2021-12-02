@@ -46,7 +46,7 @@ const CreateNews = (props: any) => {
         title={record ? '编辑角色' : '添加角色'}
         createUrl="admin/role"
         updateUrl="admin/role"
-        backPath="/role/list"
+        backPath="/role"
         type="json"
         data={record}
         formatValue={handleFormatValue}

@@ -23,7 +23,7 @@ const CreateNews = (props: any) => {
         title={record ? '编辑菜单' : '添加菜单'}
         createUrl="/admin/menus"
         updateUrl="/admin/menus"
-        backPath="/menus/list"
+        backPath="/menus"
         type="json"
         data={record}
       >

@@ -19,7 +19,7 @@ const CreateNews = (props: any) => {
         title={record ? '编辑账号' : '添加账号'}
         createUrl="admin/users/add"
         updateUrl="admin/users/add"
-        backPath="/admin/list"
+        backPath="/admin"
         data={record}
         onRef={(from: any) => (formInstance = from)}
         type="json"

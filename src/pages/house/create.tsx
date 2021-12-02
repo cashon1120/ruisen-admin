@@ -59,7 +59,7 @@ const CreateNews = (props: any) => {
         title={record ? '编辑房产' : '添加房产'}
         createUrl="house/add"
         updateUrl="house/update"
-        backPath="/house/list"
+        backPath="/house"
         dateKeys={['transferDate']}
         type="json"
         data={record}
