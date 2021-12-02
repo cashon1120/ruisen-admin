@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Switch, TreeSelect } from 'antd';
+import { connect } from 'dva';
 import FormPage from '@/components/FormPage';
-import HttpRequest from '@/utils/request';
 
-const CreateNews = (props: any) => {
+const CreateMenu = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-
-  const [menus, setMenus] = useState([]);
-  const [parentId, setParentId] = useState(0);
-  const getMenus = () => {
-    HttpRequest({ method: 'get', url: 'admin/menus', params: { current: 1, size: 1000 } }).then(
-      (res: any) => {
-        setMenus(res.recordList);
-      },
-    );
-  };
-  useEffect(getMenus, []);
+  const [checked, setChecked] = useState(false);
+  const [disableChecked, setDisableChecked] = useState(false);
+  const { menuList, fetchList } = props;
+  useEffect(() => {
+    if (menuList.length === 0) {
+      fetchList();
+    }
+    if (record) {
+      setChecked(record.isHIdden === 1 ? true : false);
+      setDisableChecked(record.isDisable === 1 ? true : false);
+    }
+  }, []);
 
   return (
     <>
@@ -31,7 +32,7 @@ const CreateNews = (props: any) => {
           <TreeSelect
             allowClear
             showSearch
-            treeData={menus}
+            treeData={menuList}
             fieldNames={{ label: 'name', value: 'id' }}
           />
         </Form.Item>
@@ -95,12 +96,31 @@ const CreateNews = (props: any) => {
         >
           <InputNumber placeholder="请输入排序数字" />
         </Form.Item>
+        <Form.Item name="isDisable" label="是否禁用">
+          <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
+        </Form.Item>
         <Form.Item name="isHIdden" label="是否隐藏">
-          <Switch />
+          <Switch checked={disableChecked} onChange={(value: boolean) => setDisableChecked(value)} />
         </Form.Item>
       </FormPage>
     </>
   );
 };
 
-export default CreateNews;
+const mapStateToProps = (state: any) => {
+  return {
+    menuList: state.global.menuList,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getMenuList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateMenu);

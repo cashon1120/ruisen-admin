@@ -8,7 +8,6 @@ import HttpRequest from '@/utils/request';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 const NewsList = () => {
-  const [loading, setLoading] = useState(false);
   const [menuList, setmenuList] = useState([]);
 
   const [sourceList, setSourceList] = useState([]);
@@ -130,7 +129,6 @@ const NewsList = () => {
 
   return (
     <>
-      {loading ? <Loading /> : null}
       <TablePage
         title="角色列表"
         columns={columns}
@@ -138,12 +136,12 @@ const NewsList = () => {
         url="admin/roles"
         deleteUrl="admin/roles"
         addPath="/role/create"
-        rowKey="nickname"
+        rowKey="id"
         onRef={(ref: any) => (tableRef = ref)}
       />
       {menuVisible ? (
         <Modal
-          title="资源"
+          title="菜单"
           visible={true}
           onCancel={() => setMenuVisible(false)}
           onOk={() => setMenuVisible(false)}

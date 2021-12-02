@@ -7,22 +7,24 @@ const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
 
   const [allSource, setAllSource] = useState([]);
-
+  const [checked, setChecked] = useState(false)
   useEffect(() => {
     HttpRequest({ method: 'get', url: 'admin/resources' }).then((res: any) => {
       setAllSource(res.recordList);
     });
+    if(record){
+      setChecked(record.isAnonymous === 1 ? true : false)
+    }
   }, []);
 
   const handleFormatValue = (values: any) => {
     values.isAnonymous = values.isAnonymous ? 1 : 0;
     return values;
   };
-
   return (
     <>
       <FormPage
-        title={record ? '编辑资讯' : '添加资讯'}
+        title={record ? '编辑资源' : '添加资源'}
         createUrl="admin/resources"
         updateUrl="admin/resources"
         backPath="/resource"
@@ -66,7 +68,7 @@ const CreateNews = (props: any) => {
           </Select>
         </Form.Item>
         <Form.Item name="isAnonymous" label="是否匿名访问">
-          <Switch defaultChecked={record && record.isAnonymous ? true : false} />
+          <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
         </Form.Item>
       </FormPage>
     </>

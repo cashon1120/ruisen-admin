@@ -2,7 +2,7 @@
   {
     path: '/home',
     name: '首页',
-    icon: 'smile',
+    icon: 'home',
     component: './Home',
   },
   {

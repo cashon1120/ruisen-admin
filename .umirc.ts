@@ -37,6 +37,10 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  dva: {
+    immer: true,
+    hmr: false
+  },
   mfsu: {},
   proxy: proxy[REACT_APP_ENV || 'dev'],
   dynamicImport: {
@@ -49,10 +53,10 @@ export default defineConfig({
   routes: [
     { path: '/', component: '@/pages/login', exact: true },
     { path: '/login', component: '@/pages/login' },
-    {component: '@/pages/404' },
     {
       component: '@/layouts',
       routes: flatRoutes,
     },
+    {component: '@/pages/404' },
   ],
 });

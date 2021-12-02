@@ -280,7 +280,6 @@ class TableList extends React.Component<TableProps, TableListState> {
           });
     }
     this.setTrHeight();
-    console.log(scrollWidth)
     return (
       <div
         className={`${!expandable ? styles.tableWrapper : styles.expandTableWrapper} tableWrapper`}

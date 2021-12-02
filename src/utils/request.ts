@@ -57,11 +57,13 @@ const HttpRequest = function (options: IPramars) {
       }
       const shouldFormatRoutes = ['admin/menus', 'admin/resources', 'house/all/list'];
       if (shouldFormatRoutes.includes(url)) {
-        const data = res.data;
-        res.data = {
-          recordList: data,
-          count: data.length,
-        };
+        if(res.data){
+          const data = res.data;
+          res.data = {
+            recordList: data,
+            count: data.length,
+          };
+        }
       }
       resolve(res.data);
     });

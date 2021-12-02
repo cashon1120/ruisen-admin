@@ -62,6 +62,10 @@ const FormPage = (props: IProps) => {
       if (dateKeys?.includes(key)) {
         values[key] = values[key].format('YYYY-MM-DD');
       }
+
+      if(typeof values[key] === 'boolean'){
+        values[key] = values[key] ? 1 : 0
+      }
     });
 
     if (formatValue) {
@@ -80,7 +84,6 @@ const FormPage = (props: IProps) => {
   };
 
   const setFormData = () => {
-    console.log(data);
     Object.keys(data).map((key: string) => {
       let value = data[key];
       if (typeof data[key] === 'number') {

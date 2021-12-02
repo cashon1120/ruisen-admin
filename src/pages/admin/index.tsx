@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { connect } from 'dva';
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { Button, Popconfirm, Form, message, Switch, Input, Select } from 'antd';
 import Loading from '@/components/Loading';
@@ -7,10 +8,10 @@ import HttpRequest from '@/utils/request';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const NewsList = () => {
+const AdminList = (props: any) => {
+  const { roleList,  fetchList} = props;
   const [currentData, setCurrentDta] = useState<any>({});
   const [loading, setLoading] = useState(false);
-  const [allRoleList, setAllRoleList] = useState([]);
   const [visibleRole, setVisibleRole] = useState(false);
 
   const handleChangeDisableState = (value: boolean, id: number) => {
@@ -23,20 +24,6 @@ const NewsList = () => {
     })
       .then(() => {
         message.success('操作成功');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const getAllRoleList = () => {
-    setLoading(true);
-    HttpRequest({
-      method: 'get',
-      url: 'admin/all/role',
-    })
-      .then((res: any) => {
-        setAllRoleList(res);
       })
       .finally(() => {
         setLoading(false);
@@ -152,7 +139,11 @@ const NewsList = () => {
     },
   ];
 
-  useEffect(getAllRoleList, []);
+  useEffect(() => {
+    if(roleList.length === 0){
+      fetchList()
+    }
+  }, [])
 
   return (
     <>
@@ -191,7 +182,7 @@ const NewsList = () => {
             rules={[{ required: true, message: '请选择角色!' }]}
           >
             <Select placeholder="请选择" mode="multiple" allowClear>
-              {allRoleList.map((item: any) => (
+              {roleList.map((item: any) => (
                 <Select.Option value={item.id} key={item.id}>
                   {item.roleName}
                 </Select.Option>
@@ -204,4 +195,21 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+const mapStateToProps = (state: any) => {
+  return {
+    roleList: state.global.roleList,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getRoleList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminList);

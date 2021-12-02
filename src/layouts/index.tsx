@@ -3,6 +3,7 @@ import {Layout, Menu, ConfigProvider} from 'antd';
 import {history} from 'umi'
 import zhCN from 'antd/lib/locale/zh_CN';
 import RightContent from '@/components/RightContent'
+import Icon from './icon'
 import routes from '../../config/routes'
 import styles from './index.less'
 const {Header, Content, Sider} = Layout;
@@ -16,19 +17,19 @@ const checkRoutes = (routes: any) => {
     }
     obj[item.path] = item
   })
-  console.log(obj)
 }
 checkRoutes(routes)
 
+
 class LayoutMain extends React.Component {
   state = {
-    collapsed: false
+    collapsed: false,
   };
+
   onCollapse = (collapsed : any) => {
     this.setState({collapsed});
   };
   render() {
-
     return (
       <ConfigProvider locale={zhCN}>
         <Layout>
@@ -53,9 +54,9 @@ class LayoutMain extends React.Component {
             paddingTop: 70,
             left: 0
           }}>
-            <Menu theme="dark" defaultSelectedKeys={['/home']} mode="inline">
+            <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
               {routes.map((item : any) => !item.hideInMenu
-                ? <Menu.Item key={item.path} onClick={() => history.push(item.path)}>
+                ? <Menu.Item key={item.path} icon={<Icon name={item.icon} />} onClick={() => history.push(item.path)}>
                     {item.name}
                   </Menu.Item>
                 : null)}

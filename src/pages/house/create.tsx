@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Form, Input, InputNumber, Select, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import { houseStatus, houseType, authenticationStatus } from './index';
-import HttpRequest from '@/utils/request';
+import { connect } from 'dva';
 import Guid, { Item } from './guid';
 
 let guidData: Item[] = [];
 let formInstance: any = null;
-const CreateNews = (props: any) => {
+const CreateHouse = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-  const [userList, setUserList] = useState([]);
-  const [getUserListLoading, setGetUserListLoading] = useState(false);
+  const { userList,  fetchList} = props;
   const handleGuidChange = (data: Item[]) => {
     guidData = data;
-    console.log(data);
     formInstance.setFieldsValue({ ownerGuideList: data.length === 0 ? '' : guidData });
   };
 
@@ -40,18 +38,11 @@ const CreateNews = (props: any) => {
     formInstance.setFieldsValue({ photoList: result });
   };
 
-  const getUserList = () => {
-    setGetUserListLoading(true);
-    HttpRequest({ method: 'get', url: 'user/all/list' })
-      .then((res: any) => {
-        setUserList(res);
-      })
-      .finally(() => {
-        setGetUserListLoading(false);
-      });
-  };
-
-  useEffect(getUserList, []);
+  useEffect(() => {
+    if(userList.length === 0){
+      fetchList()
+    }
+  }, [])
 
   return (
     <>
@@ -88,7 +79,7 @@ const CreateNews = (props: any) => {
             },
           ]}
         >
-          <Select placeholder="请选择用户" loading={getUserListLoading}>
+          <Select placeholder="请选择用户">
             {userList.map((item: any) => (
               <Select.Option value={item.value} key={item.value}>
                 {item.text}
@@ -299,4 +290,21 @@ const CreateNews = (props: any) => {
   );
 };
 
-export default CreateNews;
+const mapStateToProps = (state: any) => {
+  return {
+    userList: state.global.userList,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getUserList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateHouse);

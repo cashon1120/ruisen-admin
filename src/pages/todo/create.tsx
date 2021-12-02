@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Form, Input, Select, InputNumber, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
-import HttpRequest from '@/utils/request';
+import { connect } from 'dva';
 let formInstance: any = null;
 
-const CreateNews = (props: any) => {
+const CreateToDo = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-
+  const { houseList,  fetchList} = props;
   const handleIconChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
@@ -24,16 +24,13 @@ const CreateNews = (props: any) => {
     }
   };
 
-  const [houseList, setHouseList] = useState([]);
-  const getHouseList = () => {
-    HttpRequest({ method: 'get', url: 'house/all/list' }).then((res: any) => {
-      setHouseList(res.recordList);
-    });
-  };
+
 
   useEffect(() => {
-    getHouseList();
-  }, []);
+    if(houseList.length === 0){
+      fetchList()
+    }
+  }, [])
 
   return (
     <>
@@ -155,4 +152,21 @@ const CreateNews = (props: any) => {
   );
 };
 
-export default CreateNews;
+const mapStateToProps = (state: any) => {
+  return {
+    houseList: state.global.houseList,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getHouseList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateToDo);
