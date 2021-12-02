@@ -1,10 +1,5 @@
 ﻿export default [
   {
-    path: '/login',
-    layout: false,
-    component: './user/Login',
-  },
-  {
     path: '/home',
     name: '首页',
     icon: 'smile',
@@ -105,8 +100,5 @@
     icon: 'snippets',
     path: '/logs',
     component: './logs/index',
-  },
-  {
-    component: './404',
   },
 ];

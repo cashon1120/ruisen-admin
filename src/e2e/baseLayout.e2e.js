@@ -1,5 +1,5 @@
 const { uniq } = require('lodash');
-const RouterConfig = require('../../config/config').default.routes;
+const RouterConfig = require('../../config/config1').default.routes;
 
 const BASE_URL = `http://localhost:${process.env.PORT || 8001}`;
 
