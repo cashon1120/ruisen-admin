@@ -28,12 +28,9 @@
     name: '房产管理',
     icon: 'flag',
     path: '/house',
+    component: './house/index',
+    hideChildrenInMenu: true,
     routes: [
-      {
-        name: '房产列表',
-        path: '/house/list',
-        component: './house/index',
-      },
       {
         name: '添加房产',
         path: '/house/create',

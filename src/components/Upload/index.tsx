@@ -1,57 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Upload, Modal } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { URL } from '@/utils/request';
-
 interface IProps {
-  action: string;
   data: any;
   onChange: (files: any) => void;
-  maxLength?: number
+  action?: string;
+  defaultFile?: string | string[];
+  maxLength?: number;
 }
 
+let index = 0;
+
 const Uploader = (props: IProps) => {
-  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [fileList, setFileList] = useState<any>([])
+  const [fileList, setFileList] = useState<any>([]);
   const [previewImage, setPreviewImage] = useState('');
-  const { onChange, action, data, maxLength } = props;
+  const { onChange, action, data, maxLength, defaultFile } = props;
   const uploadButton = (
     <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>添加图片</div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>上传</div>
     </div>
   );
 
-  // const handleChange = (info: any) => {
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     setLoading(false);
-  //     setPreviewImage(info.file.response.data);
-  //     onChange(info.file.response.data);
-  //   }
-  // };
-
   const handleUploadChange = (files: any) => {
-    onChange(files.fileList)
-    setFileList(files.fileList)
-  }
+    onChange(files.fileList);
+    setFileList(files.fileList);
+  };
 
   const handlePreview = (file: any) => {
-    setPreviewImage(file.url || file.thumbUrl)
+    setPreviewImage(file.url || file.thumbUrl);
     setShowModal(true);
   };
-  console.log(fileList)
+
+  useEffect(() => {
+    const fileList = [];
+    if (defaultFile) {
+      if (typeof defaultFile === 'string') {
+        fileList.push({
+          udi: index++,
+          name: defaultFile,
+          status: 'done',
+          url: defaultFile,
+        });
+      } else {
+      }
+      setFileList(fileList);
+    }
+  }, []);
   return (
     <>
       <Upload
         listType="picture-card"
         className="avatar-uploader"
         onPreview={handlePreview}
-        action={`${URL}${action}`}
+        action={`${URL}${action || 'file/upload'}`}
         fileList={fileList}
         onChange={handleUploadChange}
         data={data}

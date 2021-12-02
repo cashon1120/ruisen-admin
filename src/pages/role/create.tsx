@@ -11,6 +11,7 @@ const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
 
   const getRoleList = () => {
+    setLoading(true);
     HttpRequest({ method: 'get', url: 'admin/menus', params: { size: 1000, current: 1 } }).then(
       (res: any) => {
         setmenuList(res.recordList);
@@ -19,11 +20,13 @@ const CreateNews = (props: any) => {
   };
 
   const getSourceList = () => {
-    HttpRequest({ method: 'get', url: 'admin/resources', params: { size: 1000, current: 1 } }).then(
-      (res: any) => {
+    HttpRequest({ method: 'get', url: 'admin/resources', params: { size: 1000, current: 1 } })
+      .then((res: any) => {
         setSourceList(res.recordList);
-      },
-    );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -39,7 +42,6 @@ const CreateNews = (props: any) => {
   return (
     <>
       {loading ? <Loading /> : null}
-      <Loading />
       <FormPage
         title={record ? '编辑角色' : '添加角色'}
         createUrl="admin/role"

@@ -66,7 +66,7 @@ const CreateNews = (props: any) => {
           </Select>
         </Form.Item>
         <Form.Item name="isAnonymous" label="是否匿名访问">
-          <Switch defaultChecked={record.isAnonymous ? true : false} />
+          <Switch defaultChecked={record && record.isAnonymous ? true : false} />
         </Form.Item>
       </FormPage>
     </>

@@ -1,17 +1,16 @@
-import { useState } from 'react';
 import { Form, Input } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
+let formInstance: any = null;
 
 const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-
-  const [avatar, setAvatar] = useState(record ? record.image : '');
-  const [imageList, setImageList] = useState({ avatar: '' });
-
-  const handleChange = (imgSrc: string) => {
-    setAvatar(imgSrc);
-    setImageList({ avatar: imgSrc });
+  const handleChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      formInstance.setFieldsValue({ avatar: img });
+    }
   };
 
   return (
@@ -22,7 +21,7 @@ const CreateNews = (props: any) => {
         updateUrl="admin/users/add"
         backPath="/admin/list"
         data={record}
-        imageList={imageList}
+        onRef={(from: any) => (formInstance = from)}
         type="json"
       >
         <Form.Item
@@ -94,8 +93,7 @@ const CreateNews = (props: any) => {
           <Uploader
             action="file/upload"
             data={{ fileType: 'AVATAR' }}
-            imgSrc={avatar}
-            name="file"
+            defaultFile={record?.avatar}
             onChange={handleChange}
           />
         </Form.Item>

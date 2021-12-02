@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Form, message, Button } from 'antd';
+import dayjs from 'dayjs';
 import { history } from 'umi';
 import Wrapper from '@/components/Wrapper/Index';
 import HttpRequest from '@/utils/request';
@@ -36,15 +37,16 @@ interface IProps {
   backPath: string;
   imageList?: any;
   data?: any;
+  dateKeys?: string[];
   getUrl?: string;
   rules?: any;
   type?: 'json' | 'formData';
   formatValue?: (values: any) => any;
-  onRef?: (form: any) => void
+  onRef?: (form: any) => void;
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef } = props;
+  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
@@ -55,9 +57,17 @@ const FormPage = (props: IProps) => {
         ...values,
       };
     }
+
+    Object.keys(values).forEach((key: string) => {
+      if (dateKeys?.includes(key)) {
+        values[key] = values[key].format('YYYY-MM-DD');
+      }
+    });
+
     if (formatValue) {
       values = formatValue(values);
     }
+
     setLoading(true);
     HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type })
       .then(() => {
@@ -70,15 +80,23 @@ const FormPage = (props: IProps) => {
   };
 
   const setFormData = () => {
+    console.log(data);
     Object.keys(data).map((key: string) => {
-      form.setFieldsValue({ [key]: data[key] });
+      let value = data[key];
+      if (typeof data[key] === 'number') {
+        value = data[key].toString();
+      }
+      if (dateKeys?.includes(key)) {
+        value = dayjs(value);
+      }
+      form.setFieldsValue({ [key]: value });
     });
   };
 
   // 如果有data说明是修改或编辑, 需要设置表单的值
   useEffect(() => {
     data && setFormData();
-    onRef && onRef(form)
+    onRef && onRef(form);
   }, []);
 
   return (

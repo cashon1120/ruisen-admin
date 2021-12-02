@@ -45,7 +45,8 @@ const HttpRequest = function (options: IPramars) {
   return new Promise((resolve: any, reject: any) => {
     request((URL + url).toLocaleLowerCase()).then((res: any) => {
       if (res.code === 52005) {
-        // history.replace('/login');
+        history.replace('/login');
+        message.error('登录已过期, 请重新登录');
         reject();
         return;
       }

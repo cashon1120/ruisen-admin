@@ -77,8 +77,16 @@ const NewsList = () => {
     {
       title: '操作',
       width: 180,
+      fixed: 'right',
       render: (record: any) => (
         <>
+          <Button
+            size="small"
+            type="primary"
+            onClick={() => history.push('/todo/create', { record })}
+          >
+            编辑
+          </Button>
           <Popconfirm
             placement="topLeft"
             title="确定要删除该数据吗？"
@@ -140,6 +148,7 @@ const NewsList = () => {
         url="to/do/list/list"
         deleteUrl="to/do/list/delete"
         addPath="/todo/create"
+        scrollWidth={1500}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

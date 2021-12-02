@@ -1,6 +1,5 @@
-import React from 'react'
-import { Form, Row, Col, Button, Card, Spin } from 'antd'
-import styles from './style.less'
+import { Form, Row, Col, Button, Card, Spin } from 'antd';
+import styles from './style.less';
 
 const form_layout = {
   labelCol: {
@@ -9,7 +8,7 @@ const form_layout = {
   wrapperCol: {
     span: 16,
   },
-}
+};
 
 /**
  * @param {loading} 加载状态
@@ -21,38 +20,48 @@ const form_layout = {
  */
 
 export interface BasicFormProps {
-  loading: boolean
-  status?: boolean
-  initialValues?: any
-  onFinish: (values?: any) => void
-  children?: any
-  layout?: { labelCol: number; wrapperCol: number }
-  onRef?: (e: any) => void
-  onValuesChange?: (value: any) => void
-  hasOther?: boolean
-  onCancel?: any
+  loading: boolean;
+  status?: boolean;
+  initialValues?: any;
+  onFinish: (values?: any) => void;
+  children?: any;
+  layout?: { labelCol: number; wrapperCol: number };
+  onRef?: (e: any) => void;
+  onValuesChange?: (value: any) => void;
+  hasOther?: boolean;
+  onCancel?: any;
 }
 
 const onFormFinish = (values: any, onFinish: Function) => {
   Object.keys(values).forEach((key: string) => {
     if (typeof values[key] === 'string') {
-      values[key] = values[key].replace(/\s/g, '')
+      values[key] = values[key].replace(/\s/g, '');
     }
-  })
-  onFinish(values)
-}
+  });
+  onFinish(values);
+};
 
 const BasicForm = (props: BasicFormProps) => {
-  const formItem: any = props.children || []
-  const { onFinish, initialValues, onRef, loading, layout, onValuesChange, hasOther, onCancel,status } = props
-  
+  const formItem: any = props.children || [];
+  const {
+    onFinish,
+    initialValues,
+    onRef,
+    loading,
+    layout,
+    onValuesChange,
+    hasOther,
+    onCancel,
+    status,
+  } = props;
+
   if (layout) {
-    form_layout.labelCol.span = layout.labelCol
-    form_layout.wrapperCol.span = layout.wrapperCol
+    form_layout.labelCol.span = layout.labelCol;
+    form_layout.wrapperCol.span = layout.wrapperCol;
   }
-  const formItemArray: any = []
+  const formItemArray: any = [];
   formItem.map((item: any, index: number) => {
-    if (!item) return
+    if (!item) return;
     // 特殊处理批量新增表单
     if (Array.isArray(item.props.children) && !hasOther) {
       item.props.children.map((child: any, ind: number) => {
@@ -60,31 +69,31 @@ const BasicForm = (props: BasicFormProps) => {
           <Col key={`${ind}_child`} md={24} lg={12}>
             {child}
           </Col>,
-        )
-      })
+        );
+      });
     } else {
-      const lg = item.type === 'div' ? 24 : 12
+      const lg = item.type === 'div' ? 24 : 12;
       formItemArray.push(
         <Col key={`${index}_item`} md={24} lg={lg}>
           {item}
         </Col>,
-      )
+      );
     }
-  })
+  });
   return (
     <Spin spinning={loading}>
       <Card className={styles['page-form-container']}>
         <Form
           {...form_layout}
-          ref={e => (onRef ? onRef(e) : null)}
+          ref={(e) => (onRef ? onRef(e) : null)}
           scrollToFirstError={true}
-          onFinish={values => onFormFinish(values, onFinish)}
+          onFinish={(values) => onFormFinish(values, onFinish)}
           initialValues={initialValues}
           onValuesChange={onValuesChange}
         >
           <Row gutter={[20, 0]}>{formItemArray.map((item: any) => item)}</Row>
           <div className={styles.page_form_button}>
-            <Button type="primary" htmlType="submit" loading={loading} disabled={status||false}>
+            <Button type="primary" htmlType="submit" loading={loading} disabled={status || false}>
               确定
             </Button>
             <Button onClick={onCancel}>取消</Button>
@@ -92,7 +101,7 @@ const BasicForm = (props: BasicFormProps) => {
         </Form>
       </Card>
     </Spin>
-  )
-}
+  );
+};
 
-export default BasicForm
+export default BasicForm;

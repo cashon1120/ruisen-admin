@@ -3,22 +3,25 @@ import { Form, Input, Select, InputNumber, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import HttpRequest from '@/utils/request';
+let formInstance: any = null;
 
 const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
 
-  const [icon, setIcon] = useState(record ? record.image : '');
-  const [receipt, setReceipt] = useState(record ? record.image : '');
-  const [imageList, setImageList] = useState({ icon: '', receipt: '' });
-
-  const handleIconChange = (imgSrc: string) => {
-    setIcon(imgSrc);
-    setImageList({ ...imageList, icon: imgSrc });
+  const handleIconChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      formInstance.setFieldsValue({ icon: img });
+    }
   };
 
-  const handleReceiptChange = (imgSrc: string) => {
-    setReceipt(imgSrc);
-    setImageList({ ...imageList, receipt: imgSrc });
+  const handleReceiptChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      formInstance.setFieldsValue({ receipt: img });
+    }
   };
 
   const [houseList, setHouseList] = useState([]);
@@ -35,12 +38,13 @@ const CreateNews = (props: any) => {
   return (
     <>
       <FormPage
-        title={record ? '编辑资讯' : '添加资讯'}
+        title={record ? '编辑事项' : '添加事项'}
         createUrl="to/do/list/add"
-        updateUrl="/news/update"
-        backPath="/news/list"
+        updateUrl="to/do/list/update"
+        backPath="/todo/list"
         data={record}
-        imageList={imageList}
+        dateKeys={['payDate', 'payEndDate', 'belongsDate']}
+        onRef={(from: any) => (formInstance = from)}
         type="json"
       >
         <Form.Item
@@ -101,8 +105,7 @@ const CreateNews = (props: any) => {
           <Uploader
             action="file/upload"
             data={{ fileType: 'TO_DO_LIST_ICON' }}
-            imgSrc={icon}
-            name="file"
+            defaultFile={record?.icon}
             onChange={handleIconChange}
           />
         </Form.Item>
@@ -142,10 +145,8 @@ const CreateNews = (props: any) => {
 
         <Form.Item name="receipt" label="收据">
           <Uploader
-            action="file/upload"
             data={{ fileType: 'RECEIPT' }}
-            imgSrc={receipt}
-            name="file"
+            defaultFile={record?.receipt}
             onChange={handleReceiptChange}
           />
         </Form.Item>

@@ -1,28 +1,57 @@
-import { useState } from 'react';
-import { Form, Input, InputNumber, Select, DatePicker, Upload } from 'antd';
+import { useEffect, useState } from 'react';
+import { Form, Input, InputNumber, Select, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import { houseStatus, houseType, authenticationStatus } from './index';
-import Guid, {Item} from './guid'
+import HttpRequest from '@/utils/request';
+import Guid, { Item } from './guid';
 
-let guidData: Item[] = []
-let formInstance: any = null
+let guidData: Item[] = [];
+let formInstance: any = null;
 const CreateNews = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-
-  const [imgSrc, setImgSrc] = useState(record ? record.image : '');
-  const [imageList, setImageList] = useState({ image: '' });
-
-  const handleChange = (imgSrc: string) => {
-    setImgSrc(imgSrc);
-    setImageList({ image: imgSrc });
+  const [userList, setUserList] = useState([]);
+  const [getUserListLoading, setGetUserListLoading] = useState(false);
+  const handleGuidChange = (data: Item[]) => {
+    guidData = data;
+    console.log(data);
+    formInstance.setFieldsValue({ ownerGuideList: data.length === 0 ? '' : guidData });
   };
 
-  const handleGuidChange = (data: Item[]) => {
-    guidData = data
-    console.log(data)
-    formInstance.setFieldsValue({ownerGuideList: data.length === 0 ? '' : guidData})
-  }
+  const handleChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      formInstance.setFieldsValue({ floorPlan: img });
+    }
+  };
+
+  const handleHousePhotoChange = (imgs: any[]) => {
+    if (imgs.length === 0) {
+      formInstance.setFieldsValue({ photoList: [] });
+      return;
+    }
+    const result: string[] = [];
+    imgs.forEach((item: any) => {
+      if (item.response) {
+        result.push(item.response.data);
+      }
+    });
+    formInstance.setFieldsValue({ photoList: result });
+  };
+
+  const getUserList = () => {
+    setGetUserListLoading(true);
+    HttpRequest({ method: 'get', url: 'user/all/list' })
+      .then((res: any) => {
+        setUserList(res);
+      })
+      .finally(() => {
+        setGetUserListLoading(false);
+      });
+  };
+
+  useEffect(getUserList, []);
 
   return (
     <>
@@ -31,9 +60,10 @@ const CreateNews = (props: any) => {
         createUrl="house/add"
         updateUrl="house/update"
         backPath="/house/list"
+        dateKeys={['transferDate']}
+        type="json"
         data={record}
-        imageList={imageList}
-        onRef={(form: any) => formInstance = form}
+        onRef={(form: any) => (formInstance = form)}
       >
         <Form.Item
           name="title"
@@ -49,7 +79,39 @@ const CreateNews = (props: any) => {
         </Form.Item>
 
         <Form.Item
-          name="title"
+          name="userId"
+          label="用户"
+          rules={[
+            {
+              required: true,
+              message: '请选择用户',
+            },
+          ]}
+        >
+          <Select placeholder="请选择用户" loading={getUserListLoading}>
+            {userList.map((item: any) => (
+              <Select.Option value={item.value} key={item.value}>
+                {item.text}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="ownerName"
+          label="业主姓名"
+          rules={[
+            {
+              required: true,
+              message: '请输入业主姓名',
+            },
+          ]}
+        >
+          <Input placeholder="请输入业主姓名" maxLength={30} />
+        </Form.Item>
+
+        <Form.Item
+          name="roomNo"
           label="房号"
           rules={[
             {
@@ -156,8 +218,9 @@ const CreateNews = (props: any) => {
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
+
         <Form.Item
-          name="address"
+          name="nationalCity"
           label="国家城市"
           rules={[
             {
@@ -167,18 +230,6 @@ const CreateNews = (props: any) => {
           ]}
         >
           <Input placeholder="请输入国家城市" maxLength={50} />
-        </Form.Item>
-        <Form.Item
-          name="transferDate"
-          label="过户日期"
-          rules={[
-            {
-              required: true,
-              message: '请选择过户日期',
-            },
-          ]}
-        >
-          <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
         <Form.Item
@@ -207,13 +258,10 @@ const CreateNews = (props: any) => {
           <Uploader
             action="file/upload"
             data={{ fileType: 'FLOOR_PLAN' }}
-            imgSrc={imgSrc}
-
-            name="file"
+            defaultFile={record?.floorPlan}
             onChange={handleChange}
           />
         </Form.Item>
-
 
         <Form.Item
           name="photoList"
@@ -228,10 +276,9 @@ const CreateNews = (props: any) => {
           <Uploader
             action="file/upload"
             data={{ fileType: 'HOUSE_PHOTOS' }}
-            imgSrc={imgSrc}
-            name="file"
+            defaultFile={record?.photoList}
             maxLength={6}
-            onChange={handleChange}
+            onChange={handleHousePhotoChange}
           />
         </Form.Item>
 
@@ -245,7 +292,7 @@ const CreateNews = (props: any) => {
             },
           ]}
         >
-          <Guid onFormChange={handleGuidChange} />
+          <Guid onFormChange={handleGuidChange} defaultData={record?.ownerGuideList} />
         </Form.Item>
       </FormPage>
     </>

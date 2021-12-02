@@ -14,7 +14,7 @@ const getUserInfo = () => {
   if (userInfo) {
     return JSON.parse(userInfo);
   }
-  return {}
+  return {};
 };
 
 const userInfo = getUserInfo();
@@ -50,10 +50,14 @@ const GlobalHeaderRight: React.FC = () => {
   const handleUpdateAvatar = () => {
     setAvatarVisible(true);
   };
-  const handleAvatarChange = (imgSrc: string) => {
-    message.success('修改成功');
-    setAvatarVisible(false);
-    setAvatar(imgSrc);
+  const handleAvatarChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      message.success('修改成功');
+      setAvatarVisible(false);
+      setAvatar(img);
+    }
   };
 
   const handleUpdateUserIfno = () => {
@@ -157,8 +161,7 @@ const GlobalHeaderRight: React.FC = () => {
             <Uploader
               action="admin/users/avatar"
               data={{ fileType: 'AVATAR' }}
-              imgSrc={avatar}
-              name="file"
+              defaultFile={avatar}
               onChange={handleAvatarChange}
             />
           </Form.Item>
