@@ -20,6 +20,10 @@ const checkRoutes = (routes: any) => {
 }
 checkRoutes(routes)
 
+const getCurrentPath = () => {
+  const path = location.pathname.split('/')
+  return `/${path[1]}`
+}
 
 class LayoutMain extends React.Component {
   state = {
@@ -54,7 +58,7 @@ class LayoutMain extends React.Component {
             paddingTop: 70,
             left: 0
           }}>
-            <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
+            <Menu theme="dark" defaultSelectedKeys={[getCurrentPath()]} mode="inline">
               {routes.map((item : any) => !item.hideInMenu
                 ? <Menu.Item key={item.path} icon={<Icon name={item.icon} />} onClick={() => history.push(item.path)}>
                     {item.name}

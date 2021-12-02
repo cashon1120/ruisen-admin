@@ -6,7 +6,6 @@ import FormPage from '@/components/FormPage';
 const CreateMenu = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
   const [checked, setChecked] = useState(false);
-  const [disableChecked, setDisableChecked] = useState(false);
   const { menuList, fetchList } = props;
   useEffect(() => {
     if (menuList.length === 0) {
@@ -14,7 +13,6 @@ const CreateMenu = (props: any) => {
     }
     if (record) {
       setChecked(record.isHIdden === 1 ? true : false);
-      setDisableChecked(record.isDisable === 1 ? true : false);
     }
   }, []);
 
@@ -98,9 +96,6 @@ const CreateMenu = (props: any) => {
         </Form.Item>
         <Form.Item name="isDisable" label="是否禁用">
           <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
-        </Form.Item>
-        <Form.Item name="isHIdden" label="是否隐藏">
-          <Switch checked={disableChecked} onChange={(value: boolean) => setDisableChecked(value)} />
         </Form.Item>
       </FormPage>
     </>

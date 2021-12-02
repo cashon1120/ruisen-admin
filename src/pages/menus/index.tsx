@@ -22,12 +22,6 @@ const NewsList = () => {
       key: 'component',
     },
     {
-      title: '是否禁用',
-      dataIndex: 'isDisable',
-      key: 'isDisable',
-      render: (res: number) => (res === 0 ? '否' : '是'),
-    },
-    {
       title: '是否隐藏',
       dataIndex: 'isHidden',
       key: 'isHidden',
