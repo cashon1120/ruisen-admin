@@ -104,12 +104,6 @@ const NewsList = () => {
 
   const searchItems = [
     {
-      label: '搜索内容',
-      name: 'keywords',
-      componentType: 'Input',
-      placeholder: '请输入搜索内容',
-    },
-    {
       label: '名称',
       name: 'name',
       componentType: 'Input',
@@ -129,6 +123,7 @@ const NewsList = () => {
       componentType: 'RangePicker',
       allowClear: true,
     },
+
   ];
 
   return (

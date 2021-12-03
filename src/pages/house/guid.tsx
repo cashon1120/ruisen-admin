@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input, Button } from 'antd';
 import Uploader from '@/components/Upload';
 import { PlusOutlined } from '@ant-design/icons';
@@ -19,7 +19,7 @@ export interface Item {
 let index = 0;
 
 const Guid = (props: IProps) => {
-  const { onFormChange } = props;
+  const { onFormChange, defaultData } = props;
   const [data, setData] = useState<Item[]>([]);
   const handleAddData = () => {
     data.push({
@@ -69,6 +69,13 @@ const Guid = (props: IProps) => {
     setData(res);
   };
 
+  useEffect(() => {
+    console.log(defaultData)
+    if(defaultData){
+      setData(defaultData)
+    }
+  }, [])
+  console.log(data)
   return (
     <>
       <Button onClick={handleAddData}>
@@ -79,7 +86,7 @@ const Guid = (props: IProps) => {
         <div key={item.id} className={styles.list}>
           <div>
             <label>标题</label>
-            <Input placeholder="请输入标题" onChange={(e: any) => handleTitleChange(e, item.id)} />
+            <Input defaultValue={item.title} placeholder="请输入标题" onChange={(e: any) => handleTitleChange(e, item.id)} />
           </div>
           <div>
             <label>图标</label>
@@ -93,6 +100,7 @@ const Guid = (props: IProps) => {
           <div>
             <label>描述</label>
             <Input.TextArea
+              defaultValue={item.description}
               placeholder="请输入描述"
               onChange={(e: any) => handleDescChange(e, item.id)}
             />

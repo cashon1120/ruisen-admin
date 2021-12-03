@@ -55,12 +55,6 @@ const NewsList = () => {
 
   const searchItems = [
     {
-      label: '关键词',
-      name: 'keywords',
-      componentType: 'Input',
-      placeholder: '请输入搜索关键词',
-    },
-    {
       label: '姓名',
       name: 'name',
       componentType: 'Input',

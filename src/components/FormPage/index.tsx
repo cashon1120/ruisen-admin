@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Form, message, Button } from 'antd';
-import dayjs from 'dayjs';
+import moment from 'moment'
 import { history } from 'umi';
 import Wrapper from '@/components/Wrapper/Index';
 import HttpRequest from '@/utils/request';
@@ -91,7 +91,7 @@ const FormPage = (props: IProps) => {
         value = data[key].toString();
       }
       if (dateKeys?.includes(key)) {
-        value = dayjs(value);
+        value = moment(value);
       }
       form.setFieldsValue({ [key]: value });
     });
@@ -109,7 +109,7 @@ const FormPage = (props: IProps) => {
         <Form
           {...formItemLayout}
           form={form}
-          name="register"
+          name="form"
           onFinish={onFinish}
           initialValues={initialValues}
           scrollToFirstError

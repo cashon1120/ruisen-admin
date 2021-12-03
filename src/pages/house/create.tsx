@@ -33,6 +33,8 @@ const CreateHouse = (props: any) => {
     imgs.forEach((item: any) => {
       if (item.response) {
         result.push(item.response.data);
+      }else{
+        result.push(item.url)
       }
     });
     formInstance.setFieldsValue({ photoList: result });
@@ -54,6 +56,7 @@ const CreateHouse = (props: any) => {
         dateKeys={['transferDate']}
         type="json"
         data={record}
+        initialValues={{record}}
         onRef={(form: any) => (formInstance = form)}
       >
         <Form.Item
@@ -207,7 +210,7 @@ const CreateHouse = (props: any) => {
             },
           ]}
         >
-          <DatePicker format="YYYY-MM-DD" />
+          <DatePicker />
         </Form.Item>
 
         <Form.Item
@@ -260,7 +263,7 @@ const CreateHouse = (props: any) => {
           rules={[
             {
               required: true,
-              message: '请输上传户型图!',
+              message: '请输上传房产照片!',
             },
           ]}
         >

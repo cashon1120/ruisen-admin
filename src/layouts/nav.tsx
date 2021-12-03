@@ -63,14 +63,15 @@ const Nav = () => {
   return <>
     { loading ? <Loading/> : null }
     <Menu theme = "dark" defaultSelectedKeys = {[getCurrentPath()]}mode = "inline" >
-      {renderMenus(menu)}
+      {/* {renderMenus(menu)} */}
 
-    {/* {routes.map((item : any) => !item.hideInMenu
+    {routes.map((item : any) => !item.hideInMenu
         ? <Menu.Item key={item.path} icon={<Icon name={item.icon} />} onClick={() => history.push(item.path)}>
             {item.name}
           </Menu.Item>
-        : null)} */
-  } </Menu>
+        : null)
+    }
+  </Menu>
   </>
 }
 

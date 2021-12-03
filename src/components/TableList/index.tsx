@@ -290,7 +290,6 @@ class TableList extends React.Component<TableProps, TableListState> {
           <div className={`${styles.tableContainer} tableContainer`} ref="tableWrapper">
             <div className={`${styles.table_wrapper_expend} table_wrapper_expand`}>
               <Table
-                expandable={expandable || null}
                 className={className}
                 dataSource={data || []}
                 scroll={{x: scrollWidth}}

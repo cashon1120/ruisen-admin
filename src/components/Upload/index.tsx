@@ -45,6 +45,14 @@ const Uploader = (props: IProps) => {
           url: defaultFile,
         });
       } else {
+        defaultFile.forEach((item: string) => {
+          fileList.push({
+            udi: index++,
+            name: item,
+            status: 'done',
+            url: item,
+          })
+        })
       }
       setFileList(fileList);
     }

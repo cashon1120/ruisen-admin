@@ -147,6 +147,10 @@ const CreateToDo = (props: any) => {
             onChange={handleReceiptChange}
           />
         </Form.Item>
+
+        <Form.Item name="description" label="描述信息">
+          <Input.TextArea placeholder="请输入描述信息" />
+        </Form.Item>
       </FormPage>
     </>
   );

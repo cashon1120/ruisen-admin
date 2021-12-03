@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import TablePage, { RefFunctions } from '@/components/TablePage';
+import TablePage from '@/components/TablePage';
 import { history } from 'umi';
 import Loading from '@/components/Loading';
 import ImagePreview from '@/components/ImagePreview';
-import { Button, Popconfirm, Switch, message } from 'antd';
+import { Button, Switch, message } from 'antd';
 import HttpRequest from '@/utils/request';
 
 export const houseStatus = {
@@ -31,7 +31,6 @@ export const houseEnable = {
   2: '禁用',
 };
 
-let tableRef: RefFunctions = {} as RefFunctions;
 
 const HouseList = () => {
   const [loading, setLoading] = useState(false);
@@ -56,104 +55,103 @@ const HouseList = () => {
       title: '标题',
       dataIndex: 'title',
       key: 'title',
-      with: 180,
     },
 
     {
       title: '业主姓名',
       dataIndex: 'ownerName',
       key: 'ownerName',
-      with: 180,
     },
     {
       title: '用户手机号码',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
-      with: 180,
     },
     {
       title: '地址',
       dataIndex: 'address',
       key: 'address',
-      with: 180,
     },
     {
       title: '面积',
       dataIndex: 'area',
+      width: 120,
       key: 'area',
-      with: 180,
     },
     {
       title: '认证状态',
       dataIndex: 'authenticationStatus',
       key: 'authenticationStatus',
-      with: 180,
+      width: 120,
       render: (text: string) => authenticationStatus[text],
     },
     {
       title: '开发商',
       dataIndex: 'developer',
       key: 'developer',
-      with: 180,
     },
     {
       title: '户型图',
       dataIndex: 'floorPlan',
       key: 'floorPlan',
       render: (res: string) => <ImagePreview imgSrc={res} />,
-      with: 180,
+      width: 180,
+    },
+    {
+      title: '房产照片',
+      dataIndex: 'photoList',
+      key: 'photoList',
+      width: 380,
+      render: (photoList: string[]) => <div>{photoList.map((item: string, index: number) => <ImagePreview key={index} imgSrc={item} />)}</div>,
     },
     {
       title: '房号',
       dataIndex: 'roomNo',
+      width: 120,
       key: 'roomNo',
-      with: 180,
     },
     {
       title: '过户日期',
       dataIndex: 'transferDate',
       key: 'transferDate',
-      with: 260,
     },
     {
       title: '类型',
       dataIndex: 'type',
       key: 'type',
+      width: 120,
       render: (type: string) => houseType[type],
-      with: 180,
     },
     {
       title: '房产状态',
       dataIndex: 'houseStatus',
       key: 'houseStatus',
+      width: 120,
       render: (res: string) => houseStatus[res],
-      with: 180,
     },
 
     {
       title: '修改时间',
       dataIndex: 'updateTime',
       key: 'updateTime',
-      with: 180,
     },
     {
       title: '添加时间',
       dataIndex: 'createTime',
       key: 'createTime',
-      with: 180,
     },
     {
       title: '是否启用',
       dataIndex: 'enable',
+      width: 120,
       key: 'enable',
       render: (enable: number, record: any) => (
         <Switch
           defaultChecked={enable === 1 ? true : false}
-          disabled={!record.id}
+          disabled={loading}
           onChange={(value: boolean) => handleChangeDisableState(value, record)}
         />
       ),
-      with: 180,
     },
     {
       title: '操作',
@@ -180,11 +178,36 @@ const HouseList = () => {
       componentType: 'Input',
       placeholder: '请输入标题',
     },
+    // {
+    //   label: '搜索内容',
+    //   name: 'keywords',
+    //   componentType: 'Input',
+    //   placeholder: '请输入搜索内容',
+    // },
     {
       label: '业主姓名',
       name: 'ownerName',
       componentType: 'Input',
       placeholder: '请输入业主姓名',
+    },
+    {
+      label: '手机号码',
+      name: 'phoneNumber',
+      componentType: 'Input',
+      placeholder: '请输入手机号码',
+    },
+    {
+      label: '类型',
+      name: 'type',
+      componentType: 'Select',
+      placeholder: '请选择类型',
+      allowClear: true,
+      dataList: Object.keys(houseType).map((key: string) => {
+        return {
+          label: houseType[key],
+          value: key,
+        };
+      }),
     },
     {
       label: '房产状态',
@@ -212,12 +235,7 @@ const HouseList = () => {
         };
       }),
     },
-    {
-      label: '手机号码',
-      name: 'phoneNumber',
-      componentType: 'Input',
-      placeholder: '请输入手机号码',
-    },
+
     {
       label: '时间段',
       name: 'rangeTime',
@@ -235,8 +253,8 @@ const HouseList = () => {
         searchItems={searchItems}
         url="house/list"
         addPath="/house/create"
-        scrollWidth={2500}
-        onRef={(ref: any) => (tableRef = ref)}
+        rowKey="id"
+        scrollWidth={3500}
       />
     </>
   );

@@ -14,7 +14,7 @@ const ImagePreview = (props: IProps) => {
   }
   return (
     <>
-      <img src={imgSrc} style={{ height: 50 }} onClick={handleTriggerVisible} onError={handleError} />
+      <img src={imgSrc} title="点击放大" style={{ height: 50, cursor: 'pointer', marginRight: 5 }} onClick={handleTriggerVisible} onError={handleError} />
       <Modal
         footer={[]}
         title="图片预览"

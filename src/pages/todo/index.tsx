@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
+import { connect } from 'dva';
 import { history } from 'umi';
 import { Button, Popconfirm } from 'antd';
 
@@ -10,7 +12,9 @@ export const state = {
   3: '已缴费',
 };
 
-const NewsList = () => {
+const ToDoList = (props: any) => {
+  const { houseList,  fetchList} = props;
+
   const columns = [
     {
       title: '标题',
@@ -103,8 +107,8 @@ const NewsList = () => {
 
   const searchItems = [
     {
-      label: '搜索内容',
-      name: 'keywords',
+      label: '标题',
+      name: 'title',
       componentType: 'Input',
       placeholder: '请输入搜索内容',
     },
@@ -119,6 +123,15 @@ const NewsList = () => {
       name: 'houseTitle',
       componentType: 'Input',
       placeholder: '请输入房产标题',
+    },
+    {
+      label: '房产',
+      name: 'houseId',
+      componentType: 'Select',
+      placeholder: '请输入房产标题',
+      allowClear: true,
+      dataList: houseList,
+      dataLabelKey: 'text'
     },
     {
       label: '状态',
@@ -137,7 +150,14 @@ const NewsList = () => {
       componentType: 'RangePicker',
       allowClear: true,
     },
+
   ];
+
+  useEffect(() => {
+    if(houseList.length === 0){
+      fetchList()
+    }
+  }, [])
 
   return (
     <>
@@ -155,4 +175,22 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+
+const mapStateToProps = (state: any) => {
+  return {
+    houseList: state.global.houseList,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getHouseList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+

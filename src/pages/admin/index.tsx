@@ -131,12 +131,6 @@ const AdminList = (props: any) => {
 
   const searchItems = [
     {
-      label: '关键字',
-      name: 'keywords',
-      componentType: 'Input',
-      placeholder: '请输入搜索关键字',
-    },
-    {
       label: '时间段',
       name: 'rangeTime',
       componentType: 'RangePicker',
