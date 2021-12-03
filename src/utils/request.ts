@@ -8,9 +8,7 @@ interface IPramars {
   params?: any;
   type?: 'json' | 'formData';
 }
-
-// export const URL = 'http://162.14.73.204:8081/';
-export const URL = '/api/';
+export const URL = process?.env?.NODE_ENV === 'development' ? '/api/' : 'http://162.14.73.204:8081/';
 const HttpRequest = function (options: IPramars) {
   let { url, method, params, type } = options;
   method = method || 'post';
