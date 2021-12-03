@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, Input, InputNumber, Select, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
-import { houseStatus, houseType, authenticationStatus } from './index';
+import { houseStatus, houseType, authenticationStatus } from '@/utils/enum';
 import { connect } from 'dva';
 import Guid, { Item } from './guid';
 

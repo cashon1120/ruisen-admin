@@ -10,6 +10,7 @@ import {
   ProfileOutlined,
   SnippetsOutlined,
   CommentOutlined,
+  DollarOutlined,
 } from '@ant-design/icons';
 
 interface Props {
@@ -23,7 +24,7 @@ const Icon = (props: Props) => {
     case 'home':
       icon = <HomeOutlined />;
       break;
-    case 'houes':
+    case 'house':
       icon = <FlagOutlined />;
       break;
     case 'news':
@@ -52,6 +53,9 @@ const Icon = (props: Props) => {
       break;
     case 'service':
       icon = <CommentOutlined />;
+      break;
+    case 'order':
+      icon = <DollarOutlined />;
       break;
     default:
   }

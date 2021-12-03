@@ -7,7 +7,7 @@
   },
   {
     name: '房产管理',
-    icon: 'houes',
+    icon: 'house',
     path: '/house',
     component: './house/index',
   },
@@ -32,7 +32,7 @@
   {
     name: '用户管理',
     icon: 'user',
-    path: '/userList',
+    path: '/user',
     component: './userList/index',
   },
   {
@@ -60,6 +60,12 @@
     component: './admin/index',
   },
   {
+    name: '订单管理',
+    icon: 'order',
+    path: '/order',
+    component: './order/index',
+  },
+  {
     name: '添加账号',
     path: '/admin/create',
     component: './admin/create',
@@ -68,12 +74,12 @@
   {
     name: '资源管理',
     icon: 'crown',
-    path: '/resource',
+    path: '/resources',
     component: './resource/index',
   },
   {
     name: '添加资源',
-    path: '/resource/create',
+    path: '/resources/create',
     component: './resource/create',
     hideInMenu: true,
   },
@@ -86,13 +92,13 @@
   },
   {
     name: '角色管理',
-    icon: 'role',
-    path: '/role',
+    icon: 'roles',
+    path: '/roles',
     component: './role/index',
   },
   {
     name: '添加角色',
-    path: '/role/create',
+    path: '/roles/create',
     component: './role/create',
     hideInMenu: true,
   },
@@ -111,7 +117,7 @@
   {
     name: '系统日志',
     icon: 'logs',
-    path: '/logs',
+    path: '/operation/log',
     component: './logs/index',
   },
 ];
