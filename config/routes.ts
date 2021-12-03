@@ -36,10 +36,28 @@
     component: './userList/index',
   },
   {
+    name: '管家服务',
+    icon: 'user',
+    path: '/service',
+    component: './service/index',
+  },
+  {
+    name: '添加管家',
+    path: '/service/create',
+    component: './service/create',
+    hideInMenu: true,
+  },
+  {
     name: '资源管理',
     icon: 'crown',
     path: '/resource',
     component: './resource/index',
+  },
+  {
+    name: '待办事项',
+    icon: 'diff',
+    path: '/todo',
+    component: './todo/index',
   },
   {
     name: '添加资源',
@@ -58,12 +76,6 @@
     path: '/admin/create',
     component: './admin/create',
     hideInMenu: true,
-  },
-  {
-    name: '待办事项',
-    icon: 'diff',
-    path: '/todo',
-    component: './todo/index',
   },
   {
     name: '添加事项',
