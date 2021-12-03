@@ -24,16 +24,9 @@ const CreateMenu = (props: any) => {
         updateUrl="/admin/menus"
         backPath="/menus"
         type="json"
+        initialValues={{component: '/'}}
         data={record}
       >
-        <Form.Item name="parentId" label="上级菜单">
-          <TreeSelect
-            allowClear
-            showSearch
-            treeData={menuList}
-            fieldNames={{ label: 'name', value: 'id' }}
-          />
-        </Form.Item>
         <Form.Item
           name="name"
           label="菜单名"
@@ -47,6 +40,7 @@ const CreateMenu = (props: any) => {
           <Input placeholder="请输入菜单名" />
         </Form.Item>
         <Form.Item
+          style={{display: 'none'}}
           name="component"
           label="组件"
           rules={[
@@ -56,7 +50,7 @@ const CreateMenu = (props: any) => {
             },
           ]}
         >
-          <Input placeholder="请输入组件地址" />
+          <Input defaultValue="不填, 用不上" placeholder="请输入组件地址" />
         </Form.Item>
         <Form.Item
           name="path"
@@ -94,9 +88,21 @@ const CreateMenu = (props: any) => {
         >
           <InputNumber placeholder="请输入排序数字" />
         </Form.Item>
+
+        <Form.Item name="parentId" label="上级菜单">
+          <TreeSelect
+            allowClear
+            showSearch
+            placeholder="若为一级菜单就不选择"
+            treeData={menuList}
+            fieldNames={{ label: 'name', value: 'id' }}
+          />
+        </Form.Item>
+
         <Form.Item name="isDisable" label="是否禁用">
           <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
         </Form.Item>
+
       </FormPage>
     </>
   );

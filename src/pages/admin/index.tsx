@@ -41,7 +41,7 @@ const AdminList = (props: any) => {
       method: 'put',
       url: 'admin/users/role',
       params: {
-        adminUserInfoId: currentData.id,
+        adminUserInfoId: currentData.adminUserInfoId,
         ...values,
       },
     })
@@ -56,6 +56,11 @@ const AdminList = (props: any) => {
   };
 
   const columns = [
+    {
+      title: '用户名',
+      dataIndex: 'username',
+      key: 'username',
+    },
     {
       title: '昵称',
       dataIndex: 'nickname',

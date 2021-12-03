@@ -9,6 +9,7 @@ import {
   LockOutlined,
   ProfileOutlined,
   SnippetsOutlined,
+  CommentOutlined,
 } from '@ant-design/icons';
 
 interface Props {
@@ -22,10 +23,10 @@ const Icon = (props: Props) => {
     case 'home':
       icon = <HomeOutlined />;
       break;
-    case 'flag':
+    case 'houes':
       icon = <FlagOutlined />;
       break;
-    case 'notification':
+    case 'news':
       icon = <NotificationOutlined />;
       break;
     case 'user':
@@ -34,23 +35,25 @@ const Icon = (props: Props) => {
     case 'crown':
       icon = <CrownOutlined />;
       break;
-    case 'diff':
+    case 'todo':
       icon = <DiffOutlined />;
       break;
-    case 'team':
+    case 'admin':
       icon = <TeamOutlined />;
       break;
-    case 'lock':
+    case 'role':
       icon = <LockOutlined />;
       break;
-    case 'profile':
+    case 'menus':
       icon = <ProfileOutlined />;
       break;
-    case 'snippets':
+    case 'logs':
       icon = <SnippetsOutlined />;
       break;
+    case 'service':
+      icon = <CommentOutlined />;
+      break;
     default:
-      icon = <UserOutlined />;
   }
   return <>{icon}</>;
 };

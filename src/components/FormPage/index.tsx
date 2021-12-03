@@ -43,10 +43,11 @@ interface IProps {
   type?: 'json' | 'formData';
   formatValue?: (values: any) => any;
   onRef?: (form: any) => void;
+  initialValues?: any
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys } = props;
+  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys, initialValues } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
@@ -110,6 +111,7 @@ const FormPage = (props: IProps) => {
           form={form}
           name="register"
           onFinish={onFinish}
+          initialValues={initialValues}
           scrollToFirstError
         >
           {props.children}

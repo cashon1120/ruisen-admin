@@ -17,11 +17,6 @@ const NewsList = () => {
       key: 'path',
     },
     {
-      title: '组件',
-      dataIndex: 'component',
-      key: 'component',
-    },
-    {
       title: '是否隐藏',
       dataIndex: 'isHidden',
       key: 'isHidden',
@@ -52,7 +47,10 @@ const NewsList = () => {
           <Popconfirm
             placement="topLeft"
             title="确定要删除该数据吗？"
-            onConfirm={() => tableRef.deleteData({ data: { id: record.id }, method: 'post' })}
+            onConfirm={() => tableRef.deleteData({
+              data: { id: record.id },
+              queryParams: record.id,
+              method: 'delete' })}
           >
             <Button size="small" type="default" className="tab-btn">
               删除
@@ -78,15 +76,26 @@ const NewsList = () => {
     },
   ];
 
+  // 清空 children 为空的字段
+  const handleFormatData = (data: any) => {
+    data.forEach((item: any) => {
+      if(item.children && item.children.length === 0){
+        delete item.children
+      }
+    })
+    return data
+  }
+
   return (
     <>
       <TablePage
-        title="资讯列表"
+        title="菜单列表"
         columns={columns}
         searchItems={searchItems}
         url="admin/menus"
         deleteUrl="admin/menus"
         addPath="/menus/create"
+        formatData={handleFormatData}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

@@ -88,7 +88,7 @@ const GlobalHeaderRight: React.FC = () => {
     location.href = '/login';
   };
   const menu = (
-    <Menu style={{ marginTop: 10 }}>
+    <Menu>
       <Menu.Item key="password" onClick={() => setVisible(true)}>
         修改密码
       </Menu.Item>
@@ -108,10 +108,12 @@ const GlobalHeaderRight: React.FC = () => {
     <Space>
       {/* <Dropdown overlay={menu}> */}
       <Dropdown overlay={menu}>
-        <a onClick={(e) => e.preventDefault()}>
+        <a onClick={(e) => e.preventDefault()} className={styles.userWrapper}>
           {userInfo.id ? (
             <>
-              <img className={styles.avatar} src={avatar} />
+              <div className={styles.avatarWrapper}>
+                <img className={styles.avatar} src={avatar} />
+              </div>
               {userInfo.nickname}
             </>
           ) : (

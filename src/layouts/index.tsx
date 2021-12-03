@@ -1,38 +1,22 @@
 import React from 'react'
-import {Layout, Menu, ConfigProvider} from 'antd';
-import {history} from 'umi'
+import {Layout, ConfigProvider} from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import RightContent from '@/components/RightContent'
-import Icon from './icon'
-import routes from '../../config/routes'
 import styles from './index.less'
+import Nav from './nav'
+
 const {Header, Content, Sider} = Layout;
-
-const checkRoutes = (routes: any) => {
-  const obj = {}
-  routes.forEach((item: any) => {
-    if(obj[item.path]){
-      console.log(`${item.path} 重复`)
-      return
-    }
-    obj[item.path] = item
-  })
-}
-checkRoutes(routes)
-
-const getCurrentPath = () => {
-  const path = location.pathname.split('/')
-  return `/${path[1]}`
-}
-
 class LayoutMain extends React.Component {
   state = {
     collapsed: false,
   };
 
+
+
   onCollapse = (collapsed : any) => {
     this.setState({collapsed});
   };
+
   render() {
     return (
       <ConfigProvider locale={zhCN}>
@@ -58,13 +42,7 @@ class LayoutMain extends React.Component {
             paddingTop: 70,
             left: 0
           }}>
-            <Menu theme="dark" defaultSelectedKeys={[getCurrentPath()]} mode="inline">
-              {routes.map((item : any) => !item.hideInMenu
-                ? <Menu.Item key={item.path} icon={<Icon name={item.icon} />} onClick={() => history.push(item.path)}>
-                    {item.name}
-                  </Menu.Item>
-                : null)}
-            </Menu>
+            <Nav />
           </Sider>
           <Layout
             className="site-layout"

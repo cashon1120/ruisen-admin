@@ -602,7 +602,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                   </Button>
                 )}
                 {addPath ? (
-                  <Button type="default" onClick={() => history.push(addPath)}>
+                  <Button type="default" icon={<PlusOutlined />} onClick={() => history.push(addPath)}>
                     新增
                   </Button>
                 ) : null}

@@ -7,7 +7,7 @@
   },
   {
     name: '房产管理',
-    icon: 'flag',
+    icon: 'houes',
     path: '/house',
     component: './house/index',
   },
@@ -19,7 +19,7 @@
   },
   {
     name: '资讯管理',
-    icon: 'notification',
+    icon: 'news',
     path: '/news',
     component: './news/index',
   },
@@ -37,7 +37,7 @@
   },
   {
     name: '管家服务',
-    icon: 'user',
+    icon: 'service',
     path: '/service',
     component: './service/index',
   },
@@ -48,26 +48,14 @@
     hideInMenu: true,
   },
   {
-    name: '资源管理',
-    icon: 'crown',
-    path: '/resource',
-    component: './resource/index',
-  },
-  {
     name: '待办事项',
-    icon: 'diff',
+    icon: 'todo',
     path: '/todo',
     component: './todo/index',
   },
   {
-    name: '添加资源',
-    path: '/resource/create',
-    component: './resource/create',
-    hideInMenu: true,
-  },
-  {
     name: '账号管理',
-    icon: 'team',
+    icon: 'admin',
     path: '/admin',
     component: './admin/index',
   },
@@ -78,6 +66,19 @@
     hideInMenu: true,
   },
   {
+    name: '资源管理',
+    icon: 'crown',
+    path: '/resource',
+    component: './resource/index',
+  },
+  {
+    name: '添加资源',
+    path: '/resource/create',
+    component: './resource/create',
+    hideInMenu: true,
+  },
+
+  {
     name: '添加事项',
     path: '/todo/create',
     component: './todo/create',
@@ -85,7 +86,7 @@
   },
   {
     name: '角色管理',
-    icon: 'lock',
+    icon: 'role',
     path: '/role',
     component: './role/index',
   },
@@ -97,7 +98,7 @@
   },
   {
     name: '菜单管理',
-    icon: 'profile',
+    icon: 'menus',
     path: '/menus',
     component: './menus/index',
   },
@@ -109,7 +110,7 @@
   },
   {
     name: '系统日志',
-    icon: 'snippets',
+    icon: 'logs',
     path: '/logs',
     component: './logs/index',
   },

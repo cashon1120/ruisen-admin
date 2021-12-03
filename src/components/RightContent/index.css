@@ -1,6 +1,18 @@
-.avatar {
-  width: 36px;
-  height: 36px;
+.userWrapper {
+  display: flex;
+  align-items: center;
+}
+.avatarWrapper {
   border-radius: 100%;
   margin-right: 5px;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+}
+.avatar {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
 }
