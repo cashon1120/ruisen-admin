@@ -11,6 +11,7 @@ import {
   SnippetsOutlined,
   CommentOutlined,
   DollarOutlined,
+  SettingOutlined 
 } from '@ant-design/icons';
 
 interface Props {
@@ -57,6 +58,9 @@ const Icon = (props: Props) => {
     case 'order':
       icon = <DollarOutlined />;
       break;
+    case 'setting':
+      icon = <SettingOutlined />
+      break
     default:
   }
   return <>{icon}</>;

@@ -94,7 +94,7 @@ const NewsList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/role/create', { record })}
+            onClick={() => history.push('/roles/create', { record })}
           >
             编辑
           </Button>
@@ -135,7 +135,7 @@ const NewsList = () => {
         searchItems={searchItems}
         url="admin/roles"
         deleteUrl="admin/roles"
-        addPath="/role/create"
+        addPath="/roles/create"
         rowKey="id"
         onRef={(ref: any) => (tableRef = ref)}
       />

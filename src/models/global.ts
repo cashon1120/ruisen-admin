@@ -7,7 +7,8 @@ const model: Model = {
     roleList: [],
     userList: [],
     menuList: [],
-    houseList: []
+    houseList: [],
+    resourceList: []
   },
   reducers: {
     updateUserList(state, params: any) {
@@ -24,6 +25,10 @@ const model: Model = {
 
     updateRoleList(state, params: any) {
       return {...state, roleList: params.playload.data}
+    },
+
+    updateResourceList(state, params: any) {
+      return {...state, resourceList: params.playload.data}
     },
   },
   effects: {
@@ -73,6 +78,19 @@ const model: Model = {
       };
       const data = yield call(getData, 'global');
       yield put({ type: 'updateRoleList', playload: {data}});
+    },
+
+    
+    *getResourceList(action, { call, put }) {
+      const getData = () => {
+        return new Promise((resolve) => {
+          HttpRequest({ method: 'get', url: 'admin/resources' }).then((res: any) => {
+            resolve(res.recordList);
+          });
+        });
+      };
+      const data = yield call(getData, 'global');
+      yield put({ type: 'updateResourceList', playload: {data}});
     },
   },
 };

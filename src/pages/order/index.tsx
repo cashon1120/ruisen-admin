@@ -246,10 +246,10 @@ const OrderList = (props: any) => {
       name: 'isEnd',
       componentType: 'Radio',
       dataList: [{
-        label: '是',
+        text: '是',
         value: 1,
       }, {
-        label: '否',
+        text: '否',
         value: 2
       }]
     },
@@ -263,7 +263,6 @@ const OrderList = (props: any) => {
 
   return (
     <>
-      <ProgressList data={[]} />
       {loading ? <Loading /> : null}
       <TablePage
         title="订单管理"

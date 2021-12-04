@@ -94,12 +94,12 @@
     name: '角色管理',
     icon: 'roles',
     path: '/roles',
-    component: './role/index',
+    component: './roles/index',
   },
   {
     name: '添加角色',
     path: '/roles/create',
-    component: './role/create',
+    component: './roles/create',
     hideInMenu: true,
   },
   {
@@ -120,4 +120,5 @@
     path: '/operation/log',
     component: './logs/index',
   },
+  {path: '/404', component: './404' },
 ];

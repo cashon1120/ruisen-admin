@@ -1,55 +1,36 @@
-import { useEffect, useState } from 'react';
-import { Form, Input, TreeSelect, Switch } from 'antd';
+import { useEffect} from 'react';
+import { Form, Input, TreeSelect, Radio } from 'antd';
 import FormPage from '@/components/FormPage';
-import Loading from '@/components/Loading';
-import HttpRequest from '@/utils/request';
+import { connect } from 'dva';
 
-const CreateNews = (props: any) => {
-  const [menuList, setmenuList] = useState([]);
-  const [sourceList, setSourceList] = useState([]);
-  const [loading, setLoading] = useState(false);
+const CreateRoles = (props: any) => {
+  const { menuList,  getMenuList, resourceList, getResourceList} = props;
   const record = props.location.state ? props.location.state.record : null;
 
-  const getRoleList = () => {
-    setLoading(true);
-    HttpRequest({ method: 'get', url: 'admin/menus', params: { size: 1000, current: 1 } }).then(
-      (res: any) => {
-        setmenuList(res.recordList);
-      },
-    );
-  };
-
-  const getSourceList = () => {
-    HttpRequest({ method: 'get', url: 'admin/resources', params: { size: 1000, current: 1 } })
-      .then((res: any) => {
-        setSourceList(res.recordList);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
-    getRoleList();
-    getSourceList();
+    if(menuList.length === 0){
+      getMenuList()
+    }
+    if(resourceList.length === 0){
+      getResourceList()
+    }
   }, []);
 
-  const handleFormatValue = (values: any) => {
-    values.isDisable = values.isDisable ? 1 : 0;
-    return values;
-  };
+  const handleFormFormatValue = (values: any) => {
+    values.isDisable = parseInt(values.isDisable)
+    return values
+  }
 
   return (
     <>
-      {loading ? <Loading /> : null}
       <FormPage
         title={record ? '编辑角色' : '添加角色'}
         createUrl="admin/role"
         updateUrl="admin/role"
-        backPath="/role"
+        backPath="/roles"
         type="json"
         data={record}
-        formatValue={handleFormatValue}
+        formatValue={handleFormFormatValue}
       >
         <Form.Item
           name="roleName"
@@ -112,7 +93,7 @@ const CreateNews = (props: any) => {
           <TreeSelect
             style={{ width: '100%' }}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-            treeData={sourceList}
+            treeData={resourceList}
             placeholder="请选择资源"
             treeCheckable
             fieldNames={{ label: 'resourceName', value: 'id' }}
@@ -122,11 +103,38 @@ const CreateNews = (props: any) => {
         </Form.Item>
 
         <Form.Item name="isDisable" label="是否禁用">
-          <Switch defaultChecked={record && record.isDisable ? true : false} />
+          <Radio.Group>
+            <Radio value="1">是</Radio>
+            <Radio value="0">否</Radio>
+          </Radio.Group>
         </Form.Item>
       </FormPage>
     </>
   );
 };
 
-export default CreateNews;
+const mapStateToProps = (state: any) => {
+  return {
+    menuList: state.global.menuList,
+    resourceList: state.global.resourceList,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getMenuList() {
+      dispatch({
+        type: 'global/getMenuList',
+      });
+    },
+    getResourceList() {
+      dispatch({
+        type: 'global/getResourceList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRoles);
+
