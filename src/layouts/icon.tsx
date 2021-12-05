@@ -11,6 +11,7 @@ import {
   SnippetsOutlined,
   CommentOutlined,
   DollarOutlined,
+  MoneyCollectOutlined,
 } from '@ant-design/icons';
 
 interface Props {
@@ -56,6 +57,9 @@ const Icon = (props: Props) => {
       break;
     case 'order':
       icon = <DollarOutlined />;
+      break;
+    case 'income':
+      icon = <MoneyCollectOutlined />;
       break;
     default:
   }

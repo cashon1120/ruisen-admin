@@ -120,4 +120,17 @@
     path: '/operation/log',
     component: './logs/index',
   },
+
+  {
+    name: '租金收益',
+    icon: 'income',
+    path: '/income',
+    component: './income/index',
+  },
+  {
+    name: '添加收益',
+    path: '/income/create',
+    component: './income/create',
+    hideInMenu: true,
+  },
 ];

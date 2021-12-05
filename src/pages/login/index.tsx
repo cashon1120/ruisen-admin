@@ -5,6 +5,7 @@ import HttpRequest from '@/utils/request';
 
 import styles from './index.less';
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [captcha, setCaptch] = useState({
     key: 0,
     data: '',
@@ -12,11 +13,14 @@ const Login = () => {
   const onFinish = (values: any) => {
     values.captchaKey = captcha.key;
     delete values.remember;
-    HttpRequest({ url: 'admin/login', params: values }).then((res: any) => {
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('useInfo', JSON.stringify(res));
-      history.push('/home');
-    });
+    setLoading(true);
+    HttpRequest({ url: 'admin/login', params: values })
+      .then((res: any) => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('useInfo', JSON.stringify(res));
+        history.push('/home');
+      })
+      .finally(() => setLoading(false));
   };
 
   const getCaptcha = () => {
@@ -82,6 +86,7 @@ const Login = () => {
 
           <Form.Item>
             <Button
+              loading={loading}
               style={{ width: '100%' }}
               type="primary"
               htmlType="submit"
