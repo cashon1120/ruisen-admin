@@ -9,7 +9,7 @@ const NoFoundPage: React.FC = () => (
     subTitle="抱歉, 页面不存在"
     extra={
       <Button type="primary" onClick={() => history.push('/home')}>
-        Back Home
+        返回首页
       </Button>
     }
   />

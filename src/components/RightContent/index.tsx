@@ -52,8 +52,13 @@ const GlobalHeaderRight: React.FC = () => {
   };
   const handleAvatarChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
-    if (imgs[0].status === 'done') {
-      const img = imgs[0].response.data;
+    const image = imgs[0]
+    if (image.status === 'done') {
+      if(image.response.code !== 20000){
+         message.error(image.response.message);
+        return
+      }
+      const img = image.response.data;
       message.success('修改成功');
       setAvatarVisible(false);
       setAvatar(img);

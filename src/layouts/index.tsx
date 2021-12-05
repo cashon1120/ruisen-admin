@@ -1,23 +1,37 @@
-import React from 'react'
+import React, {createRef} from 'react'
 import {Layout, ConfigProvider} from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
+import { history } from 'umi';
 import RightContent from '@/components/RightContent'
+import routes from '../../config/routes'
 import styles from './index.less'
 import Nav from './nav'
+import {checkRoutes} from './utils'
 
 const {Header, Content, Sider} = Layout;
 class LayoutMain extends React.Component {
-  state = {
-    collapsed: false,
-  };
-
-
+  routesObj:any = createRef()
+  constructor(props: any){
+    super(props)
+    this.routesObj.current = {}
+    this.routesObj.current.routes = checkRoutes(routes)
+    this.state = {
+      collapsed: false,
+    };
+  }
 
   onCollapse = (collapsed : any) => {
     this.setState({collapsed});
   };
 
+  checkRoute = (path: string) => {
+    if(!this.routesObj.current.routes[path]){
+      history.replace('/404')
+    }
+  }
+
   render() {
+    this.checkRoute(history.location.pathname)
     return (
       <ConfigProvider locale={zhCN}>
         <Layout>
@@ -42,7 +56,7 @@ class LayoutMain extends React.Component {
             paddingTop: 70,
             left: 0
           }}>
-            <Nav />
+            <Nav routesObj={this.routesObj} />
           </Sider>
           <Layout
             className="site-layout"

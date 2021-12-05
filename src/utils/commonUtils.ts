@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import moment from 'moment'
 // 防抖
 export const debouncing = (fn: Function, delay: number) => {
   let timer: any = null
@@ -24,7 +24,7 @@ export const throttle = (fn: Function, delay: number) => {
 }
 
 export const getTimeStrByStamp = (timeStamp: string, format: string) => {
-  const momentTime: any = dayjs(dayjs(parseInt(timeStamp) * 1000).format(format), format)
+  const momentTime: any = moment(moment(parseInt(timeStamp) * 1000).format(format), format)
   if (momentTime._i === 'Invalid date') {
     return false
   }
@@ -32,7 +32,7 @@ export const getTimeStrByStamp = (timeStamp: string, format: string) => {
 }
 
 export const getTimeStrByStampms = (timeStamp: string, format: string) => {
-  const momentTime: any = dayjs(dayjs(parseInt(timeStamp)).format(format), format)
+  const momentTime: any = moment(moment(parseInt(timeStamp)).format(format), format)
   if (momentTime._i === 'Invalid date') {
     return false
   }

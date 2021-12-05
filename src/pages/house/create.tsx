@@ -140,7 +140,7 @@ const CreateHouse = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入面积" min={0} />
+          <InputNumber placeholder="请输入面积" min={0}  style={{width: 150}}/>
         </Form.Item>
 
         <Form.Item

@@ -246,10 +246,10 @@ const OrderList = (props: any) => {
       name: 'isEnd',
       componentType: 'Radio',
       dataList: [{
-        label: '是',
+        text: '是',
         value: 1,
       }, {
-        label: '否',
+        text: '否',
         value: 2
       }]
     },
@@ -263,7 +263,6 @@ const OrderList = (props: any) => {
 
   return (
     <>
-      <ProgressList data={[]} />
       {loading ? <Loading /> : null}
       <TablePage
         title="订单管理"
@@ -290,7 +289,7 @@ const OrderList = (props: any) => {
             label="总价"
             rules={[{ required: true, message: '总价不能为空！' }]}
           >
-            <InputNumber placeholder="请输入总价！" />
+            <InputNumber placeholder="请输入总价！"  style={{width: 150}}/>
           </Form.Item>
 
         </ModalForm>
@@ -317,7 +316,7 @@ const OrderList = (props: any) => {
             label="排序编号"
             rules={[{ required: true, message: '排序编号不能为空！' }]}
           >
-            <InputNumber placeholder="请输入排序编号" />
+            <InputNumber placeholder="请输入排序编号"  style={{width: 150}}/>
           </Form.Item>
 
           <Form.Item

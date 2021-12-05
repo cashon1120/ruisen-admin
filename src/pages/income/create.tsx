@@ -1,71 +1,153 @@
-import { Form, Input } from 'antd';
+import { useEffect } from 'react';
+import { Form, Input, DatePicker, InputNumber, Select } from 'antd';
+import { connect } from 'dva';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 let formInstance: any = null;
-const CreateNews = (props: any) => {
+const CreateIncome = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
+  const { houseList,  fetchList} = props;
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
       const img = imgs[0].response.data;
-      formInstance.setFieldsValue({ image: img });
+      formInstance.setFieldsValue({ leaseContract: img });
     }
   };
+
+  useEffect(() => {
+    if(houseList.length === 0){
+      fetchList()
+    }
+  }, [])
 
   return (
     <>
       <FormPage
-        title={record ? '编辑资讯' : '添加资讯'}
-        createUrl="news/add"
-        updateUrl="news/update"
-        backPath="/news"
+        title={record ? '编辑收益记录' : '添加收益记录'}
+        createUrl="rental/income/add"
+        updateUrl="rental/income/update"
+        backPath="/income"
+        dateKeys={['leaseStartTime', 'leaseEndTime']}
+        type="json"
         data={record}
         onRef={(from: any) => (formInstance = from)}
       >
+
         <Form.Item
-          name="title"
-          label="标题"
+          name="houseId"
+          label="房产"
           rules={[
             {
               required: true,
-              message: '请输入标题',
+              message: '请选择房产!',
             },
           ]}
         >
-          <Input placeholder="请输入标题" />
+          <Select placeholder="请选择房产">
+            {houseList.map((item: any) => (
+              <Select.Option key={item.value} value={item.value}>
+                {item.text}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
-
         <Form.Item
-          name="link"
-          label="链接"
+          name="currency"
+          label="币种"
           rules={[
             {
               required: true,
-              message: '请输入链接!',
-            },
-            {
-              pattern:
-                /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/,
-              message: '请输入正确的网址',
+              message: '请输入币种',
             },
           ]}
         >
-          <Input placeholder="请输入链接 http://" />
+          <Input placeholder="请输入币种" />
         </Form.Item>
 
         <Form.Item
-          name="image"
-          label="图片"
+          name="rental"
+          label="租金"
           rules={[
             {
               required: true,
-              message: '请输上传图片!',
+              message: '请输入币种',
+            },
+          ]}
+        >
+          <InputNumber placeholder="请输入币种" style={{width: 150}} />
+        </Form.Item>
+
+        <Form.Item
+          name="rentalUnit"
+          label="租金单位"
+          rules={[
+            {
+              required: true,
+              message: '请输入租金单位',
+            },
+          ]}
+        >
+          <Input placeholder="请输入租金单位" />
+        </Form.Item>
+
+        <Form.Item
+          name="totalRental"
+          label="总租金"
+          rules={[
+            {
+              required: true,
+              message: '请输入总租金',
+            },
+          ]}
+        >
+          <InputNumber placeholder="请输入总租金" style={{width: 150}} />
+        </Form.Item>
+
+        <Form.Item
+          name="rentalStatus"
+          label="出租状态"
+          rules={[
+            {
+              required: true,
+              message: '请输入出租状态',
+            },
+          ]}
+        >
+          <Input placeholder="请输入出租状态" />
+        </Form.Item>
+
+        <Form.Item name="leaseStartTime" label="租期开始时间" rules={[
+            {
+              required: true,
+              message: '请选择租期开始时间',
+            },
+          ]}>
+          <DatePicker format="YYYY-MM-DD" />
+        </Form.Item>
+
+        <Form.Item name="leaseEndTime" label="租期结束时间" rules={[
+            {
+              required: true,
+              message: '请选择租期结束时间',
+            },
+          ]}>
+          <DatePicker format="YYYY-MM-DD" />
+        </Form.Item>
+
+        <Form.Item
+          name="leaseContract"
+          label="租赁合同"
+          rules={[
+            {
+              required: true,
+              message: '请输上传租赁合同!',
             },
           ]}
         >
           <Uploader
-            data={{ fileType: 'NEWS' }}
-            defaultFile={record?.image}
+            data={{ fileType: 'LEASE_CONTRACT' }}
+            defaultFile={record?.leaseContract}
             onChange={handleChange}
           />
         </Form.Item>
@@ -74,4 +156,21 @@ const CreateNews = (props: any) => {
   );
 };
 
-export default CreateNews;
+const mapStateToProps = (state: any) => {
+  return {
+    houseList: state.global.houseList,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchList() {
+      dispatch({
+        type: 'global/getHouseList',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateIncome);

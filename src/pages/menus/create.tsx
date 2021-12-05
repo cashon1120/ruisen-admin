@@ -86,7 +86,7 @@ const CreateMenu = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入排序数字" />
+          <InputNumber placeholder="请输入排序数字"  style={{width: 150}}/>
         </Form.Item>
 
         <Form.Item name="parentId" label="上级菜单">

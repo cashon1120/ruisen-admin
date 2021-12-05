@@ -1,4 +1,3 @@
-import { useEffect} from 'react';
 import { Form, Input, Radio } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';

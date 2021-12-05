@@ -125,7 +125,7 @@ const CreateToDo = (props: any) => {
         </Form.Item>
 
         <Form.Item name="amount" label="金额">
-          <InputNumber placeholder="请输入金额" />
+          <InputNumber placeholder="请输入金额"  style={{width: 150}}/>
         </Form.Item>
 
         <Form.Item name="payDate" label="缴费日期">

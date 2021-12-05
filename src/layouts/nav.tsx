@@ -1,36 +1,32 @@
-import {useState, useEffect, memo} from 'react'
+import {useState, useEffect, memo, useCallback} from 'react'
 import Icon from './icon'
 import {history} from 'umi'
 import Loading from '@/components/Loading';
 import {Menu} from 'antd';
-import routes from '../../config/routes'
+
 import HttpRequest from '@/utils/request';
+import {arrayMenusToObj} from './utils'
 const {SubMenu} = Menu
 
-const checkRoutes = (routes : any) => {
-  const obj = {}
-  routes.forEach((item : any) => {
-    if (obj[item.path]) {
-      console.log(`${item.path} 重复`)
-      return
-    }
-    obj[item.path] = item
-  })
-}
-checkRoutes(routes)
+
 
 const getCurrentPath = () => {
   const path = location.pathname.split('/')
   return `/${path[1]}`
 }
 
+interface IProps{
+  routesObj: any
+}
 
-const Nav = () => {
+const Nav = (props: IProps) => {
+  const {routesObj} = props
   const [loading, setLoading] = useState(true)
   const [menu, setMenu] = useState([])
 
   useEffect(() => {
     HttpRequest({url: 'admin/user/menus', method: 'get'}).then((res : any) => {
+      routesObj.current.menus = arrayMenusToObj(res)
       setMenu(res)
     }). finally(() => {
       setLoading(false)

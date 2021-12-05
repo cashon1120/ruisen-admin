@@ -14,8 +14,8 @@ const NewsList = () => {
     },
     {
       title: '币种',
-      dataIndex: 'rental',
-      key: 'rental',
+      dataIndex: 'currency',
+      key: 'currency',
     },
     {
       title: '出租状态',
@@ -67,7 +67,7 @@ const NewsList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/news/create', { record })}
+            onClick={() => history.push('/income/create', { record })}
           >
             编辑
           </Button>
