@@ -34,6 +34,7 @@ const CreateNews = (props: any) => {
         data={record}
         type="json"
         onRef={(from: any) => (formInstance = from)}
+        initialValues={{enable: '1'}}
         formatValue={handleFormFormatValue}
       >
         <Form.Item

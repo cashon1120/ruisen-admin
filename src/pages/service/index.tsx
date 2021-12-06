@@ -73,7 +73,7 @@ const NewsList = () => {
       key: 'createTime',
     },
     {
-      title: '是否禁用',
+      title: '是否启用',
       dataIndex: 'enable',
       key: 'enable',
       render: (enable: number, record: any) => (
