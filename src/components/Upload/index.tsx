@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { URL } from '@/utils/request';
+import styles from './index.less';
 interface IProps {
   data: any;
   onChange: (files: any) => void;
   action?: string;
+  colorbg?: boolean;
   defaultFile?: string | string[];
   maxLength?: number;
 }
@@ -16,7 +18,7 @@ const Uploader = (props: IProps) => {
   const [showModal, setShowModal] = useState(false);
   const [fileList, setFileList] = useState<any>([]);
   const [previewImage, setPreviewImage] = useState('');
-  const { onChange, action, data, maxLength, defaultFile } = props;
+  const { onChange, action, data, maxLength, defaultFile, colorbg } = props;
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -51,8 +53,8 @@ const Uploader = (props: IProps) => {
             name: item,
             status: 'done',
             url: item,
-          })
-        })
+          });
+        });
       }
       setFileList(fileList);
     }
@@ -61,7 +63,7 @@ const Uploader = (props: IProps) => {
     <>
       <Upload
         listType="picture-card"
-        className="avatar-uploader"
+        className={colorbg ? styles.colorbg : null}
         onPreview={handlePreview}
         action={`${URL}${action || 'file/upload'}`}
         fileList={fileList}

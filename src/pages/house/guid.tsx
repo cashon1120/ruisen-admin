@@ -70,12 +70,12 @@ const Guid = (props: IProps) => {
   };
 
   useEffect(() => {
-    console.log(defaultData)
-    if(defaultData){
-      setData(defaultData)
+    console.log(defaultData);
+    if (defaultData) {
+      setData(defaultData);
     }
-  }, [])
-  console.log(data)
+  }, []);
+  console.log(data);
   return (
     <>
       <Button onClick={handleAddData}>
@@ -86,16 +86,23 @@ const Guid = (props: IProps) => {
         <div key={item.id} className={styles.list}>
           <div>
             <label>标题</label>
-            <Input defaultValue={item.title} placeholder="请输入标题" onChange={(e: any) => handleTitleChange(e, item.id)} />
+            <Input
+              defaultValue={item.title}
+              placeholder="请输入标题"
+              onChange={(e: any) => handleTitleChange(e, item.id)}
+            />
           </div>
           <div>
             <label>图标</label>
-            <Uploader
-              action="file/upload"
-              data={{ fileType: 'HOUSE_PHOTOS' }}
-              defaultFile={item.icon}
-              onChange={(imgs: any[]) => handleIconChange(imgs, item.id)}
-            />
+            <div>
+              <Uploader
+                action="file/upload"
+                data={{ fileType: 'HOUSE_PHOTOS' }}
+                defaultFile={item.icon}
+                onChange={(imgs: any[]) => handleIconChange(imgs, item.id)}
+              />
+              <span style={{ opacity: 0.6 }}>图片大小: 60*60</span>
+            </div>
           </div>
           <div>
             <label>描述</label>

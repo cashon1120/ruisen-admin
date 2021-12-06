@@ -6,7 +6,6 @@ import ImagePreview from '@/components/ImagePreview';
 import { Button, Switch, message } from 'antd';
 import HttpRequest from '@/utils/request';
 
-
 const NewsList = () => {
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +31,6 @@ const NewsList = () => {
       key: 'name',
     },
     {
-      title: '收费标准',
-      dataIndex: 'chargeStandard',
-      key: 'chargeStandard',
-    },
-    {
       title: '图片',
       dataIndex: 'image',
       key: 'image',
@@ -46,7 +40,7 @@ const NewsList = () => {
       title: 'LOGO',
       dataIndex: 'logo',
       key: 'logo',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor />,
     },
     {
       title: '服务地区',
@@ -67,6 +61,11 @@ const NewsList = () => {
       title: '修改时间',
       dataIndex: 'updateTime',
       key: 'updateTime',
+    },
+    {
+      title: '收费标准',
+      dataIndex: 'chargeStandard',
+      key: 'chargeStandard',
     },
     {
       title: '添加时间',
@@ -114,8 +113,11 @@ const NewsList = () => {
       name: 'enable',
       componentType: 'Select',
       placeholder: '请选择启用状态',
-      dataList: [{label: '启用', value: 1}, {label: '禁用', value: 2}],
-      allowClear: true
+      dataList: [
+        { label: '启用', value: 1 },
+        { label: '禁用', value: 2 },
+      ],
+      allowClear: true,
     },
     {
       label: '时间段',
@@ -123,7 +125,6 @@ const NewsList = () => {
       componentType: 'RangePicker',
       allowClear: true,
     },
-
   ];
 
   return (

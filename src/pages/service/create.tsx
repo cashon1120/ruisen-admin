@@ -19,11 +19,10 @@ const CreateNews = (props: any) => {
     }
   };
 
-
   const handleFormFormatValue = (values: any) => {
-    values.enable = parseInt(values.enable)
-    return values
-  }
+    values.enable = parseInt(values.enable);
+    return values;
+  };
 
   return (
     <>
@@ -60,12 +59,13 @@ const CreateNews = (props: any) => {
             },
           ]}
         >
-          <Input placeholder="请输入服务地区" />
+          <Input placeholder="请输入服务地区, 如中国*成都" />
         </Form.Item>
 
         <Form.Item
           name="image"
           label="图片"
+          extra="页面顶部banner图, 建议大小750*340"
           rules={[
             {
               required: true,
@@ -83,6 +83,7 @@ const CreateNews = (props: any) => {
         <Form.Item
           name="logo"
           label="LOGO"
+          extra="小程序中显示的小图标, 大小70*70, 白色透明png"
           rules={[
             {
               required: true,
@@ -92,39 +93,32 @@ const CreateNews = (props: any) => {
         >
           <Uploader
             data={{ fileType: 'BUTLER_SERVICE_LOGO' }}
+            colorbg
             defaultFile={record?.logo}
             onChange={handleLogoChange}
           />
         </Form.Item>
 
-        <Form.Item
-          name="serviceIntro"
-          label="服务介绍"
-        >
-          <Input placeholder="请输入服务介绍" />
+        <Form.Item name="serviceIntro" label="服务介绍">
+          <Input.TextArea placeholder="请输入服务介绍" />
         </Form.Item>
 
-        <Form.Item
-          name="serviceProcess"
-          label="服务流程"
-        >
-          <Input placeholder="请输入服务流程" />
+        <Form.Item name="serviceProcess" label="服务流程">
+          <Input.TextArea placeholder="请输入服务流程" />
         </Form.Item>
 
-        <Form.Item
-          name="chargeStandard"
-          label="收费标准"
-        >
-          <Input placeholder="请输入收费标准" />
+        <Form.Item name="chargeStandard" label="收费标准">
+          <Input.TextArea placeholder="请输入收费标准" />
         </Form.Item>
 
-      {!record ? <Form.Item name="enable" label="是否启用">
-          <Radio.Group>
-            <Radio value="1">启用</Radio>
-            <Radio value="2">禁用</Radio>
-          </Radio.Group>
-        </Form.Item> : null}
-
+        {!record ? (
+          <Form.Item name="enable" label="是否启用">
+            <Radio.Group>
+              <Radio value="1">启用</Radio>
+              <Radio value="2">禁用</Radio>
+            </Radio.Group>
+          </Form.Item>
+        ) : null}
       </FormPage>
     </>
   );
