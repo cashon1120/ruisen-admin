@@ -16,7 +16,7 @@ const ImagePreview = (props: IProps) => {
   return (
     <>
       <img
-        src={imgSrc}
+        src={imgSrc || '/images/noimg.jpg'}
         title="点击放大"
         style={{
           height: 50,

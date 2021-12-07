@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { Button, Radio, Form, message, Switch, Input, InputNumber } from 'antd';
 import Loading from '@/components/Loading';
@@ -6,7 +6,7 @@ import ModalForm from '@/components/ModalForm';
 import HttpRequest from '@/utils/request';
 import ImagePreview from '@/components/ImagePreview';
 import ProgressList from './progressList';
-import { houseType, authenticationStatus, isEnd} from '@/utils/enum'
+import { houseType, authenticationStatus, isEnd } from '@/utils/enum';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
@@ -15,22 +15,6 @@ const OrderList = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [visiblePrice, setVisiblePrice] = useState(false);
   const [visibleProgress, setVisibleProgress] = useState(false);
-
-  const handleChangeDisableState = (value: boolean, id: number) => {
-    setLoading(true);
-    HttpRequest({
-      method: 'put',
-      url: 'admin/users/disable',
-      type: 'json',
-      params: { id, isDisable: value ? 1 : 0 },
-    })
-      .then(() => {
-        message.success('操作成功');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   const handleUpdatePrice = (record: any) => {
     setCurrentDta(record);
@@ -66,7 +50,7 @@ const OrderList = (props: any) => {
     setLoading(true);
     HttpRequest({
       method: 'post',
-      url: 'order/update/total/price',
+      url: 'order/update/order/service/progress',
       params: {
         id: currentData.id,
         ...values,
@@ -74,7 +58,7 @@ const OrderList = (props: any) => {
     })
       .then(() => {
         message.success('操作成功');
-        setVisiblePrice(false);
+        setVisibleProgress(false);
         tableRef.getData();
       })
       .finally(() => {
@@ -156,7 +140,7 @@ const OrderList = (props: any) => {
       title: '订单服务进度列表',
       dataIndex: 'orderServiceProgressList',
       key: 'orderServiceProgressList',
-      render: () => <a>查看</a>
+      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList} />,
     },
     {
       title: '备注',
@@ -179,27 +163,17 @@ const OrderList = (props: any) => {
       key: 'createTime',
     },
     {
-      title: '是否禁用',
-      dataIndex: 'isDisable',
-      key: 'isDisable',
-      render: (isDisable: boolean, record: any) => (
-        <Switch
-          defaultChecked={isDisable}
-          disabled={!record.id}
-          onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
-        />
-      ),
-    },
-    {
       title: '操作',
-      width: 180,
+      width: 200,
       fixed: 'right',
       render: (record: any) => (
         <>
-          {/* <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
-            编辑
-          </Button> */}
-          <Button size="small" type="primary" onClick={() => handleUpdateProgress(record)}>
+          <Button
+            style={{ marginRight: 15 }}
+            size="small"
+            type="primary"
+            onClick={() => handleUpdateProgress(record)}
+          >
             修改进度
           </Button>
           <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
@@ -245,13 +219,16 @@ const OrderList = (props: any) => {
       label: '是否完结',
       name: 'isEnd',
       componentType: 'Radio',
-      dataList: [{
-        text: '是',
-        value: 1,
-      }, {
-        text: '否',
-        value: 2
-      }]
+      dataList: [
+        {
+          text: '是',
+          value: 1,
+        },
+        {
+          text: '否',
+          value: 2,
+        },
+      ],
     },
     {
       label: '时间段',
@@ -289,13 +266,12 @@ const OrderList = (props: any) => {
             label="总价"
             rules={[{ required: true, message: '总价不能为空！' }]}
           >
-            <InputNumber placeholder="请输入总价！"  style={{width: 150}}/>
+            <InputNumber placeholder="请输入总价！" style={{ width: 150 }} />
           </Form.Item>
-
         </ModalForm>
       ) : null}
 
-    {visibleProgress ? (
+      {visibleProgress ? (
         <ModalForm
           title="修改进度"
           onFinish={handleSubmitTotalProgressModal}
@@ -316,30 +292,23 @@ const OrderList = (props: any) => {
             label="排序编号"
             rules={[{ required: true, message: '排序编号不能为空！' }]}
           >
-            <InputNumber placeholder="请输入排序编号"  style={{width: 150}}/>
+            <InputNumber placeholder="请输入排序编号" style={{ width: 150 }} />
           </Form.Item>
 
-          <Form.Item
-            name="isEnd"
-            label="是否完结"
-          >
+          <Form.Item name="isEnd" label="是否完结">
             <Radio.Group>
-              <Radio value="1" >是</Radio>
-              <Radio value="2" >否</Radio>
+              <Radio value="1">是</Radio>
+              <Radio value="2">否</Radio>
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item
-            name="progressDetail"
-            label="进度详情"
-          >
+          <Form.Item name="progressDetail" label="进度详情">
             <Input placeholder="请输入进度详情" />
           </Form.Item>
-
         </ModalForm>
       ) : null}
     </>
   );
 };
 
-export default OrderList
+export default OrderList;
