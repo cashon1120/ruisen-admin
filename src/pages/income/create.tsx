@@ -71,11 +71,11 @@ const CreateIncome = (props: any) => {
           rules={[
             {
               required: true,
-              message: '请输入币种',
+              message: '请输入租金',
             },
           ]}
         >
-          <InputNumber placeholder="请输入币种" style={{width: 150}} />
+          <InputNumber placeholder="请输入租金" style={{width: 150}} />
         </Form.Item>
 
         <Form.Item

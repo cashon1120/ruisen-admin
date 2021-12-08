@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
-import { Button, Radio, Form, message, Switch, Input, InputNumber } from 'antd';
+import { Button, Radio, Form, message, Input, InputNumber } from 'antd';
 import Loading from '@/components/Loading';
 import ModalForm from '@/components/ModalForm';
 import HttpRequest from '@/utils/request';
@@ -10,7 +10,7 @@ import { houseType, authenticationStatus, isEnd } from '@/utils/enum';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const OrderList = (props: any) => {
+const OrderList = () => {
   const [currentData, setCurrentDta] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [visiblePrice, setVisiblePrice] = useState(false);
