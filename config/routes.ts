@@ -3,7 +3,7 @@
     path: '/home',
     name: '首页',
     icon: 'home',
-    component: './Home',
+    component: './home/index',
   },
   {
     name: '房产管理',

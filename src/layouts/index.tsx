@@ -44,7 +44,7 @@ class LayoutMain extends React.Component {
             padding: 0,
             color: '#fff'
           }}>
-            <div className={styles.logo}>瑞森房管家</div>
+            <div className={styles.logo}>瑞森房管家后台管理系统</div>
             <div className={styles.right}><RightContent/></div>
           </Header>
           <Sider
