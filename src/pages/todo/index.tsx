@@ -18,6 +18,11 @@ const ToDoList = (props: any) => {
 
   const columns = [
     {
+      title: '房产',
+      dataIndex: 'houseTitle',
+      key: 'houseTitle',
+    },
+    {
       title: '标题',
       dataIndex: 'title',
       key: 'title',
@@ -43,11 +48,7 @@ const ToDoList = (props: any) => {
       dataIndex: 'belongsDate',
       key: 'belongsDate',
     },
-    {
-      title: '房产标题',
-      dataIndex: 'houseTitle',
-      key: 'houseTitle',
-    },
+
     {
       title: '缴费日期',
       dataIndex: 'payDate',
@@ -114,6 +115,12 @@ const ToDoList = (props: any) => {
 
   const searchItems = [
     {
+      label: '房产',
+      name: 'houseTitle',
+      componentType: 'Input',
+      placeholder: '请输入房产标题',
+    },
+    {
       label: '标题',
       name: 'title',
       componentType: 'Input',
@@ -124,12 +131,6 @@ const ToDoList = (props: any) => {
       name: 'phoneNumber',
       componentType: 'Input',
       placeholder: '请输入搜索内容',
-    },
-    {
-      label: '房产标题',
-      name: 'houseTitle',
-      componentType: 'Input',
-      placeholder: '请输入房产标题',
     },
     {
       label: '房产',

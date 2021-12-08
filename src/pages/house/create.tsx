@@ -260,6 +260,7 @@ const CreateHouse = (props: any) => {
         <Form.Item
           name="photoList"
           label="房产照片"
+          extra="建议大小：750*740"
           rules={[
             {
               required: true,

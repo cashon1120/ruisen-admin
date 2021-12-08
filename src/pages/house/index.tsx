@@ -27,7 +27,7 @@ const HouseList = () => {
 
   const columns = [
     {
-      title: '标题',
+      title: '房产名',
       dataIndex: 'title',
       key: 'title',
     },
@@ -148,7 +148,7 @@ const HouseList = () => {
 
   const searchItems = [
     {
-      label: '标题',
+      label: '房产名',
       name: 'title',
       componentType: 'Input',
       placeholder: '请输入标题',
