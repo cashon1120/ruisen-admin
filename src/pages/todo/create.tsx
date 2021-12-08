@@ -32,6 +32,7 @@ const CreateToDo = (props: any) => {
     }
   }, [])
 
+
   return (
     <>
       <FormPage
@@ -92,6 +93,7 @@ const CreateToDo = (props: any) => {
         <Form.Item
           name="icon"
           label="图标"
+          extra="小程序中显示的小图标, 建议大小70*70, 白色透明png"
           rules={[
             {
               required: true,
@@ -103,6 +105,7 @@ const CreateToDo = (props: any) => {
             action="file/upload"
             data={{ fileType: 'TO_DO_LIST_ICON' }}
             defaultFile={record?.icon}
+            colorbg
             onChange={handleIconChange}
           />
         </Form.Item>
@@ -118,9 +121,9 @@ const CreateToDo = (props: any) => {
           ]}
         >
           <Select placeholder="请选择状态">
-            <Select.Option value={1}>无缴费信息</Select.Option>
-            <Select.Option value={2}>待缴费</Select.Option>
-            <Select.Option value={3}>已缴费</Select.Option>
+            <Select.Option value="1">无缴费信息</Select.Option>
+            <Select.Option value="2">待缴费</Select.Option>
+            <Select.Option value="3">已缴费</Select.Option>
           </Select>
         </Form.Item>
 

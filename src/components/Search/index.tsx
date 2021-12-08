@@ -7,10 +7,7 @@ import {
   Select,
   DatePicker,
   Checkbox,
-  Divider,
   InputNumber,
-  TreeSelect,
-  TimePicker,
   Switch,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
@@ -266,6 +263,7 @@ class Search extends React.Component<SearchProps, SearchState> {
               style={{ width: item.width }}
               disabled={item.disabled as any}
               placeholder={item.placeholder}
+              allowClear
             />
           );
           break;
@@ -311,62 +309,7 @@ class Search extends React.Component<SearchProps, SearchState> {
             </Radio.Group>
           );
           break;
-        case 'SelectGroup':
-          FormItem = (
-            <Select
-              disabled={item.disabled as any}
-              value={item.defaultValue}
-              placeholder={item.placeholder}
-              maxTagCount={0}
-              allowClear={item.allowClear}
-              style={{
-                width: item.width || 150,
-              }}
-              onChange={(e) => onChange(item, e)}
-            >
-              {item.dataList
-                ? item.dataList.map((group: any, index: number) => (
-                    <Select.OptGroup label={group.label} key={index}>
-                      {group.list.map((list: any) => (
-                        <Select.Option
-                          key={item.dataValueKey ? list[item.dataValueKey] : list.value || list.key}
-                          value={
-                            item.dataValueKey ? list[item.dataValueKey] : list.value || list.key
-                          }
-                        >
-                          {item.dataLabelKey ? list[item.dataLabelKey] : list.label || list.text}
-                        </Select.Option>
-                      ))}
-                    </Select.OptGroup>
-                  ))
-                : null}
-            </Select>
-          );
-          break;
         case 'Select':
-          // 查询车辆优化
-          // if (item.name === 'vehicleId') {
-          //   const options: any = [];
-          //   if (item.dataList) {
-          //     item.dataList.map((item: any) => (
-          //       options.push({
-          //         value: item.ID,
-          //         label: item.NumberPlate,
-          //       })
-          //     ))
-          //   }
-          //   FormItem = (<Select
-          //     placeholder="请选择车辆"
-          //     optionFilterProp="label"
-          //     showSearch={item.showSearch}
-          //     allowClear={item.allowClear}
-          //     onFocus={item.onFocus || null}
-          //     onChange={e => onChange(item, e)}
-          //     style={{ width: item.width || 150 }}
-          //     disabled={item.disabled as any}
-          //     options={options}
-          //   />)
-          // } else {
           FormItem = (
             <Select
               loading={item.loading}
@@ -382,25 +325,6 @@ class Search extends React.Component<SearchProps, SearchState> {
               onChange={(e) => onChange(item, e)}
               onFocus={item.onFocus || null}
               style={{ width: item.width || 150 }}
-              dropdownRender={
-                !item.dropdownRender
-                  ? (menu: any) => (
-                      <div>
-                        {menu}
-                        {item.onLoadMore ? (
-                          <div>
-                            <Divider style={{ margin: '4px 0 2px' }} />
-                            <div className={styles.searchComponentMore}>
-                              <a onClick={item.onLoadMore}>
-                                <PlusOutlined /> 加载更多
-                              </a>
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                    )
-                  : item.dropdownRender
-              }
             >
               {item.dataList
                 ? item.dataList.map((list) => (
@@ -417,26 +341,6 @@ class Search extends React.Component<SearchProps, SearchState> {
           );
           // }
           break;
-        case 'TreeSelect':
-          FormItem = (
-            <TreeSelect
-              style={{ width: item.width || 150 }}
-              dropdownStyle={{ maxHeight: 300, overflow: 'auto' }}
-              treeData={item.dataList}
-              placeholder={item.placeholder}
-              showSearch={item.showSearch}
-              allowClear={item.allowClear}
-              onChange={(e) => onChange(item, e)}
-              treeNodeFilterProp="title"
-              treeDefaultExpandAll
-              treeDataSimpleMode={true}
-              getPopupContainer={(e) => e}
-              notFoundContent={null}
-              open={item.open}
-              onDropdownVisibleChange={(e) => (item.toggleTreeOpen ? item.toggleTreeOpen(e) : null)}
-            />
-          );
-          break;
         case 'DatePicker':
           let datePickerOtherProps: any = {};
           if (item.picker != void 0) {
@@ -448,7 +352,6 @@ class Search extends React.Component<SearchProps, SearchState> {
             <DatePicker
               {...datePickerOtherProps}
               onChange={(e) => onChange(item, e)}
-              // defaultValue={item.defaultValue}
               allowClear={item.allowClear}
               disabledDate={item.disabledDate}
               format={item.dateFormat || dateFormat}
@@ -477,18 +380,6 @@ class Search extends React.Component<SearchProps, SearchState> {
             />
           );
           break;
-        case 'TRangePicker':
-          FormItem = (
-            <TimePicker.RangePicker
-              defaultValue={item.defaultValue}
-              allowClear={item.allowClear}
-              disabled={item.disabled as any}
-              order={item.order}
-              format={item.dateFormat || 'HH:mm:ss'}
-              style={{ width: item.width ? 'auto' : 240 }}
-            />
-          );
-          break;
         case 'Switch':
           FormItem = <Switch disabled={item.disabled as any} checked={item.defaultValue} />;
           break;
@@ -505,27 +396,16 @@ class Search extends React.Component<SearchProps, SearchState> {
         case 'InputNumber':
           FormItem = <InputNumber disabled={item.disabled as any} min={item.min} max={item.max} />;
           break;
-        case 'InputNumbers':
-          FormItem = (
-            <InputNumber
-              disabled={item.disabled as any}
-              min={item.min}
-              max={item.max}
-              formatter={(value) => `${value}`.replace(/[^\d]/, '')}
-            />
-          );
-          break;
         default:
           FormItem = (
             <Input
               disabled={item.disabled as any}
-              placeholder="Username"
-              allowClear={item.allowClear}
+              placeholder="请输入"
+              allowClear
             />
           );
           break;
       }
-      // 设置默认值, 可能为0
       if (item.defaultValue || item.defaultValue === 0) {
         if (item.componentType !== 'CheckBox') {
           if (parseInt(item.defaultValue) === -1) {

@@ -7,8 +7,6 @@ import { Button, Switch, message } from 'antd';
 import HttpRequest from '@/utils/request';
 import {houseStatus, houseType, authenticationStatus} from '@/utils/enum'
 
-
-
 const HouseList = () => {
   const [loading, setLoading] = useState(false);
 

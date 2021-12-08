@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
-import { Button, Radio, Form, message, Input, InputNumber } from 'antd';
+import { Button, Form, message, InputNumber } from 'antd';
 import Loading from '@/components/Loading';
 import ModalForm from '@/components/ModalForm';
 import HttpRequest from '@/utils/request';
 import ImagePreview from '@/components/ImagePreview';
 import ProgressList from './progressList';
 import { houseType, authenticationStatus, isEnd } from '@/utils/enum';
+import CreateProgress from './createProgress'
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
@@ -21,7 +22,7 @@ const OrderList = () => {
     setVisiblePrice(true);
   };
 
-  const handleUpdateProgress = (record: any) => {
+  const handleCreateProgress = (record: any) => {
     setCurrentDta(record);
     setVisibleProgress(true);
   };
@@ -66,6 +67,10 @@ const OrderList = () => {
       });
   };
 
+  const handleUpdateProgress = () => {
+    tableRef.getData();
+  }
+
   const columns = [
     {
       title: '房产标题',
@@ -81,7 +86,7 @@ const OrderList = () => {
       title: '管家服务LOGO',
       dataIndex: 'butlerServiceLogo',
       key: 'butlerServiceLogo',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
+      render: (res: string) => <ImagePreview imgSrc={res}/>,
     },
     {
       title: '管家服务名称',
@@ -140,7 +145,7 @@ const OrderList = () => {
       title: '订单服务进度列表',
       dataIndex: 'orderServiceProgressList',
       key: 'orderServiceProgressList',
-      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList} />,
+      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList}  updateCallBack={handleUpdateProgress}  />,
     },
     {
       title: '备注',
@@ -172,9 +177,9 @@ const OrderList = () => {
             style={{ marginRight: 15 }}
             size="small"
             type="primary"
-            onClick={() => handleUpdateProgress(record)}
+            onClick={() => handleCreateProgress(record)}
           >
-            修改进度
+            添加进度
           </Button>
           <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
             修改总价
@@ -272,40 +277,7 @@ const OrderList = () => {
       ) : null}
 
       {visibleProgress ? (
-        <ModalForm
-          title="修改进度"
-          onFinish={handleSubmitTotalProgressModal}
-          visible={true}
-          loading={loading}
-          onCancel={() => setVisibleProgress(false)}
-        >
-          <Form.Item
-            name="progressName"
-            label="进度名称"
-            rules={[{ required: true, message: '进度名称不能为空！' }]}
-          >
-            <Input placeholder="请输入进度名称" />
-          </Form.Item>
-
-          <Form.Item
-            name="sortNumber"
-            label="排序编号"
-            rules={[{ required: true, message: '排序编号不能为空！' }]}
-          >
-            <InputNumber placeholder="请输入排序编号" style={{ width: 150 }} />
-          </Form.Item>
-
-          <Form.Item name="isEnd" label="是否完结">
-            <Radio.Group>
-              <Radio value="1">是</Radio>
-              <Radio value="2">否</Radio>
-            </Radio.Group>
-          </Form.Item>
-
-          <Form.Item name="progressDetail" label="进度详情">
-            <Input placeholder="请输入进度详情" />
-          </Form.Item>
-        </ModalForm>
+        <CreateProgress handleSubmit={handleSubmitTotalProgressModal} loading={loading} handleCancel={() => setVisibleProgress(false)} />
       ) : null}
     </>
   );

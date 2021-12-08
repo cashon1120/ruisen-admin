@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
+import ImagePreview from '@/components/ImagePreview';
 import { connect } from 'dva';
 import { history } from 'umi';
 import { Button, Popconfirm } from 'antd';
@@ -13,7 +14,7 @@ export const state = {
 };
 
 const ToDoList = (props: any) => {
-  const { houseList,  fetchList} = props;
+  const { houseList, fetchList } = props;
 
   const columns = [
     {
@@ -25,6 +26,12 @@ const ToDoList = (props: any) => {
       title: '副标题',
       dataIndex: 'subtitle',
       key: 'subtitle',
+    },
+    {
+      title: '图标',
+      dataIndex: 'icon',
+      key: 'icon',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
     },
     {
       title: '金额',
@@ -60,7 +67,7 @@ const ToDoList = (props: any) => {
       title: '收据',
       dataIndex: 'receipt',
       key: 'receipt',
-      render: (res: string) => <img src={res} style={{ height: 50 }} />,
+      render: (res: string) => <ImagePreview imgSrc={res} />,
     },
     {
       title: '状态',
@@ -131,13 +138,14 @@ const ToDoList = (props: any) => {
       placeholder: '请输入房产标题',
       allowClear: true,
       dataList: houseList,
-      dataLabelKey: 'text'
+      dataLabelKey: 'text',
     },
     {
       label: '状态',
       name: 'status',
       componentType: 'Select',
       placeholder: '请选择状态',
+      allowClear: true,
       dataList: [
         { label: '无缴费信息', value: 1 },
         { label: '待缴费', value: 2 },
@@ -150,14 +158,13 @@ const ToDoList = (props: any) => {
       componentType: 'RangePicker',
       allowClear: true,
     },
-
   ];
 
   useEffect(() => {
-    if(houseList.length === 0){
-      fetchList()
+    if (houseList.length === 0) {
+      fetchList();
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -174,7 +181,6 @@ const ToDoList = (props: any) => {
     </>
   );
 };
-
 
 const mapStateToProps = (state: any) => {
   return {
@@ -193,4 +199,3 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
-
