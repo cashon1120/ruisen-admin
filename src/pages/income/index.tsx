@@ -8,7 +8,7 @@ let tableRef: RefFunctions = {} as RefFunctions;
 const NewsList = () => {
   const columns = [
     {
-      title: '房产标题',
+      title: '房产名',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
     },
@@ -27,6 +27,7 @@ const NewsList = () => {
       title: '租金单位',
       dataIndex: 'rentalUnit',
       key: 'rentalUnit',
+      width: 120,
     },
     {
       title: '总租金',
@@ -88,10 +89,10 @@ const NewsList = () => {
 
   const searchItems = [
     {
-      label: '房产标题',
+      label: '房产名',
       name: 'houseTitle',
       componentType: 'Input',
-      placeholder: '请输入房产标题',
+      placeholder: '请输入房产名',
     },
     {
       label: '用户手机号码',

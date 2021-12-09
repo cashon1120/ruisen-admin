@@ -73,7 +73,7 @@ const OrderList = () => {
 
   const columns = [
     {
-      title: '房产标题',
+      title: '房产名',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
     },
@@ -191,12 +191,7 @@ const OrderList = () => {
 
   const searchItems = [
     {
-      label: '房产标题',
-      name: 'houseTitle',
-      componentType: 'Input',
-    },
-    {
-      label: '房产标题',
+      label: '房产名',
       name: 'houseTitle',
       componentType: 'Input',
     },
@@ -223,14 +218,16 @@ const OrderList = () => {
     {
       label: '是否完结',
       name: 'isEnd',
-      componentType: 'Radio',
+      componentType: 'Select',
+      allowClear: true,
+      width: 90,
       dataList: [
         {
-          text: '是',
+          label: '是',
           value: 1,
         },
         {
-          text: '否',
+          label: '否',
           value: 2,
         },
       ],

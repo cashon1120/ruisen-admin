@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Space } from 'antd';
 import { Menu, Dropdown, Form, Input, message } from 'antd';
 import React from 'react';
@@ -6,6 +6,12 @@ import styles from './index.less';
 import ModalForm from '../ModalForm';
 import HttpRequest from '@/utils/request';
 import Uploader from '@/components/Upload';
+import {
+  LockOutlined,
+  SmileOutlined,
+  FileOutlined,
+  LogoutOutlined
+} from '@ant-design/icons';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -32,7 +38,7 @@ const GlobalHeaderRight: React.FC = () => {
     delete values.reNewPassword;
     setLoading(true);
     HttpRequest({ method: 'put', url: 'admin/users/password', params: values, type: 'json' })
-      .then((res: any) => {
+      .then(() => {
         message.success('密码修改成功， 请重新登录');
         setTimeout(() => {
           handleLogout();
@@ -60,7 +66,6 @@ const GlobalHeaderRight: React.FC = () => {
       }
       const img = image.response.data;
       message.success('修改成功');
-      setAvatarVisible(false);
       setAvatar(img);
     }
   };
@@ -94,16 +99,16 @@ const GlobalHeaderRight: React.FC = () => {
   };
   const menu = (
     <Menu>
-      <Menu.Item key="password" onClick={() => setVisible(true)}>
+      <Menu.Item key="password" icon={<LockOutlined />} onClick={() => setVisible(true)}>
         修改密码
       </Menu.Item>
-      <Menu.Item key="avatar" onClick={handleUpdateAvatar}>
+      <Menu.Item key="avatar" icon={<SmileOutlined />} onClick={handleUpdateAvatar}>
         修改头像
       </Menu.Item>
-      <Menu.Item key="info" onClick={handleUpdateUserIfno}>
+      <Menu.Item key="info" icon={<FileOutlined />} onClick={handleUpdateUserIfno}>
         修改资料
       </Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout}>
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
         退出登录
       </Menu.Item>
     </Menu>
@@ -111,7 +116,6 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space>
-      {/* <Dropdown overlay={menu}> */}
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()} className={styles.userWrapper}>
           {userInfo.id ? (
@@ -159,12 +163,13 @@ const GlobalHeaderRight: React.FC = () => {
       {avatarVisible ? (
         <ModalForm
           title="更新头像"
-          onFinish={() => setAvatarVisible(false)}
+          footer={null}
+          onFinish={() => {}}
           visible={avatarVisible}
           loading={loading}
           onCancel={() => setAvatarVisible(false)}
         >
-          <Form.Item name="avatar" label="修改头像">
+          <Form.Item name="avatar" label="修改头像" extra="图片建议大小: 80*80" >
             <Uploader
               action="admin/users/avatar"
               data={{ fileType: 'AVATAR' }}
@@ -200,4 +205,5 @@ const GlobalHeaderRight: React.FC = () => {
     </Space>
   );
 };
-export default GlobalHeaderRight;
+
+export default memo(GlobalHeaderRight);

@@ -18,13 +18,13 @@ const ToDoList = (props: any) => {
 
   const columns = [
     {
-      title: '房产',
+      title: '房产名',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
       width: 180,
     },
     {
-      title: '手机号',
+      title: '用户手机号',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
       width: 150,
@@ -122,7 +122,7 @@ const ToDoList = (props: any) => {
       label: '房产',
       name: 'houseTitle',
       componentType: 'Input',
-      placeholder: '请输入房产标题',
+      placeholder: '请输入房产名',
     },
     {
       label: '标题',
@@ -140,7 +140,7 @@ const ToDoList = (props: any) => {
       label: '房产',
       name: 'houseId',
       componentType: 'Select',
-      placeholder: '请输入房产标题',
+      placeholder: '请输入房产名',
       allowClear: true,
       dataList: houseList,
       dataLabelKey: 'text',

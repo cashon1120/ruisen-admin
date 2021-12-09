@@ -63,11 +63,11 @@ const CreateHouse = (props: any) => {
       >
         <Form.Item
           name="title"
-          label="标题"
+          label="房产名"
           rules={[
             {
               required: true,
-              message: '请输入标题',
+              message: '请输入房产名',
             },
           ]}
         >

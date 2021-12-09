@@ -1,6 +1,5 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, memo} from 'react'
 import {debouncing} from '@/utils/commonUtils'
-
 import styles from './style.less'
 
 const setDomHeight = () => {
@@ -37,4 +36,4 @@ const Home = () => {
   </div>;
 };
 
-export default Home;
+export default memo(Home);

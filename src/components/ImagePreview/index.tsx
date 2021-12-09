@@ -4,6 +4,7 @@ interface IProps {
   imgSrc: string;
   showBgColor?: boolean;
 }
+const defaultSrc = '/images/noimg.jpg'
 const ImagePreview = (props: IProps) => {
   const { imgSrc, showBgColor } = props;
   const [visible, setVisible] = useState(false);
@@ -11,13 +12,13 @@ const ImagePreview = (props: IProps) => {
     setVisible(!visible);
   };
   const handleError = (e: any) => {
-    e.target.src = '/images/noimg.jpg';
+    e.target.src = defaultSrc;
   };
   return (
     <>
       <img
-        src={imgSrc || '/images/noimg.jpg'}
-        title="点击放大"
+        src={imgSrc || defaultSrc}
+        title="点击查看大图"
         style={{
           height: 50,
           borderRadius: 5,
@@ -37,7 +38,7 @@ const ImagePreview = (props: IProps) => {
         onOk={handleTriggerVisible}
       >
         <div style={{ textAlign: 'center' }}>
-          <img src={imgSrc} style={{ maxWidth: '100%' }} onError={handleError} />
+          <img src={imgSrc} style={{ maxWidth: '100%'}} onError={handleError} />
         </div>
       </Modal>
     </>

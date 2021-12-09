@@ -24,8 +24,7 @@ const AdminList = (props: any) => {
     })
       .then(() => {
         message.success('操作成功');
-      })
-      .finally(() => {
+      }).finally(() => {
         setLoading(false);
       });
   };

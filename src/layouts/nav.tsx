@@ -1,15 +1,19 @@
-import {useState, useEffect, memo, useCallback} from 'react'
-import Icon from './icon'
+import {useState, useEffect, memo} from 'react'
+import {Menu} from 'antd';
 import {history} from 'umi'
 import Loading from '@/components/Loading';
-import {Menu} from 'antd';
-
 import HttpRequest from '@/utils/request';
 import {arrayMenusToObj} from './utils'
+import Icon from './icon'
+
+interface IMenu {
+  name: string
+  path: string
+  icon: string
+  children?: IMenu[]
+}
+
 const {SubMenu} = Menu
-
-
-
 const getCurrentPath = () => {
   const path = location.pathname.split('/')
   return `/${path[1]}`
@@ -21,44 +25,55 @@ interface IProps{
 
 const Nav = (props: IProps) => {
   const {routesObj} = props
+  const [selectedKeys, setSelectedKeys] = useState(getCurrentPath())
   const [loading, setLoading] = useState(true)
-  const [menu, setMenu] = useState([])
+  const [menu, setMenu] = useState<IMenu[]>([])
 
   useEffect(() => {
-    HttpRequest({url: 'admin/user/menus', method: 'get'}).then((res : any) => {
+    HttpRequest({url: 'admin/user/menus', method: 'get'}).then((res) => {
       routesObj.current.menus = arrayMenusToObj(res)
-      setMenu(res)
+      setMenu(res as any)
     }). finally(() => {
       setLoading(false)
     });
+
+    window.addEventListener('popstate', handlePopstateChange)
+    return () => {
+      window.removeEventListener('popstate', handlePopstateChange)
+    }
   }, [])
+
+  const handlePopstateChange = () => {
+    setSelectedKeys(getCurrentPath())
+  }
 
   const handleMenuClick = (path: string) => {
     if(path === '') return
+    setSelectedKeys(path)
     history.push(path)
   }
 
-  const renderMenuItem = (menu: any) => <Menu.Item icon={<Icon name={menu.icon} />}
+  const renderMenuItem = (menu: IMenu) => <Menu.Item icon={<Icon name={menu.icon} />}
     key={menu.path} onClick={() => handleMenuClick(menu.path)}>{menu.name}</Menu.Item>
 
-  const renderMenu = (menu: any) => {
+  const renderMenu = (menu: IMenu) => {
     if(menu.children && menu.children.length > 0){
       return <SubMenu key={menu.name} icon={<Icon name={menu.icon} />} title={menu.name || '----'}>
-        {menu.children.map((subMenu: any) => renderMenuItem(subMenu))}
+        {menu.children.map((subMenu: IMenu) => renderMenuItem(subMenu))}
     </SubMenu>
     }
     return renderMenuItem(menu)
   }
 
-  const renderMenus = (menus: any) => {
+  const renderMenus = (menus: IMenu[]) => {
     return <>
-      {menus.map((item: any) => renderMenu(item))}
+      {menus.map((item: IMenu) => renderMenu(item))}
     </>
   }
 
   return <>
     { loading ? <Loading/> : null }
-    <Menu theme = "dark" defaultSelectedKeys = {[getCurrentPath()]}mode = "inline" >
+    <Menu theme="light" selectedKeys={[selectedKeys]} mode="inline" >
       {renderMenus(menu)}
 
     {/* {routes.map((item : any) => !item.hideInMenu

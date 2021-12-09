@@ -88,7 +88,7 @@ const CreateIncome = (props: any) => {
             },
           ]}
         >
-          <Input placeholder="请输入租金单位" />
+          <Input placeholder="请输入租金单位, 如: 月/天" />
         </Form.Item>
 
         <Form.Item
