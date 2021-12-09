@@ -65,6 +65,7 @@ const GlobalHeaderRight: React.FC = () => {
       }
       const img = image.response.data;
       message.success('修改成功');
+      localStorage.setItem('useInfo', JSON.stringify({ ...getUserInfo(), avatar: img}));
       setAvatar(img);
     }
   };

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { history } from 'umi';
 import HttpRequest from '@/utils/request';
-
 import styles from './index.less';
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [captcha, setCaptch] = useState({
@@ -52,7 +52,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input placeholder="账号" />
+            <Input placeholder="账号" size="large"/>
           </Form.Item>
           <Form.Item
             label="密码"
@@ -64,7 +64,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input type="password" placeholder="密码" />
+            <Input type="password" size="large" placeholder="密码" />
           </Form.Item>
 
           <Form.Item label="验证码" rules={[{ required: true }]}>
@@ -75,7 +75,7 @@ const Login = () => {
                   noStyle
                   rules={[{ required: true, message: '请输入验证码' }]}
                 >
-                  <Input />
+                  <Input size="large"/>
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -87,10 +87,10 @@ const Login = () => {
           <Form.Item>
             <Button
               loading={loading}
+              size="large"
               style={{ width: '100%' }}
               type="primary"
               htmlType="submit"
-              className="login-form-button"
             >
               登录
             </Button>
