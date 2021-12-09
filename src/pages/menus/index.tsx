@@ -4,7 +4,7 @@ import { Button, Popconfirm } from 'antd';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const NewsList = () => {
+const MenuList = () => {
   const columns = [
     {
       title: '菜单名',
@@ -102,4 +102,4 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+export default MenuList;

@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Modal } from 'antd';
 interface IProps {
   imgSrc: string;
+  disableShowBig?: boolean;
   showBgColor?: boolean;
 }
 const defaultSrc = '/images/noimg.jpg'
 const ImagePreview = (props: IProps) => {
-  const { imgSrc, showBgColor } = props;
+  const { imgSrc, showBgColor, disableShowBig } = props;
   const [visible, setVisible] = useState(false);
   const handleTriggerVisible = () => {
-    setVisible(!visible);
+    !disableShowBig && setVisible(!visible);
   };
   const handleError = (e: any) => {
     e.target.src = defaultSrc;
@@ -21,9 +22,9 @@ const ImagePreview = (props: IProps) => {
         title="点击查看大图"
         style={{
           height: 50,
-          borderRadius: 5,
-          cursor: 'pointer',
           marginRight: 5,
+          borderRadius: 5,
+          cursor: disableShowBig ? 'default' : 'pointer',
           background: showBgColor ? '#752117' : 'transparent',
         }}
         onClick={handleTriggerVisible}

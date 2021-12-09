@@ -5,6 +5,7 @@ import { history } from 'umi';
 import Wrapper from '@/components/Wrapper/Index';
 import HttpRequest from '@/utils/request';
 import styles from './index.less'
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -64,7 +65,6 @@ const FormPage = (props: IProps) => {
       if (dateKeys?.includes(key)) {
         values[key] = values[key].format('YYYY-MM-DD');
       }
-
       if(typeof values[key] === 'boolean'){
         values[key] = values[key] ? 1 : 0
       }

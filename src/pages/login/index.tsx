@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className={styles.outer}>
       <div className={styles.wrapper}>
-        <h2>瑞森房管家后台管理系统</h2>
+        <h2>瑞森海外房管家后台管理系统</h2>
         <Form
           name="normal_login"
           initialValues={{

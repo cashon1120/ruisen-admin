@@ -28,7 +28,7 @@ const handleFlatRoutes = (routers: any[], res: any[] = []) => {
 const flatRoutes = handleFlatRoutes(routes);
 
 export default defineConfig({
-  title: '瑞森房管家',
+  title: '瑞森海外房管家',
   metas: [
     { charset: 'utf-8' } as any,
     { 'http-equiv': 'Expires', content: '0' },

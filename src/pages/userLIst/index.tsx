@@ -1,7 +1,7 @@
 import TablePage from '@/components/TablePage';
 import ImagePreview from '@/components/ImagePreview';
 
-const NewsList = () => {
+const UserList = () => {
   const columns = [
     {
       title: '姓名',
@@ -78,11 +78,7 @@ const NewsList = () => {
     },
   ];
 
-  return (
-    <>
-      <TablePage title="用户列表" columns={columns} searchItems={searchItems} url="user/list" />
-    </>
-  );
+  return <TablePage title="用户列表" columns={columns} searchItems={searchItems} url="user/list" />;
 };
 
-export default NewsList;
+export default UserList;

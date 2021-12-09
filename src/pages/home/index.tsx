@@ -31,7 +31,7 @@ const Home = () => {
     <div>
       <div><img className={styles.avatar} src={userInfo.avatar} /></div>
       您好, {userInfo.nickname}
-      <h4>欢迎来到瑞森房管家后台管理系统</h4>
+      <h4>欢迎来到瑞森海外房管家后台管理系统</h4>
     </div>
   </div>;
 };

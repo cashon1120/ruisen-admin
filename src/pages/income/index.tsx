@@ -5,7 +5,7 @@ import { Button, Popconfirm } from 'antd';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const NewsList = () => {
+const IncomeList = () => {
   const columns = [
     {
       title: '房产名',
@@ -111,7 +111,7 @@ const NewsList = () => {
   return (
     <>
       <TablePage
-        title="资讯列表"
+        title="租金收益"
         columns={columns}
         searchItems={searchItems}
         url="rental/income/list"
@@ -124,4 +124,4 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+export default IncomeList;

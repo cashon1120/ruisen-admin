@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Input, Button } from 'antd';
+import { Input, Button, Popconfirm } from 'antd';
 import Uploader from '@/components/Upload';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './guide.less';
@@ -78,10 +78,6 @@ const Guid = (props: IProps) => {
   console.log(data);
   return (
     <>
-      <Button onClick={handleAddData}>
-        <PlusOutlined />
-        添加业主指南
-      </Button>
       {data.map((item: Item) => (
         <div key={item.id} className={styles.list}>
           <div>
@@ -113,10 +109,22 @@ const Guid = (props: IProps) => {
             />
           </div>
           <div className={styles.btnWrapper}>
-            <a onClick={() => handleDelete(item.id)}>删除</a>
+            <Popconfirm
+              placement="topLeft"
+              title="确定要删除该数据吗？"
+              onConfirm={() => handleDelete(item.id)}
+            >
+              <Button size="small" type="default" className="tab-btn" danger>
+                删除
+              </Button>
+            </Popconfirm>
           </div>
         </div>
       ))}
+      <Button onClick={handleAddData}>
+        <PlusOutlined />
+        添加业主指南
+      </Button>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { Form, Input } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 let formInstance: any = null;
-const CreateNews = (props: any) => {
+const CreateData = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
@@ -74,4 +74,4 @@ const CreateNews = (props: any) => {
   );
 };
 
-export default CreateNews;
+export default CreateData;

@@ -3,9 +3,8 @@ import { Form, Input, Switch, Select, TreeSelect } from 'antd';
 import HttpRequest from '@/utils/request';
 import FormPage from '@/components/FormPage';
 
-const CreateNews = (props: any) => {
+const CreateData = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-
   const [allSource, setAllSource] = useState([]);
   const [checked, setChecked] = useState(false)
   useEffect(() => {
@@ -75,4 +74,4 @@ const CreateNews = (props: any) => {
   );
 };
 
-export default CreateNews;
+export default CreateData;

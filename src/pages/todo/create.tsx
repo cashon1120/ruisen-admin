@@ -3,8 +3,8 @@ import { Form, Input, Select, InputNumber, DatePicker } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import { connect } from 'dva';
-let formInstance: any = null;
 
+let formInstance: any = null;
 const CreateToDo = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
   const { houseList,  fetchList} = props;
@@ -24,14 +24,11 @@ const CreateToDo = (props: any) => {
     }
   };
 
-
-
   useEffect(() => {
     if(houseList.length === 0){
       fetchList()
     }
   }, [])
-
 
   return (
     <>

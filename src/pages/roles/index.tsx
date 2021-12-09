@@ -6,7 +6,7 @@ import { history } from 'umi';
 import HttpRequest from '@/utils/request';
 
 let tableRef: RefFunctions = {} as RefFunctions;
-const NewsList = () => {
+const RolesList = () => {
   const [menuList, setmenuList] = useState([]);
 
   const [sourceList, setSourceList] = useState([]);
@@ -67,7 +67,7 @@ const NewsList = () => {
       render: (menuIdList: any) => <a onClick={() => handleShowMenuList(menuIdList)}>查看</a>,
     },
     {
-      title: '资源列表',
+      title: '接口列表',
       dataIndex: 'resourceIdList',
       key: 'resourceIdList',
       render: (resourceIdList: any) => (
@@ -182,4 +182,4 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+export default RolesList;

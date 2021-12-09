@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const NewsList = () => {
+const LogList = () => {
   const columns = [
     {
       title: '用户昵称',
@@ -74,7 +74,7 @@ const NewsList = () => {
   return (
     <>
       <TablePage
-        title="资源列表"
+        title="日志列表"
         columns={columns}
         searchItems={searchItems}
         url="admin/operation/logs"
@@ -85,4 +85,4 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+export default LogList;

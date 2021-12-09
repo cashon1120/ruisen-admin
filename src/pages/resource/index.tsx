@@ -4,7 +4,7 @@ import { Button, Popconfirm } from 'antd';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
-const NewsList = () => {
+const ResourceList = () => {
   const columns = [
     {
       title: '资源名',
@@ -106,21 +106,17 @@ const NewsList = () => {
     return data;
   };
 
-  return (
-    <>
-      <TablePage
-        title="资源列表"
-        columns={columns}
-        searchItems={searchItems}
-        url="admin/resources"
-        deleteUrl="admin/resources"
-        addPath="/resource/create"
-        disablePagination
-        formatData={handleFormatData}
-        onRef={(ref: any) => (tableRef = ref)}
-      />
-    </>
-  );
+  return <TablePage
+    title="接口列表"
+    columns={columns}
+    searchItems={searchItems}
+    url="admin/resources"
+    deleteUrl="admin/resources"
+    addPath="/resource/create"
+    disablePagination
+    formatData={handleFormatData}
+    onRef={(ref: any) => (tableRef = ref)}
+  />
 };
 
-export default NewsList;
+export default ResourceList;

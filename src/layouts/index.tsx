@@ -9,7 +9,14 @@ import Nav from './nav'
 import {checkRoutes} from './utils'
 
 const {Header, Content, Sider} = Layout;
-class LayoutMain extends React.PureComponent {
+
+interface IProps{
+  children: React.ReactChild
+}
+interface IState{
+  collapsed: boolean
+}
+class LayoutMain extends React.PureComponent<IProps, IState> {
   routesObj: any = createRef()
   constructor(props: any){
     super(props)
@@ -19,6 +26,9 @@ class LayoutMain extends React.PureComponent {
       collapsed: false,
     };
   }
+  onCollapse = (collapsed: boolean) => {
+    this.setState({ collapsed });
+  };
 
   checkRoute = (path: string) => {
     if(!this.routesObj.current.routes[path]){
@@ -28,16 +38,18 @@ class LayoutMain extends React.PureComponent {
 
   render() {
     this.checkRoute(history.location.pathname)
+    const {collapsed} = this.state
     return (
       <ConfigProvider locale={zhCN}>
         <Layout>
           <Header className={styles.header}>
-            <div className={styles.logo}>瑞森房管家后台管理系统</div>
+            <div className={styles.logo}>瑞森海外房管家后台管理系统</div>
             <div className={styles.right}><RightContent/></div>
           </Header>
           <Sider
             theme="light"
             collapsible
+            onCollapse={this.onCollapse}
             style={{
             overflow: 'auto',
             height: '100vh',
@@ -49,7 +61,8 @@ class LayoutMain extends React.PureComponent {
           </Sider>
           <Layout
             style={{
-            marginLeft: 200
+            transition: 'all .3s',
+            marginLeft: collapsed ? 80 : 200
           }}>
             <Content
               style={{

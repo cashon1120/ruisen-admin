@@ -1,5 +1,4 @@
 import { useState, memo } from 'react';
-import { Space } from 'antd';
 import { Menu, Dropdown, Form, Input, message } from 'antd';
 import React from 'react';
 import styles from './index.less';
@@ -29,6 +28,7 @@ const GlobalHeaderRight: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [visibleInfo, setVisibleInfo] = useState(false);
   const [userInfo, setUserInfo] = useState(getUserInfo())
+
   const handleSubmitModal = (values: any) => {
     if (values.newPassword !== values.reNewPassword) {
       message.error('两次密码输入不一致');
@@ -42,7 +42,6 @@ const GlobalHeaderRight: React.FC = () => {
         setTimeout(() => {
           handleLogout();
         }, 2000);
-        setLoading(false);
       })
       .catch(() => {
         setLoading(false);
@@ -98,6 +97,7 @@ const GlobalHeaderRight: React.FC = () => {
     localStorage.removeItem('useInfo');
     location.href = '/login';
   };
+
   const menu = (
     <Menu>
       <Menu.Item key="password" icon={<LockOutlined />} onClick={() => setVisible(true)}>
@@ -115,8 +115,7 @@ const GlobalHeaderRight: React.FC = () => {
     </Menu>
   );
 
-  return (
-    <Space>
+  return (<>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()} className={styles.userWrapper}>
           {userInfo.id ? (
@@ -131,7 +130,8 @@ const GlobalHeaderRight: React.FC = () => {
           )}
         </a>
       </Dropdown>
-      <ModalForm
+
+      {visible ? <ModalForm
         title="修改密码"
         onFinish={handleSubmitModal}
         visible={visible}
@@ -159,7 +159,8 @@ const GlobalHeaderRight: React.FC = () => {
         >
           <Input.Password placeholder="请输入确认密码！" />
         </Form.Item>
-      </ModalForm>
+      </ModalForm> : null}
+
 
       {avatarVisible ? (
         <ModalForm
@@ -203,7 +204,7 @@ const GlobalHeaderRight: React.FC = () => {
           </Form.Item>
         </ModalForm>
       ) : null}
-    </Space>
+    </>
   );
 };
 

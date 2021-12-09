@@ -1,0 +1,23 @@
+.list {
+  border: 1px solid #d9d9d9;
+  margin-bottom: 15px;
+  padding: 15px 15px 5px 15px;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 3px;
+}
+.list > div {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+.list > div label {
+  display: block;
+  width: 50px;
+  padding-top: 3px;
+}
+.list > div.btnWrapper {
+  position: absolute;
+  top: 0;
+  right: -60px;
+}

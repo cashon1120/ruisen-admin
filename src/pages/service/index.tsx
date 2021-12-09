@@ -6,7 +6,7 @@ import ImagePreview from '@/components/ImagePreview';
 import { Button, Switch, message } from 'antd';
 import HttpRequest from '@/utils/request';
 
-const NewsList = () => {
+const ServiceList = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChangeDisableState = (value: boolean, id: number) => {
@@ -41,7 +41,7 @@ const NewsList = () => {
       title: 'LOGO',
       dataIndex: 'logo',
       key: 'logo',
-      render: (res: string) => <ImagePreview imgSrc={res} showBgColor />,
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig/>,
     },
     {
       title: '服务地区',
@@ -153,4 +153,4 @@ const NewsList = () => {
   );
 };
 
-export default NewsList;
+export default ServiceList;
