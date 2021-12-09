@@ -19,7 +19,6 @@ const UserList = () => {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
-      width: 180,
     },
     {
       title: '简介',

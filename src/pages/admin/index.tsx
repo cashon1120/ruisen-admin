@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { connect } from 'dva';
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { Button, Popconfirm, Form, message, Switch, Input, Select } from 'antd';
+import ImagePreview from '@/components/ImagePreview';
 import Loading from '@/components/Loading';
 import ModalForm from '@/components/ModalForm';
 import HttpRequest from '@/utils/request';
@@ -24,6 +25,7 @@ const AdminList = (props: any) => {
     })
       .then(() => {
         message.success('操作成功');
+        tableRef.getData();
       }).finally(() => {
         setLoading(false);
       });
@@ -70,7 +72,7 @@ const AdminList = (props: any) => {
       title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (avatar: string) => <img src={avatar} style={{ height: 50 }} />,
+      render: (res: string) => <ImagePreview imgSrc={res} />,
     },
 
     {
@@ -102,9 +104,9 @@ const AdminList = (props: any) => {
       width: 100,
       render: (isDisable: boolean, record: any) => (
         <Switch
-          defaultChecked={isDisable}
+          checked={isDisable}
           disabled={!record.id}
-          onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
+          onChange={(value: boolean, e: any) => handleChangeDisableState(value, record.id)}
         />
       ),
     },

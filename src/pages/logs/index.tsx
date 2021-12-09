@@ -9,12 +9,14 @@ const LogList = () => {
       title: '用户昵称',
       dataIndex: 'nickname',
       key: 'nickname',
+      width: 180
     },
 
     {
       title: '用户登录IP',
       dataIndex: 'ipAddress',
       key: 'ipAddress',
+      width: 180
     },
     {
       title: '操作方法',
@@ -25,17 +27,20 @@ const LogList = () => {
       title: '操作模块',
       dataIndex: 'optModule',
       key: 'optModule',
+      width: 180
     },
     {
       title: '操作类型',
       dataIndex: 'optType',
       key: 'optType',
+      width: 180
     },
 
     {
       title: '时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 180
     },
     {
       title: '操作',

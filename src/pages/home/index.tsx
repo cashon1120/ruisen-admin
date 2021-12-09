@@ -1,10 +1,5 @@
-import {useEffect, useState, memo} from 'react'
-import {debouncing} from '@/utils/commonUtils'
+import {memo} from 'react'
 import styles from './style.less'
-
-const setDomHeight = () => {
-  return document.body.offsetHeight - 80
-}
 
 const getUserInfo = () => {
   const userInfo = localStorage.getItem('useInfo');
@@ -17,17 +12,7 @@ const getUserInfo = () => {
 const userInfo = getUserInfo();
 
 const Home = () => {
-  const [height, setHeight] = useState(setDomHeight())
-  const handleSetHeight = debouncing(() => {
-    setHeight(setDomHeight)
-  }, 200)
-  useEffect(() => {
-    window.addEventListener('resize', handleSetHeight)
-    return () => {
-      window.removeEventListener('resize', handleSetHeight)
-    }
-  }, [])
-  return <div className={styles.wrapper} style={{height}}>
+  return <div className={styles.wrapper}>
     <div>
       <div><img className={styles.avatar} src={userInfo.avatar} /></div>
       您好, {userInfo.nickname}

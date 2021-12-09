@@ -1,8 +1,24 @@
+import {useEffect, useState} from 'react'
 import { Button, Result } from 'antd';
 import React from 'react';
 import { history } from 'umi';
+import {debouncing} from '@/utils/commonUtils'
 
-const NoFoundPage: React.FC = () => (
+const setDomHeight = () => {
+  return document.body.offsetHeight - 80
+}
+const NoFoundPage: React.FC = () => {
+  const [height, setHeight] = useState(setDomHeight())
+  const handleSetHeight = debouncing(() => {
+    setHeight(setDomHeight)
+  }, 200)
+  useEffect(() => {
+    window.addEventListener('resize', handleSetHeight)
+    return () => {
+      window.removeEventListener('resize', handleSetHeight)
+    }
+  }, [])
+  return <div style={{height}}>
   <Result
     status="404"
     title="404"
@@ -13,6 +29,7 @@ const NoFoundPage: React.FC = () => (
       </Button>
     }
   />
-);
+  </div>
+}
 
 export default NoFoundPage;
