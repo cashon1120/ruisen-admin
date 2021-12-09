@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, Switch, Select, TreeSelect } from 'antd';
+import { Form, Input, Radio, Select, TreeSelect } from 'antd';
 import HttpRequest from '@/utils/request';
 import FormPage from '@/components/FormPage';
 
@@ -26,7 +26,7 @@ const CreateData = (props: any) => {
         title={record ? '编辑资源' : '添加资源'}
         createUrl="admin/resources"
         updateUrl="admin/resources"
-        backPath="/resource"
+        backPath="/resources"
         type="json"
         data={record}
         formatValue={handleFormatValue}
@@ -66,8 +66,12 @@ const CreateData = (props: any) => {
             <Select.Option value="PUT">PUT</Select.Option>
           </Select>
         </Form.Item>
+
         <Form.Item name="isAnonymous" label="是否匿名访问">
-          <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
+          <Radio.Group>
+            <Radio value="1">是</Radio>
+            <Radio value="0">否</Radio>
+          </Radio.Group>
         </Form.Item>
       </FormPage>
     </>

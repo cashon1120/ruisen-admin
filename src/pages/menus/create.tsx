@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Switch, TreeSelect } from 'antd';
+import { Form, Input, InputNumber, Radio, TreeSelect } from 'antd';
 import { connect } from 'dva';
 import FormPage from '@/components/FormPage';
 
@@ -99,8 +99,11 @@ const CreateMenu = (props: any) => {
           />
         </Form.Item>
 
-        <Form.Item name="isDisable" label="是否禁用">
-          <Switch checked={checked} onChange={(value: boolean) => setChecked(value)} />
+        <Form.Item name="isHidden" label="是否禁用">
+          <Radio.Group>
+            <Radio value="1">是</Radio>
+            <Radio value="0">否</Radio>
+          </Radio.Group>
         </Form.Item>
 
       </FormPage>

@@ -10,6 +10,7 @@ interface IProps {
   colorbg?: boolean;
   defaultFile?: string | string[];
   maxLength?: number;
+  disablePreview?: boolean
 }
 
 let index = 0;
@@ -18,7 +19,7 @@ const Uploader = (props: IProps) => {
   const [showModal, setShowModal] = useState(false);
   const [fileList, setFileList] = useState<any>([]);
   const [previewImage, setPreviewImage] = useState('');
-  const { onChange, action, data, maxLength, defaultFile, colorbg } = props;
+  const { onChange, action, data, maxLength, defaultFile, colorbg, disablePreview } = props;
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -59,12 +60,13 @@ const Uploader = (props: IProps) => {
       setFileList(fileList);
     }
   }, []);
+
   return (
     <>
       <Upload
         listType="picture-card"
         className={colorbg ? styles.colorbg : null}
-        onPreview={handlePreview}
+        onPreview={disablePreview ? () => {} : handlePreview}
         action={`${URL}${action || 'file/upload'}`}
         fileList={fileList}
         onChange={handleUploadChange}

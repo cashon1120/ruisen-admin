@@ -27,7 +27,7 @@ const CreateData = (props: any) => {
   return (
     <>
       <FormPage
-        title={record ? '编辑管理信息' : '添加管家'}
+        title={record ? '编辑服务信息' : '添加管家服务'}
         createUrl="butler/service/add"
         updateUrl="butler/service/update"
         backPath="/service"
@@ -95,6 +95,7 @@ const CreateData = (props: any) => {
           <Uploader
             data={{ fileType: 'BUTLER_SERVICE_LOGO' }}
             colorbg
+            disablePreview
             defaultFile={record?.logo}
             onChange={handleLogoChange}
           />

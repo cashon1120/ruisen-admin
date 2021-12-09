@@ -52,7 +52,7 @@ const ResourceList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/resource/create', { record })}
+            onClick={() => history.push('/resources/create', { record })}
           >
             编辑
           </Button>
@@ -112,7 +112,7 @@ const ResourceList = () => {
     searchItems={searchItems}
     url="admin/resources"
     deleteUrl="admin/resources"
-    addPath="/resource/create"
+    addPath="/resources/create"
     disablePagination
     formatData={handleFormatData}
     onRef={(ref: any) => (tableRef = ref)}
