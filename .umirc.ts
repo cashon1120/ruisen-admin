@@ -49,9 +49,9 @@ export default defineConfig({
     loading: '@/components/Loading',
   },
   // 替换momentjs为dayjs, 打包下来总体积少了接近700k....
-  // chainWebpack(memo) {
-  //   memo.plugin('AntdDayjsWebpackPlugin').use(AntdDayjsWebpackPlugin);
-  // },
+  chainWebpack(memo) {
+    memo.plugin('AntdDayjsWebpackPlugin').use(AntdDayjsWebpackPlugin);
+  },
   routes: [
     { path: '/', component: '@/pages/login', exact: true },
     { path: '/login', component: '@/pages/login' },

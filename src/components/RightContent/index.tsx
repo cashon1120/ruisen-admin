@@ -23,13 +23,12 @@ const getUserInfo = () => {
   return {};
 };
 
-const userInfo = getUserInfo();
 
 const GlobalHeaderRight: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visibleInfo, setVisibleInfo] = useState(false);
-
+  const [userInfo, setUserInfo] = useState(getUserInfo())
   const handleSubmitModal = (values: any) => {
     if (values.newPassword !== values.reNewPassword) {
       message.error('两次密码输入不一致');
@@ -85,6 +84,7 @@ const GlobalHeaderRight: React.FC = () => {
       .then(() => {
         message.success('操作成功');
         localStorage.setItem('useInfo', JSON.stringify({ ...getUserInfo(), ...values }));
+        setUserInfo(getUserInfo())
         setVisibleInfo(false);
       })
       .finally(() => {
