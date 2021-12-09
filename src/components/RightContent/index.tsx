@@ -24,12 +24,12 @@ const getUserInfo = () => {
 
 
 const GlobalHeaderRight: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [visiblePassword, setVisiblePasswrod] = useState(false);
   const [visibleInfo, setVisibleInfo] = useState(false);
   const [userInfo, setUserInfo] = useState(getUserInfo())
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmitModal = (values: any) => {
+  const handleUpdatePassword = (values: any) => {
     if (values.newPassword !== values.reNewPassword) {
       message.error('两次密码输入不一致');
       return;
@@ -100,7 +100,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="password" icon={<LockOutlined />} onClick={() => setVisible(true)}>
+      <Menu.Item key="password" icon={<LockOutlined />} onClick={() => setVisiblePasswrod(true)}>
         修改密码
       </Menu.Item>
       <Menu.Item key="avatar" icon={<SmileOutlined />} onClick={handleUpdateAvatar}>
@@ -131,12 +131,12 @@ const GlobalHeaderRight: React.FC = () => {
         </a>
       </Dropdown>
 
-      {visible ? <ModalForm
+      {visiblePassword ? <ModalForm
         title="修改密码"
-        onFinish={handleSubmitModal}
-        visible={visible}
+        onFinish={handleUpdatePassword}
+        visible={visiblePassword}
         loading={loading}
-        onCancel={() => setVisible(false)}
+        onCancel={() => setVisiblePasswrod(false)}
       >
         <Form.Item
           name="oldPassword"
@@ -164,14 +164,14 @@ const GlobalHeaderRight: React.FC = () => {
 
       {avatarVisible ? (
         <ModalForm
-          title="更新头像"
+          title="修改头像"
           footer={null}
           onFinish={() => {}}
           visible={avatarVisible}
           loading={loading}
           onCancel={() => setAvatarVisible(false)}
         >
-          <Form.Item name="avatar" label="修改头像" extra="图片建议大小: 80*80" >
+          <Form.Item name="avatar" label="选择头像" extra="图片建议大小: 80*80" >
             <Uploader
               action="admin/users/avatar"
               data={{ fileType: 'AVATAR' }}
@@ -184,7 +184,7 @@ const GlobalHeaderRight: React.FC = () => {
 
       {visibleInfo ? (
         <ModalForm
-          title="个人信息"
+          title="修改资料"
           onFinish={handleSubmitInfo}
           visible={true}
           loading={loading}
@@ -196,7 +196,7 @@ const GlobalHeaderRight: React.FC = () => {
             label="昵称"
             rules={[{ required: true, message: '昵称不能为空！' }]}
           >
-            <Input placeholder="请输入昵称！" />
+            <Input placeholder="请输入昵称！" maxLength={10} />
           </Form.Item>
 
           <Form.Item name="intro" label="介绍">

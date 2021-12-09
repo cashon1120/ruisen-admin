@@ -70,12 +70,8 @@ const Guid = (props: IProps) => {
   };
 
   useEffect(() => {
-    console.log(defaultData);
-    if (defaultData) {
-      setData(defaultData);
-    }
+    defaultData && setData(defaultData);
   }, []);
-  console.log(data);
   return (
     <>
       {data.map((item: Item) => (
@@ -84,13 +80,14 @@ const Guid = (props: IProps) => {
             <label>标题</label>
             <Input
               defaultValue={item.title}
+              maxLength={10}
               placeholder="请输入标题"
               onChange={(e: any) => handleTitleChange(e, item.id)}
             />
           </div>
           <div>
             <label>图标</label>
-            <div>
+            <div className={styles.iconWrapper}>
               <Uploader
                 action="file/upload"
                 data={{ fileType: 'HOUSE_PHOTOS' }}
@@ -110,8 +107,8 @@ const Guid = (props: IProps) => {
           </div>
           <div className={styles.btnWrapper}>
             <Popconfirm
-              placement="topLeft"
               title="确定要删除该数据吗？"
+              placement="topRight"
               onConfirm={() => handleDelete(item.id)}
             >
               <Button size="small" type="default" className="tab-btn" danger>

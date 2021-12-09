@@ -142,7 +142,7 @@ const CreateHouse = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入面积" min={0}  style={{width: 150}}/>
+          <InputNumber placeholder="请输入面积" min={1} maxLength={10} max={100000}  style={{width: 180}} addonAfter="m²"/>
         </Form.Item>
 
         <Form.Item
