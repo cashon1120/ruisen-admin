@@ -46,7 +46,7 @@ const NewsList = () => {
             title="确定要删除该数据吗？"
             onConfirm={() => tableRef.deleteData({ data: { id: record.id }, method: 'post' })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="default" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>

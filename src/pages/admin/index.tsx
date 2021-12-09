@@ -94,11 +94,13 @@ const AdminList = (props: any) => {
       title: '添加时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 180,
     },
     {
       title: '是否禁用',
       dataIndex: 'isDisable',
       key: 'isDisable',
+      width: 100,
       render: (isDisable: boolean, record: any) => (
         <Switch
           defaultChecked={isDisable}
@@ -120,7 +122,7 @@ const AdminList = (props: any) => {
             title="确定要删除该数据吗？"
             onConfirm={() => tableRef.deleteData({ data: { id: record.id } })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="default" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>

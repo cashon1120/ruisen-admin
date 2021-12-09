@@ -61,6 +61,7 @@ const NewsList = () => {
     },
     {
       title: '操作',
+      fixed: 'right',
       width: 180,
       render: (record: any) => (
         <>
@@ -76,7 +77,7 @@ const NewsList = () => {
             title="确定要删除该数据吗？"
             onConfirm={() => tableRef.deleteData({ data: { id: record.id }, method: 'post' })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="ghost" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>
@@ -115,6 +116,7 @@ const NewsList = () => {
         url="rental/income/list"
         deleteUrl="rental/income/delete"
         addPath="/income/create"
+        scrollWidth={2000}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

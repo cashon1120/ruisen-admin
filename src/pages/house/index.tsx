@@ -30,17 +30,40 @@ const HouseList = () => {
       title: '房产名',
       dataIndex: 'title',
       key: 'title',
+      width: 180,
     },
 
     {
       title: '业主姓名',
       dataIndex: 'ownerName',
       key: 'ownerName',
+      width: 120,
     },
     {
       title: '用户手机号码',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
+      width: 150,
+    },
+    {
+      title: '房号',
+      dataIndex: 'roomNo',
+      width: 100,
+      key: 'roomNo',
+    },
+    {
+      title: '户型图',
+      dataIndex: 'floorPlan',
+      key: 'floorPlan',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+      width: 180,
+    },
+    {
+      title: '房产照片',
+      dataIndex: 'photoList',
+      key: 'photoList',
+      width: 300,
+      render: (photoList: string[]) => <div>{photoList.map((item: string, index: number) => <ImagePreview key={index} imgSrc={item} />)}</div>,
     },
     {
       title: '地址',
@@ -50,7 +73,7 @@ const HouseList = () => {
     {
       title: '面积',
       dataIndex: 'area',
-      width: 120,
+      width: 100,
       key: 'area',
     },
     {
@@ -66,26 +89,6 @@ const HouseList = () => {
       key: 'developer',
     },
     {
-      title: '户型图',
-      dataIndex: 'floorPlan',
-      key: 'floorPlan',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-      width: 180,
-    },
-    {
-      title: '房产照片',
-      dataIndex: 'photoList',
-      key: 'photoList',
-      width: 380,
-      render: (photoList: string[]) => <div>{photoList.map((item: string, index: number) => <ImagePreview key={index} imgSrc={item} />)}</div>,
-    },
-    {
-      title: '房号',
-      dataIndex: 'roomNo',
-      width: 120,
-      key: 'roomNo',
-    },
-    {
       title: '过户日期',
       dataIndex: 'transferDate',
       key: 'transferDate',
@@ -94,14 +97,14 @@ const HouseList = () => {
       title: '类型',
       dataIndex: 'type',
       key: 'type',
-      width: 120,
+      width: 100,
       render: (type: string) => houseType[type],
     },
     {
       title: '房产状态',
       dataIndex: 'houseStatus',
       key: 'houseStatus',
-      width: 120,
+      width: 100,
       render: (res: string) => houseStatus[res],
     },
 
@@ -118,7 +121,8 @@ const HouseList = () => {
     {
       title: '是否启用',
       dataIndex: 'enable',
-      width: 120,
+      width: 100,
+      fixed: 'right',
       key: 'enable',
       render: (enable: number, record: any) => (
         <Switch
@@ -137,7 +141,7 @@ const HouseList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/house/create', { record })}
+            onClick={() => history.push('/house/create', { record})}
           >
             编辑
           </Button>
@@ -229,7 +233,7 @@ const HouseList = () => {
         url="house/list"
         addPath="/house/create"
         rowKey="id"
-        scrollWidth={3500}
+        scrollWidth={2500}
       />
     </>
   );

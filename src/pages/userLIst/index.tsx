@@ -1,4 +1,5 @@
 import TablePage from '@/components/TablePage';
+import ImagePreview from '@/components/ImagePreview';
 
 const NewsList = () => {
   const columns = [
@@ -6,18 +7,19 @@ const NewsList = () => {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
+      width: 180,
     },
-
     {
       title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (res: string) => <img src={res} style={{ height: 50 }} />,
+      render: (res: string) => <ImagePreview imgSrc={res} />,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
+      width: 180,
     },
     {
       title: '简介',
@@ -33,6 +35,7 @@ const NewsList = () => {
       title: '手机',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
+      width: 180,
     },
     {
       title: '性别',
@@ -50,6 +53,7 @@ const NewsList = () => {
       title: '时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 180,
     },
   ];
 

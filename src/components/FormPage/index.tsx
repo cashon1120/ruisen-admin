@@ -4,7 +4,7 @@ import moment from 'moment'
 import { history } from 'umi';
 import Wrapper from '@/components/Wrapper/Index';
 import HttpRequest from '@/utils/request';
-
+import styles from './index.less'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -44,10 +44,11 @@ interface IProps {
   formatValue?: (values: any) => any;
   onRef?: (form: any) => void;
   initialValues?: any
+  showDetail?: boolean
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys, initialValues } = props;
+  const { data, title, showDetail, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys, initialValues } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
@@ -105,7 +106,7 @@ const FormPage = (props: IProps) => {
 
   return (
     <Wrapper title={title}>
-      <div style={{ width: 800 }}>
+      <div className={styles.wrapper}>
         <Form
           {...formItemLayout}
           form={form}
@@ -116,14 +117,12 @@ const FormPage = (props: IProps) => {
         >
           {props.children}
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            {!showDetail ?  <Button style={{ marginRight: 15 }} type="primary" htmlType="submit" loading={loading}>
               提交
-            </Button>
-
+            </Button> : null}
             <Button
               type="default"
               onClick={() => history.push(`/${backPath.replace('/', '')}`)}
-              style={{ marginLeft: 15 }}
             >
               返回
             </Button>

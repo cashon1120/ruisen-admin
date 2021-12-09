@@ -10,6 +10,7 @@ let guidData: Item[] = [];
 let formInstance: any = null;
 const CreateHouse = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
+  const showDetail = props.location.state ? props.location.state.showDetail : null;
   const { userList,  fetchList} = props;
   const handleGuidChange = (data: Item[]) => {
     guidData = data;
@@ -57,6 +58,7 @@ const CreateHouse = (props: any) => {
         type="json"
         data={record}
         initialValues={{record}}
+        showDetail={showDetail}
         onRef={(form: any) => (formInstance = form)}
       >
         <Form.Item

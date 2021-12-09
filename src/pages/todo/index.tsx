@@ -21,16 +21,25 @@ const ToDoList = (props: any) => {
       title: '房产',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
+      width: 180,
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+      width: 150,
     },
     {
       title: '标题',
       dataIndex: 'title',
       key: 'title',
+      width: 150,
     },
     {
       title: '副标题',
       dataIndex: 'subtitle',
       key: 'subtitle',
+      width: 150,
     },
     {
       title: '图标',
@@ -58,11 +67,6 @@ const ToDoList = (props: any) => {
       title: '缴费截止日期',
       dataIndex: 'payEndDate',
       key: 'payEndDate',
-    },
-    {
-      title: '用户手机号码',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
     },
     {
       title: '收据',
@@ -104,7 +108,7 @@ const ToDoList = (props: any) => {
             title="确定要删除该数据吗？"
             onConfirm={() => tableRef.deleteData({ data: { id: record.id }, method: 'post' })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="default" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>
@@ -176,7 +180,7 @@ const ToDoList = (props: any) => {
         url="to/do/list/list"
         deleteUrl="to/do/list/delete"
         addPath="/todo/create"
-        scrollWidth={1500}
+        scrollWidth={2400}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

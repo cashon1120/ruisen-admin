@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import TablePage, { RefFunctions } from '@/components/TablePage';
-import { Button, Popconfirm, message, TreeSelect, Modal } from 'antd';
+import { Button, Popconfirm, TreeSelect, Modal } from 'antd';
 import { history } from 'umi';
 
-import Loading from '@/components/Loading';
 import HttpRequest from '@/utils/request';
 
 let tableRef: RefFunctions = {} as RefFunctions;
@@ -103,7 +102,7 @@ const NewsList = () => {
             title="确定要删除该数据吗？"
             onConfirm={() => tableRef.deleteData({ data: [record.id], method: 'delete' })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="default" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>

@@ -29,6 +29,7 @@ const NewsList = () => {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
+      width: 180
     },
     {
       title: '图片',
@@ -46,36 +47,45 @@ const NewsList = () => {
       title: '服务地区',
       dataIndex: 'serviceArea',
       key: 'serviceArea',
+      width: 180
     },
     {
       title: '服务介绍',
       dataIndex: 'serviceIntro',
       key: 'serviceIntro',
+      width: 280
     },
     {
       title: '服务流程',
       dataIndex: 'serviceProcess',
       key: 'serviceProcess',
+      width: 280
+    },
+
+    {
+      title: '收费标准',
+      dataIndex: 'chargeStandard',
+      key: 'chargeStandard',
+      width: 280
     },
     {
       title: '修改时间',
       dataIndex: 'updateTime',
       key: 'updateTime',
-    },
-    {
-      title: '收费标准',
-      dataIndex: 'chargeStandard',
-      key: 'chargeStandard',
-    },
+    width: 180
+  },
     {
       title: '添加时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 180
     },
     {
       title: '是否启用',
       dataIndex: 'enable',
       key: 'enable',
+      fixed: 'right',
+      width: 100,
       render: (enable: number, record: any) => (
         <Switch
           defaultChecked={enable === 1 ? true : false}
@@ -86,7 +96,8 @@ const NewsList = () => {
     },
     {
       title: '操作',
-      width: 120,
+      width: 100,
+      fixed: 'right',
       render: (record: any) => (
         <>
           <Button
@@ -134,6 +145,7 @@ const NewsList = () => {
         title="管家服务"
         columns={columns}
         searchItems={searchItems}
+        scrollWidth={2200}
         url="butler/service/list"
         addPath="/service/create"
       />

@@ -52,7 +52,7 @@ const NewsList = () => {
               queryParams: record.id,
               method: 'delete' })}
           >
-            <Button size="small" type="default" className="tab-btn">
+            <Button size="small" type="default" className="tab-btn" danger>
               删除
             </Button>
           </Popconfirm>
