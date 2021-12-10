@@ -16,7 +16,7 @@ interface RequestData{
 
 // 后端返回格式不统一, 处理一下
 const shouldFormatRoutes = ['admin/menus', 'admin/resources', 'house/all/list'];
-export const URL = process?.env?.NODE_ENV === 'development' ? '/api/' : 'http://162.14.73.204:8081/';
+export const URL = process?.env?.NODE_ENV === 'development' ? '/api/' : 'https://admin.risunovs.com/';
 const HttpRequest = function (options: IPramars) {
   let { url, method, params, type } = options;
   method = method || 'post';

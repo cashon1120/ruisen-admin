@@ -1,5 +1,6 @@
 import TablePage from '@/components/TablePage';
 import ImagePreview from '@/components/ImagePreview';
+import Detail from '@/components/Detail';
 
 const UserList = () => {
   const columns = [
@@ -8,6 +9,11 @@ const UserList = () => {
       dataIndex: 'name',
       key: 'name',
       width: 180,
+    },
+    {
+      title: '简介',
+      dataIndex: 'intro',
+      key: 'intro',
     },
     {
       title: '头像',
@@ -19,11 +25,6 @@ const UserList = () => {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
-    },
-    {
-      title: '简介',
-      dataIndex: 'intro',
-      key: 'intro',
     },
     {
       title: '微信openId',
@@ -49,10 +50,20 @@ const UserList = () => {
       render: (res: number) => (res === 0 ? '正常' : '冻结'),
     },
     {
-      title: '时间',
+      title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
       width: 180,
+    },
+    {
+      title: '操作',
+      width: 85,
+      fixed: 'right',
+      render: (record: any) => (
+        <>
+          <Detail title={`${record.name}个人信息`} columns={columns} data={record} />
+        </>
+      ),
     },
   ];
 

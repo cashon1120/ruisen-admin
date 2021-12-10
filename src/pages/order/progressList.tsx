@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Modal, message } from 'antd';
+import { Table, Modal, message, Button } from 'antd';
 import CreateProgress from './createProgress';
 import HttpRequest from '@/utils/request';
 
@@ -74,16 +74,16 @@ const ProgressList = (props: IProps) => {
 
   return (
     <>
-      <a onClick={handleTriggleVisible}>查看</a>
+      <Button onClick={handleTriggleVisible} size='small' >查看进度</Button>
       {visible ? (
         <Modal
           width={1000}
-          zIndex={100}
+          zIndex={2000}
+          footer={<Button type='primary' onClick={handleTriggleVisible}>确认</Button>}
           forceRender
-          title="进度"
-          visible={true}
+          title="服务进度"
+          visible={visible}
           onCancel={handleTriggleVisible}
-          onOk={handleTriggleVisible}
         >
           <Table columns={columns} dataSource={data} pagination={false} />
         </Modal>

@@ -33,13 +33,13 @@ const ImagePreview = (props: IProps) => {
       <Modal
         footer={[]}
         title="图片预览"
-        width={700}
+        width={750}
         visible={visible}
         onCancel={handleTriggerVisible}
         onOk={handleTriggerVisible}
       >
         <div style={{ textAlign: 'center' }}>
-          <img src={imgSrc} style={{ maxWidth: '100%'}} onError={handleError} />
+          <img src={imgSrc} style={{ maxWidth: '100%', background: showBgColor ? '#752117' : '#fafafa'}} onError={handleError} />
         </div>
       </Modal>
     </>

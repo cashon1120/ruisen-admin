@@ -1,7 +1,8 @@
 import TablePage, { RefFunctions } from '@/components/TablePage';
+import { Button, Popconfirm } from 'antd';
 import { history } from 'umi';
 import ImagePreview from '@/components/ImagePreview';
-import { Button, Popconfirm } from 'antd';
+import Detail from '@/components/Detail';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
@@ -63,7 +64,7 @@ const IncomeList = () => {
     {
       title: '操作',
       fixed: 'right',
-      width: 180,
+      width: 210,
       render: (record: any) => (
         <>
           <Button
@@ -82,6 +83,7 @@ const IncomeList = () => {
               删除
             </Button>
           </Popconfirm>
+          <Detail title="收益详情" columns={columns} data={record} />
         </>
       ),
     },

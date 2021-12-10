@@ -12,7 +12,7 @@ const CreateProgress = (props: IProps) => {
   const { handleSubmit, handleCancel, loading, initialValues } = props;
   return (
     <ModalForm
-      zIndex={1000}
+      zIndex={2000}
       title="修改进度"
       onFinish={handleSubmit}
       visible={true}

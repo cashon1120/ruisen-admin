@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import TablePage, { RefFunctions } from '@/components/TablePage';
-import ImagePreview from '@/components/ImagePreview';
 import { connect } from 'dva';
 import { history } from 'umi';
 import { Button, Popconfirm } from 'antd';
+import ImagePreview from '@/components/ImagePreview';
+import Detail from '@/components/Detail';
+import TablePage, { RefFunctions } from '@/components/TablePage';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
@@ -92,7 +93,7 @@ const ToDoList = (props: any) => {
     },
     {
       title: '操作',
-      width: 180,
+      width: 200,
       fixed: 'right',
       render: (record: any) => (
         <>
@@ -112,6 +113,7 @@ const ToDoList = (props: any) => {
               删除
             </Button>
           </Popconfirm>
+          <Detail title="待办事项详情" columns={columns} data={record} />
         </>
       ),
     },

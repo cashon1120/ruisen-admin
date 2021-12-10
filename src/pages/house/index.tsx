@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import TablePage from '@/components/TablePage';
 import { history } from 'umi';
+import { Button, Switch, message } from 'antd';
+import TablePage from '@/components/TablePage';
 import Loading from '@/components/Loading';
 import ImagePreview from '@/components/ImagePreview';
-import { Button, Switch, message } from 'antd';
 import HttpRequest from '@/utils/request';
+import Detail from '@/components/Detail';
 import {houseStatus, houseType, authenticationStatus} from '@/utils/enum'
 
 const HouseList = () => {
@@ -124,17 +125,18 @@ const HouseList = () => {
       width: 100,
       fixed: 'right',
       key: 'enable',
-      render: (enable: number, record: any) => (
-        <Switch
+      render: (enable: number, record: any, index: boolean) => {
+        const disabled = typeof index === 'boolean' ? index : false
+        return  <Switch
           defaultChecked={enable === 1 ? true : false}
-          disabled={loading}
+          disabled={disabled}
           onChange={(value: boolean) => handleChangeDisableState(value, record)}
         />
-      ),
+      },
     },
     {
       title: '操作',
-      width: 120,
+      width: 140,
       fixed: 'right',
       render: (record: any) => (
         <>
@@ -145,6 +147,7 @@ const HouseList = () => {
           >
             编辑
           </Button>
+          <Detail title="房产详情" columns={columns} data={record} />
         </>
       ),
     },

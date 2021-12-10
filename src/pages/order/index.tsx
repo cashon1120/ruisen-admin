@@ -5,8 +5,9 @@ import Loading from '@/components/Loading';
 import ModalForm from '@/components/ModalForm';
 import HttpRequest from '@/utils/request';
 import ImagePreview from '@/components/ImagePreview';
-import ProgressList from './progressList';
+import Detail from '@/components/Detail';
 import { houseType, authenticationStatus, isEnd } from '@/utils/enum';
+import ProgressList from './progressList';
 import CreateProgress from './createProgress'
 
 let tableRef: RefFunctions = {} as RefFunctions;
@@ -73,25 +74,36 @@ const OrderList = () => {
 
   const columns = [
     {
+      title: '订单号',
+      dataIndex: 'orderNo',
+      key: 'orderNo',
+      width: 200
+    },
+    {
       title: '房产名',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
     },
     {
-      title: '管家服务收费标准',
-      dataIndex: 'butlerServiceChargeStandard',
-      key: 'butlerServiceChargeStandard',
-    },
-    {
-      title: '管家服务LOGO',
-      dataIndex: 'butlerServiceLogo',
-      key: 'butlerServiceLogo',
-      render: (res: string) => <ImagePreview imgSrc={res}/>,
+      title: '用户手机号',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
     },
     {
       title: '管家服务名称',
       dataIndex: 'butlerServiceName',
       key: 'butlerServiceName',
+    },
+    {
+      title: '管家服务LOGO',
+      dataIndex: 'butlerServiceLogo',
+      key: 'butlerServiceLogo',
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
+    },
+    {
+      title: '管家服务收费标准',
+      dataIndex: 'butlerServiceChargeStandard',
+      key: 'butlerServiceChargeStandard',
     },
     {
       title: '当前状态',
@@ -102,6 +114,7 @@ const OrderList = () => {
       title: '房产地址',
       dataIndex: 'houseAddress',
       key: 'houseAddress',
+      width: 200,
     },
     {
       title: '房产认证状态',
@@ -114,13 +127,9 @@ const OrderList = () => {
       dataIndex: 'houseNationalCity',
       key: 'houseNationalCity',
     },
+
     {
-      title: '房产业主姓名',
-      dataIndex: 'butlerServiceName',
-      key: 'butlerServiceName',
-    },
-    {
-      title: '管家服务名称',
+      title: '业主姓名',
       dataIndex: 'houseOwnerName',
       key: 'houseOwnerName',
     },
@@ -131,21 +140,10 @@ const OrderList = () => {
       render: (type: string) => houseType[type],
     },
     {
-      title: '订单号',
-      dataIndex: 'orderNo',
-      key: 'orderNo',
-    },
-    {
       title: '是否完结',
       dataIndex: 'isEnd',
       key: 'isEnd',
       render: (res: string) => isEnd[res],
-    },
-    {
-      title: '订单服务进度列表',
-      dataIndex: 'orderServiceProgressList',
-      key: 'orderServiceProgressList',
-      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList}  updateCallBack={handleUpdateProgress}  />,
     },
     {
       title: '备注',
@@ -161,20 +159,29 @@ const OrderList = () => {
       title: '修改时间',
       dataIndex: 'updateTime',
       key: 'updateTime',
+      width: 180
     },
     {
       title: '添加时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 180
+    },
+    {
+      title: '服务进度',
+      dataIndex: 'orderServiceProgressList',
+      key: 'orderServiceProgressList',
+      fixed: 'right',
+      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList}  updateCallBack={handleUpdateProgress}  />,
     },
     {
       title: '操作',
-      width: 200,
+      width: 300,
       fixed: 'right',
       render: (record: any) => (
         <>
           <Button
-            style={{ marginRight: 15 }}
+            style={{ marginRight: 10 }}
             size="small"
             type="primary"
             onClick={() => handleCreateProgress(record)}
@@ -184,6 +191,7 @@ const OrderList = () => {
           <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
             修改总价
           </Button>
+          <Detail title="订单详情" btnText='订单详情' columns={columns} data={record} />
         </>
       ),
     },
@@ -196,12 +204,12 @@ const OrderList = () => {
       componentType: 'Input',
     },
     {
-      label: '用户手机号码',
+      label: '用户手机号',
       name: 'phoneNumber',
       componentType: 'Input',
     },
     {
-      label: '房产业主姓名',
+      label: '业主姓名',
       name: 'houseOwnerName',
       componentType: 'Input',
     },
@@ -249,7 +257,7 @@ const OrderList = () => {
         searchItems={searchItems}
         url="order/list"
         rowKey="id"
-        scrollWidth={2500}
+        scrollWidth={3000}
         onRef={(ref: any) => (tableRef = ref)}
       />
       {visiblePrice ? (

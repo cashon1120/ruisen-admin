@@ -86,6 +86,7 @@ const Uploader = (props: IProps) => {
       <Modal
         visible={showModal}
         title={'图片预览'}
+        width={750}
         footer={null}
         onCancel={() => setShowModal(false)}
       >

@@ -142,7 +142,6 @@ class ModalForm extends React.Component<ModalFromProps, IState> {
         afterClose={afterClose}
         mask={!disableMask}
         maskClosable={!disableMaskClosable}
-        getContainer={false}
       >
         <div style={{ overflow: 'auto', maxHeight: height }}>
           <Form

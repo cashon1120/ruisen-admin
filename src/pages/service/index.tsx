@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import TablePage from '@/components/TablePage';
+import { Button, Switch, message } from 'antd';
 import { history } from 'umi';
+import TablePage from '@/components/TablePage';
 import Loading from '@/components/Loading';
 import ImagePreview from '@/components/ImagePreview';
-import { Button, Switch, message } from 'antd';
+import Detail from '@/components/Detail';
 import HttpRequest from '@/utils/request';
 
 const ServiceList = () => {
@@ -86,17 +87,18 @@ const ServiceList = () => {
       key: 'enable',
       fixed: 'right',
       width: 100,
-      render: (enable: number, record: any) => (
-        <Switch
+      render: (enable: number, record: any, index: boolean) => {
+        const disabled = typeof index === 'boolean' ? index : false
+        return  <Switch
           defaultChecked={enable === 1 ? true : false}
-          disabled={!record.id}
+          disabled={disabled}
           onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
         />
-      ),
+      },
     },
     {
       title: '操作',
-      width: 100,
+      width: 180,
       fixed: 'right',
       render: (record: any) => (
         <>
@@ -107,6 +109,7 @@ const ServiceList = () => {
           >
             编辑
           </Button>
+          <Detail title={record.name} columns={columns} data={record} />
         </>
       ),
     },

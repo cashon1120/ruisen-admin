@@ -141,23 +141,23 @@ const GlobalHeaderRight: React.FC = () => {
         <Form.Item
           name="oldPassword"
           label="旧密码"
-          rules={[{ required: true, message: '旧密码不能为空！' }]}
+          rules={[{ required: true, message: '旧密码不能为空!' }]}
         >
-          <Input.Password placeholder="请输入旧密码！" />
+          <Input.Password placeholder="请输入旧密码!" />
         </Form.Item>
         <Form.Item
           name="newPassword"
           label="新密码"
-          rules={[{ required: true, message: '新密码不能为空！' }]}
+          rules={[{ required: true, message: '新密码不能为空!' }]}
         >
-          <Input.Password placeholder="请输入新密码！" />
+          <Input.Password placeholder="请输入新密码!" />
         </Form.Item>
         <Form.Item
           name="reNewPassword"
           label="确认密码"
-          rules={[{ required: true, message: '确认密码不能为空！' }]}
+          rules={[{ required: true, message: '确认密码不能为空!' }]}
         >
-          <Input.Password placeholder="请输入确认密码！" />
+          <Input.Password placeholder="请输入确认密码!" />
         </Form.Item>
       </ModalForm> : null}
 
@@ -194,13 +194,13 @@ const GlobalHeaderRight: React.FC = () => {
           <Form.Item
             name="nickname"
             label="昵称"
-            rules={[{ required: true, message: '昵称不能为空！' }]}
+            rules={[{ required: true, message: '昵称不能为空!' }]}
           >
-            <Input placeholder="请输入昵称！" maxLength={10} />
+            <Input placeholder="请输入昵称!" maxLength={10} />
           </Form.Item>
 
           <Form.Item name="intro" label="介绍">
-            <Input placeholder="请输入介绍！" />
+            <Input placeholder="请输入介绍!" />
           </Form.Item>
         </ModalForm>
       ) : null}

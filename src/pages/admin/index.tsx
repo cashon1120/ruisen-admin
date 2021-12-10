@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'dva';
 import TablePage, { RefFunctions } from '@/components/TablePage';
-import { Button, Popconfirm, Form, message, Switch, Input, Select } from 'antd';
+import { Button, Form, message, Switch, Input, Select } from 'antd';
 import ImagePreview from '@/components/ImagePreview';
 import Loading from '@/components/Loading';
 import ModalForm from '@/components/ModalForm';
@@ -112,21 +112,12 @@ const AdminList = (props: any) => {
     },
     {
       title: '操作',
-      width: 180,
+      width: 120,
       render: (record: any) => (
         <>
           <Button size="small" type="primary" onClick={() => handleUpdateRole(record)}>
             编辑
           </Button>
-          <Popconfirm
-            placement="topLeft"
-            title="确定要删除该数据吗？"
-            onConfirm={() => tableRef.deleteData({ data: { id: record.id } })}
-          >
-            <Button size="small" type="default" className="tab-btn" danger>
-              删除
-            </Button>
-          </Popconfirm>
         </>
       ),
     },
@@ -174,9 +165,9 @@ const AdminList = (props: any) => {
           <Form.Item
             name="nickname"
             label="昵称"
-            rules={[{ required: true, message: '昵称不能为空！' }]}
+            rules={[{ required: true, message: '昵称不能为空!' }]}
           >
-            <Input placeholder="请输入昵称！" />
+            <Input placeholder="请输入昵称!" />
           </Form.Item>
           <Form.Item
             name="roleIdList"

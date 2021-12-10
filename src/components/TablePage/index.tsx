@@ -128,6 +128,7 @@ const TablePage = (props: IProps) => {
   useEffect(getData, [params]);
 
   const deleteData = (options: DeleteOptions) => {
+    if(!deleteUrl) return
     const { data, method = 'delete', queryParams } = options;
     setLoading(true);
     const url = queryParams ? `${deleteUrl}/${queryParams}` : deleteUrl;
