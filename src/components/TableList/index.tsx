@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { Table } from 'antd';
 import Pagination, { PaginationProps } from '@/components/Pagination';
 import { debouncing } from '@/utils/commonUtils';
@@ -76,12 +76,12 @@ class TableList extends React.Component<TableProps, TableListState> {
       rowId: -1,
     };
   }
-
   onRowSelect = (selectedRowKeys: any[], selectedRows: any[]) => {
     const { onRowSelection } = this.props;
     onRowSelection && onRowSelection(selectedRowKeys, selectedRows);
   };
 
+  tableRef: any = createRef();
   componentDidMount() {
     this.setMaxHeight();
     window.addEventListener('resize', debouncing(this.setMaxHeight, 500), false);
@@ -91,41 +91,11 @@ class TableList extends React.Component<TableProps, TableListState> {
     window.removeEventListener('resize', debouncing(this.setMaxHeight, 500));
   }
 
-  componentWillReceiveProps(nextProps: Readonly<TableProps>, nextContext: any): void {
-    const { scrollHeight } = nextProps;
-    const { maxHeight } = this.state;
-    if (this.calculateMaxHeight(scrollHeight) !== maxHeight) {
-      this.setState({
-        maxHeight: this.calculateMaxHeight(scrollHeight),
-      });
-    }
-  }
-
   setMaxHeight = () => {
-    const maxHeight = this.calculateMaxHeight();
+    const { top } = this.tableRef.current.getBoundingClientRect();
     this.setState({
-      maxHeight,
+      maxHeight: document.body.offsetHeight - top - 150,
     });
-  };
-
-  calculateMaxHeight = (_scrollHeight?: number) => {
-    const scrollHeight = _scrollHeight ?? this.props.scrollHeight;
-    const { pagination = true } = this.props;
-    const windowHeight = window.innerHeight;
-    const bottomHeight = pagination ? 75 : 30;
-    const tableWrapper = this.refs.tableWrapper as HTMLDivElement;
-    let offsetTop: number = 0;
-    let theadHeight: number = 0;
-    if (tableWrapper && tableWrapper.getBoundingClientRect && tableWrapper.getElementsByTagName) {
-      offsetTop = tableWrapper.getBoundingClientRect().y;
-      theadHeight = tableWrapper.getElementsByTagName('thead')[0].offsetHeight;
-    }
-    if (theadHeight == 0) {
-      theadHeight = 52;
-    }
-    return scrollHeight
-      ? scrollHeight - theadHeight - bottomHeight
-      : windowHeight - offsetTop - theadHeight - bottomHeight;
   };
 
   setClassName = (record: any) => {
@@ -226,7 +196,7 @@ class TableList extends React.Component<TableProps, TableListState> {
       color,
       pageSizeOptions,
       size,
-      scrollWidth
+      scrollWidth,
     } = this.props;
     this.setDefaultPage(currentPage, pageSize);
 
@@ -290,9 +260,10 @@ class TableList extends React.Component<TableProps, TableListState> {
           <div className={`${styles.tableContainer} tableContainer`} ref="tableWrapper">
             <div className={`${styles.table_wrapper_expend} table_wrapper_expand`}>
               <Table
+                ref={this.tableRef}
                 className={className}
                 dataSource={data || []}
-                scroll={{x: scrollWidth}}
+                scroll={{ x: scrollWidth, y: this.state.maxHeight }}
                 loading={loading}
                 rowKey={rowKey || columns[0].dataIndex}
                 columns={columns || []}

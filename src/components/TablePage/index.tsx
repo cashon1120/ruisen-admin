@@ -5,8 +5,12 @@ import TableList, { TableColums } from '@/components/TableList/';
 import HttpRequest from '@/utils/request';
 import { message } from 'antd';
 
+interface Data {
+  [key: string]: any;
+}
+
 interface DeleteOptions {
-  data: any;
+  data: Data;
   queryParams?: string;
   method?: 'post' | 'delete';
 }
@@ -16,6 +20,7 @@ export interface RefFunctions {
   getData: (page?: number) => void;
   updateData: (key: string, record: any) => void;
 }
+
 interface IProps {
   title: string;
   url: string;
@@ -28,8 +33,8 @@ interface IProps {
   onRef?: (ref: any) => void;
   pageSize?: number;
   disablePagination?: boolean;
-  scrollWidth?: number
-  formatData?: (data: any) => any;
+  scrollWidth?: number;
+  formatData?: <T>(data: T) => T;
 }
 
 const TablePage = (props: IProps) => {
@@ -39,13 +44,13 @@ const TablePage = (props: IProps) => {
     searchItems,
     url,
     defaultParams,
-    onRef,
     deleteUrl,
     addPath,
     rowKey,
     pageSize,
     disablePagination,
     scrollWidth,
+    onRef,
     formatData,
   } = props;
   const [loading, setLoading] = useState(false);
@@ -125,10 +130,8 @@ const TablePage = (props: IProps) => {
       });
   };
 
-  useEffect(getData, [params]);
-
   const deleteData = (options: DeleteOptions) => {
-    if(!deleteUrl) return
+    if (!deleteUrl) return;
     const { data, method = 'delete', queryParams } = options;
     setLoading(true);
     const url = queryParams ? `${deleteUrl}/${queryParams}` : deleteUrl;
@@ -161,6 +164,8 @@ const TablePage = (props: IProps) => {
   useEffect(() => {
     onRef && onRef({ deleteData, getData, updateData });
   }, []);
+
+  useEffect(getData, [params]);
 
   return (
     <Wrapper title={title}>
