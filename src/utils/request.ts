@@ -8,15 +8,18 @@ interface IPramars {
   type?: 'json' | 'formData';
 }
 
-interface RequestData{
-  code: number
-  message: string
-  data: any
+interface RequestData {
+  code: number;
+  message: string;
+  data: any;
 }
+
+// const URL = 'https://admin.risunovs.com/'
+export const URL = 'http://47.104.131.247:8081/';
 
 // 后端返回格式不统一, 处理一下
 const shouldFormatRoutes = ['admin/menus', 'admin/resources', 'house/all/list'];
-export const URL = process?.env?.NODE_ENV === 'development' ? '/api/' : 'https://admin.risunovs.com/';
+// export const URL = process?.env?.NODE_ENV === 'development' ? '/api/' : 'https://admin.risunovs.com/';
 const HttpRequest = function (options: IPramars) {
   let { url, method, params, type } = options;
   method = method || 'post';
@@ -60,7 +63,7 @@ const HttpRequest = function (options: IPramars) {
         return;
       }
       if (shouldFormatRoutes.includes(url)) {
-        if(res.data){
+        if (res.data) {
           const data = res.data;
           res.data = {
             recordList: data,
