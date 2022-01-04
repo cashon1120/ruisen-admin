@@ -14,8 +14,8 @@ interface RequestData {
   data: any;
 }
 
-// const URL = 'https://admin.risunovs.com/'
-export const URL = 'http://47.104.131.247:8081/';
+// export const URL = 'https://api.risunovs.com/'
+export const URL = '/api/';
 
 // 后端返回格式不统一, 处理一下
 const shouldFormatRoutes = ['admin/menus', 'admin/resources', 'house/all/list'];
