@@ -12,6 +12,7 @@ const Login = () => {
   });
   const onFinish = (values: any) => {
     values.captchaKey = captcha.key;
+    let remember = values.remember;
     delete values.remember;
     setLoading(true);
     HttpRequest({ url: 'admin/login', params: values })
@@ -19,6 +20,15 @@ const Login = () => {
         localStorage.setItem('token', res.token);
         localStorage.setItem('useInfo', JSON.stringify(res));
         history.push('/home');
+        if (remember) {
+          localStorage.setItem('username', values.username);
+          localStorage.setItem('password', values.password);
+          localStorage.setItem('remember', remember);
+        } else {
+          localStorage.removeItem('username');
+          localStorage.removeItem('password');
+          localStorage.removeItem('remember');
+        }
       })
       .finally(() => setLoading(false));
   };
@@ -30,18 +40,17 @@ const Login = () => {
   };
 
   useEffect(getCaptcha, []);
-
+  const initialValues: any = {};
+  if (localStorage.getItem('remember')) {
+    initialValues.username = localStorage.getItem('username');
+    initialValues.password = localStorage.getItem('password');
+    initialValues.remember = localStorage.getItem('remember');
+  }
   return (
     <div className={styles.outer}>
       <div className={styles.wrapper}>
         <h2>瑞森海外房管家后台管理系统</h2>
-        <Form
-          name="normal_login"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-        >
+        <Form name="normal_login" initialValues={initialValues} onFinish={onFinish}>
           <Form.Item
             label="账号"
             name="username"
@@ -52,7 +61,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input placeholder="账号" size="large"/>
+            <Input placeholder="账号" size="large" />
           </Form.Item>
           <Form.Item
             label="密码"
@@ -75,7 +84,7 @@ const Login = () => {
                   noStyle
                   rules={[{ required: true, message: '请输入验证码' }]}
                 >
-                  <Input size="large"/>
+                  <Input size="large" />
                 </Form.Item>
               </Col>
               <Col span={12}>
