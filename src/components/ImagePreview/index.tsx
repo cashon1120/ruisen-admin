@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { formatImgSrc } from '@/utils/commonUtils';
 import { Modal } from 'antd';
 interface IProps {
   imgSrc: string;
