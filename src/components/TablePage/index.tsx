@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Search, { FormItem } from '@/components/Search';
 import Wrapper from '../Wrapper/Index';
 import TableList, { TableColums } from '@/components/TableList/';
+import { formatImgSrc } from '@/utils/commonUtils';
 import HttpRequest from '@/utils/request';
 import { message } from 'antd';
 
@@ -121,6 +122,35 @@ const TablePage = (props: IProps) => {
         if (formatData) {
           result = formatData(result);
         }
+        const imgKeys = [
+          'image',
+          'avatar',
+          'leaseContract',
+          'floorPlan',
+          'logo',
+          'butlerServiceLogo',
+          'icon',
+          'receipt',
+        ];
+        result.forEach((item: any) => {
+          imgKeys.forEach((key: string) => {
+            if (item[key]) {
+              item[key] = formatImgSrc(item[key]);
+            }
+          });
+
+          if (item.photoList) {
+            for (let i = 0; i < item.photoList.length; i++) {
+              item.photoList[i] = formatImgSrc(item.photoList[i]);
+            }
+          }
+          if (item.ownerGuideList) {
+            for (let i = 0; i < item.ownerGuideList.length; i++) {
+              item.ownerGuideList[i].icon = formatImgSrc(item.ownerGuideList[i].icon);
+            }
+          }
+        });
+
         setData(result);
         dataRef.current = result;
         setTotal(res.count);

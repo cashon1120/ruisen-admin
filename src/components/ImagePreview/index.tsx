@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { formatImgSrc } from '@/utils/commonUtils';
 import { Modal } from 'antd';
 interface IProps {
   imgSrc: string;
   disableShowBig?: boolean;
   showBgColor?: boolean;
 }
-const defaultSrc = '/images/noimg.jpg'
+const defaultSrc = '/images/noimg.jpg';
 const ImagePreview = (props: IProps) => {
   const { imgSrc, showBgColor, disableShowBig } = props;
   const [visible, setVisible] = useState(false);
@@ -18,6 +19,7 @@ const ImagePreview = (props: IProps) => {
   return (
     <>
       <img
+        // src={formatImgSrc(imgSrc || defaultSrc)}
         src={imgSrc || defaultSrc}
         title="点击查看大图"
         style={{
@@ -39,7 +41,11 @@ const ImagePreview = (props: IProps) => {
         onOk={handleTriggerVisible}
       >
         <div style={{ textAlign: 'center' }}>
-          <img src={imgSrc} style={{ maxWidth: '100%', background: showBgColor ? '#752117' : '#fafafa'}} onError={handleError} />
+          <img
+            src={imgSrc}
+            style={{ maxWidth: '100%', background: showBgColor ? '#752117' : '#fafafa' }}
+            onError={handleError}
+          />
         </div>
       </Modal>
     </>

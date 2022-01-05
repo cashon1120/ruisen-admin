@@ -17,6 +17,22 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/api': '/' },
     },
+    '/new/8088/': {
+      // 要代理的地址
+      target: 'http://47.104.131.247:8088/',
+      // 配置了这个可以从 http 代理到 https
+      // 依赖 origin 的功能可能需要这个，比如 cookie
+      changeOrigin: true,
+      pathRewrite: { '^/new/8088': '/' },
+    },
+    '/old/8088/': {
+      // 要代理的地址
+      target: 'http://162.14.73.204:8088/',
+      // 配置了这个可以从 http 代理到 https
+      // 依赖 origin 的功能可能需要这个，比如 cookie
+      changeOrigin: true,
+      pathRewrite: { '^/old/8088': '/' },
+    },
   },
   test: {
     '/api/': {

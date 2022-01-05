@@ -92,6 +92,7 @@ class TableList extends React.Component<TableProps, TableListState> {
   }
 
   setMaxHeight = () => {
+    if (!this.tableRef.current) return;
     const { top } = this.tableRef.current.getBoundingClientRect();
     this.setState({
       maxHeight: document.body.offsetHeight - top - 150,

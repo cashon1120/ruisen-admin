@@ -4,6 +4,7 @@ import Uploader from '@/components/Upload';
 let formInstance: any = null;
 const CreateData = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
+
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
