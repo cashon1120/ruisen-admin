@@ -42,6 +42,12 @@ const IncomeList = () => {
       render: (res: string) => <ImagePreview imgSrc={res} />,
     },
     {
+      title: '账单',
+      dataIndex: 'bill',
+      key: 'bill',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+    },
+    {
       title: '修改时间',
       dataIndex: 'updateTime',
       key: 'updateTime',

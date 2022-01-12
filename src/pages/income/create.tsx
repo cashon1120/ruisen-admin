@@ -6,7 +6,7 @@ import Uploader from '@/components/Upload';
 let formInstance: any = null;
 const CreateIncome = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-  const { houseList,  fetchList} = props;
+  const { houseList, fetchList } = props;
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
@@ -15,11 +15,20 @@ const CreateIncome = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    if(houseList.length === 0){
-      fetchList()
+  const handleBillChange = (imgs: any[]) => {
+    if (imgs.length === 0) return;
+    if (imgs[0].status === 'done') {
+      const img = imgs[0].response.data;
+      console.log(img);
+      formInstance.setFieldsValue({ bill: img });
     }
-  }, [])
+  };
+
+  useEffect(() => {
+    if (houseList.length === 0) {
+      fetchList();
+    }
+  }, []);
 
   return (
     <>
@@ -33,7 +42,6 @@ const CreateIncome = (props: any) => {
         data={record}
         onRef={(from: any) => (formInstance = from)}
       >
-
         <Form.Item
           name="houseId"
           label="房产"
@@ -75,7 +83,7 @@ const CreateIncome = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入租金" style={{width: 150}} />
+          <InputNumber placeholder="请输入租金" style={{ width: 150 }} />
         </Form.Item>
 
         <Form.Item
@@ -101,7 +109,7 @@ const CreateIncome = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入总租金" style={{width: 150}} />
+          <InputNumber placeholder="请输入总租金" style={{ width: 150 }} />
         </Form.Item>
 
         <Form.Item
@@ -117,21 +125,29 @@ const CreateIncome = (props: any) => {
           <Input placeholder="请输入出租状态" />
         </Form.Item>
 
-        <Form.Item name="leaseStartTime" label="租期开始时间" rules={[
+        <Form.Item
+          name="leaseStartTime"
+          label="租期开始时间"
+          rules={[
             {
               required: true,
               message: '请选择租期开始时间',
             },
-          ]}>
+          ]}
+        >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
-        <Form.Item name="leaseEndTime" label="租期结束时间" rules={[
+        <Form.Item
+          name="leaseEndTime"
+          label="租期结束时间"
+          rules={[
             {
               required: true,
               message: '请选择租期结束时间',
             },
-          ]}>
+          ]}
+        >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
@@ -151,6 +167,23 @@ const CreateIncome = (props: any) => {
             onChange={handleChange}
           />
         </Form.Item>
+
+        <Form.Item
+          name="bill"
+          label="账单"
+          rules={[
+            {
+              required: true,
+              message: '请输上传账单!',
+            },
+          ]}
+        >
+          <Uploader
+            data={{ fileType: 'BILL' }}
+            defaultFile={record?.bill}
+            onChange={handleBillChange}
+          />
+        </Form.Item>
       </FormPage>
     </>
   );
@@ -161,7 +194,6 @@ const mapStateToProps = (state: any) => {
     houseList: state.global.houseList,
   };
 };
-
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
