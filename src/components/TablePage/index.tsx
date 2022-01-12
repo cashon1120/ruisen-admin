@@ -131,6 +131,7 @@ const TablePage = (props: IProps) => {
           'butlerServiceLogo',
           'icon',
           'receipt',
+          'bill',
         ];
         result.forEach((item: any) => {
           imgKeys.forEach((key: string) => {

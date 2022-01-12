@@ -53,5 +53,5 @@ export const formatImgSrc = (src: string) => {
   if (src.indexOf('http://47.104.131.247:8088') > -1) {
     return `/new/${newSrc}`;
   }
-  return newSrc;
+  return src;
 };
