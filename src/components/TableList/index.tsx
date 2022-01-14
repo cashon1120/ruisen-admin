@@ -266,7 +266,7 @@ class TableList extends React.Component<TableProps, TableListState> {
                 dataSource={data || []}
                 scroll={{ x: scrollWidth, y: this.state.maxHeight }}
                 loading={loading}
-                rowKey={rowKey || columns[0].dataIndex}
+                rowKey={rowKey || 'id'}
                 columns={columns || []}
                 onChange={onTableChange}
                 onRow={this.onRow}

@@ -41,6 +41,7 @@ const CreateIncome = (props: any) => {
         type="json"
         data={record}
         onRef={(from: any) => (formInstance = from)}
+        initialValues={{ currency: '泰铢' }}
       >
         <Form.Item
           name="houseId"
@@ -70,7 +71,7 @@ const CreateIncome = (props: any) => {
             },
           ]}
         >
-          <Input placeholder="请输入币种" />
+          <Input placeholder="请输入币种" disabled />
         </Form.Item>
 
         <Form.Item

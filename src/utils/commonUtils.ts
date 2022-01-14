@@ -55,3 +55,15 @@ export const formatImgSrc = (src: string) => {
   }
   return src;
 };
+
+export const formatImgSrcBack = (src: string) => {
+  // 之前测试环境图片路径
+  if (src.indexOf('old') > -1) {
+    return `${src.replace('/old/8088', 'http://162.14.73.204:8088')}`;
+  }
+  // 正式环境图片路径
+  if (src.indexOf('new') > -1) {
+    return `${src.replace('/new/8088', 'http://47.104.131.247:8088')}`;
+  }
+  return src;
+};

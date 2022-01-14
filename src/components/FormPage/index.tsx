@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Form, message, Button } from 'antd';
-import moment from 'moment'
+import moment from 'moment';
 import { history } from 'umi';
 import Wrapper from '@/components/Wrapper/Index';
 import HttpRequest from '@/utils/request';
-import styles from './index.less'
+import styles from './index.less';
+import { formatImgSrcBack } from '@/utils/commonUtils';
 
 const formItemLayout = {
   labelCol: {
@@ -44,12 +45,24 @@ interface IProps {
   type?: 'json' | 'formData';
   formatValue?: (values: any) => any;
   onRef?: (form: any) => void;
-  initialValues?: any
-  showDetail?: boolean
+  initialValues?: any;
+  showDetail?: boolean;
 }
 
 const FormPage = (props: IProps) => {
-  const { data, title, showDetail, createUrl, updateUrl, backPath, type, formatValue, onRef, dateKeys, initialValues } = props;
+  const {
+    data,
+    title,
+    showDetail,
+    createUrl,
+    updateUrl,
+    backPath,
+    type,
+    formatValue,
+    onRef,
+    dateKeys,
+    initialValues,
+  } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   // 提交表单
@@ -65,15 +78,45 @@ const FormPage = (props: IProps) => {
       if (dateKeys?.includes(key)) {
         values[key] = values[key].format('YYYY-MM-DD');
       }
-      if(typeof values[key] === 'boolean'){
-        values[key] = values[key] ? 1 : 0
+      if (typeof values[key] === 'boolean') {
+        values[key] = values[key] ? 1 : 0;
       }
     });
+
+    const imgKeys = [
+      'image',
+      'avatar',
+      'leaseContract',
+      'floorPlan',
+      'logo',
+      'butlerServiceLogo',
+      'icon',
+      'receipt',
+      'bill',
+    ];
+
+    imgKeys.forEach((key: string) => {
+      if (values[key]) {
+        values[key] = formatImgSrcBack(values[key]);
+      }
+    });
+
+    if (values.photoList) {
+      for (let i = 0; i < values.photoList.length; i++) {
+        values.photoList[i] = formatImgSrcBack(values.photoList[i]);
+      }
+    }
+    if (values.ownerGuideList) {
+      for (let i = 0; i < values.ownerGuideList.length; i++) {
+        values.ownerGuideList[i].icon = formatImgSrcBack(values.ownerGuideList[i].icon);
+      }
+    }
 
     if (formatValue) {
       values = formatValue(values);
     }
-
+    console.log(values);
+    return;
     setLoading(true);
     HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type })
       .then(() => {
@@ -117,13 +160,17 @@ const FormPage = (props: IProps) => {
         >
           {props.children}
           <Form.Item {...tailFormItemLayout}>
-            {!showDetail ?  <Button style={{ marginRight: 15 }} type="primary" htmlType="submit" loading={loading}>
-              提交
-            </Button> : null}
-            <Button
-              type="default"
-              onClick={() => history.push(`/${backPath.replace('/', '')}`)}
-            >
+            {!showDetail ? (
+              <Button
+                style={{ marginRight: 15 }}
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+              >
+                提交
+              </Button>
+            ) : null}
+            <Button type="default" onClick={() => history.push(`/${backPath.replace('/', '')}`)}>
               返回
             </Button>
           </Form.Item>
