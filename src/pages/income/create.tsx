@@ -61,7 +61,7 @@ const CreateIncome = (props: any) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="currency"
           label="币种"
           rules={[
@@ -72,7 +72,7 @@ const CreateIncome = (props: any) => {
           ]}
         >
           <Input placeholder="请输入币种" disabled />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           name="rental"

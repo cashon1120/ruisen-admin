@@ -11,7 +11,7 @@ let formInstance: any = null;
 const CreateHouse = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
   const showDetail = props.location.state ? props.location.state.showDetail : null;
-  const { userList,  fetchList} = props;
+  const { userList, fetchList } = props;
   const handleGuidChange = (data: Item[]) => {
     guidData = data;
     formInstance.setFieldsValue({ ownerGuideList: data.length === 0 ? '' : guidData });
@@ -34,18 +34,18 @@ const CreateHouse = (props: any) => {
     imgs.forEach((item: any) => {
       if (item.response) {
         result.push(item.response.data);
-      }else{
-        result.push(item.url)
+      } else {
+        result.push(item.url);
       }
     });
     formInstance.setFieldsValue({ photoList: result });
   };
 
   useEffect(() => {
-    if(userList.length === 0){
-      fetchList()
+    if (userList.length === 0) {
+      fetchList();
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -57,7 +57,7 @@ const CreateHouse = (props: any) => {
         dateKeys={['transferDate']}
         type="json"
         data={record}
-        initialValues={{record}}
+        initialValues={{ record }}
         showDetail={showDetail}
         onRef={(form: any) => (formInstance = form)}
       >
@@ -142,7 +142,14 @@ const CreateHouse = (props: any) => {
             },
           ]}
         >
-          <InputNumber placeholder="请输入面积" min={1} maxLength={10} max={100000}  style={{width: 180}} addonAfter="m²"/>
+          <InputNumber
+            placeholder="请输入面积"
+            min={1}
+            maxLength={10}
+            max={100000}
+            style={{ width: 180 }}
+            addonAfter="m²"
+          />
         </Form.Item>
 
         <Form.Item
@@ -200,6 +207,19 @@ const CreateHouse = (props: any) => {
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="currency"
+          label="币种"
+          rules={[
+            {
+              required: true,
+              message: '请输入币种',
+            },
+          ]}
+        >
+          <Input placeholder="请输入币种" maxLength={10} />
         </Form.Item>
 
         <Form.Item
@@ -301,7 +321,6 @@ const mapStateToProps = (state: any) => {
     userList: state.global.userList,
   };
 };
-
 
 const mapDispatchToProps = (dispatch: any) => {
   return {

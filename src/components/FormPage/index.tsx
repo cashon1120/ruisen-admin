@@ -115,8 +115,6 @@ const FormPage = (props: IProps) => {
     if (formatValue) {
       values = formatValue(values);
     }
-    console.log(values);
-    return;
     setLoading(true);
     HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type })
       .then(() => {

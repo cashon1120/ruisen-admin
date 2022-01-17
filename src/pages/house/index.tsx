@@ -6,7 +6,7 @@ import Loading from '@/components/Loading';
 import ImagePreview from '@/components/ImagePreview';
 import HttpRequest from '@/utils/request';
 import Detail from '@/components/Detail';
-import {houseStatus, houseType, authenticationStatus} from '@/utils/enum'
+import { houseStatus, houseType, authenticationStatus } from '@/utils/enum';
 
 const HouseList = () => {
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,13 @@ const HouseList = () => {
       dataIndex: 'photoList',
       key: 'photoList',
       width: 300,
-      render: (photoList: string[]) => <div>{photoList.map((item: string, index: number) => <ImagePreview key={index} imgSrc={item} />)}</div>,
+      render: (photoList: string[]) => (
+        <div>
+          {photoList.map((item: string, index: number) => (
+            <ImagePreview key={index} imgSrc={item} />
+          ))}
+        </div>
+      ),
     },
     {
       title: '地址',
@@ -102,6 +108,12 @@ const HouseList = () => {
       render: (type: string) => houseType[type],
     },
     {
+      title: '币种',
+      dataIndex: 'currency',
+      key: 'currency',
+      width: 100,
+    },
+    {
       title: '房产状态',
       dataIndex: 'houseStatus',
       key: 'houseStatus',
@@ -126,12 +138,14 @@ const HouseList = () => {
       fixed: 'right',
       key: 'enable',
       render: (enable: number, record: any, index: boolean) => {
-        const disabled = typeof index === 'boolean' ? index : false
-        return  <Switch
-          defaultChecked={enable === 1 ? true : false}
-          disabled={disabled}
-          onChange={(value: boolean) => handleChangeDisableState(value, record)}
-        />
+        const disabled = typeof index === 'boolean' ? index : false;
+        return (
+          <Switch
+            defaultChecked={enable === 1 ? true : false}
+            disabled={disabled}
+            onChange={(value: boolean) => handleChangeDisableState(value, record)}
+          />
+        );
       },
     },
     {
@@ -143,7 +157,7 @@ const HouseList = () => {
           <Button
             size="small"
             type="primary"
-            onClick={() => history.push('/house/create', { record})}
+            onClick={() => history.push('/house/create', { record })}
           >
             编辑
           </Button>
