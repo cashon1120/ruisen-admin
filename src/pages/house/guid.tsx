@@ -66,7 +66,6 @@ const Guid = (props: IProps) => {
   };
 
   const handleImageChange = (imgs: any[], id: number) => {
-    if (imgs.length === 0) return;
     const result: string[] = [];
     imgs.forEach((item: any) => {
       if (item.response) {

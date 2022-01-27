@@ -109,12 +109,11 @@ const FormPage = (props: IProps) => {
     if (values.ownerGuideList) {
       for (let i = 0; i < values.ownerGuideList.length; i++) {
         values.ownerGuideList[i].icon = formatImgSrcBack(values.ownerGuideList[i].icon);
-        // if(values.ownerGuideList[i].imageList){
-        //   for (let j = 0; j < values.ownerGuideList[i].imageList.length; j++) {
-        //     values.ownerGuideList[i].imageList[j] = formatImgSrcBack(values.ownerGuideList[i].imageList[j]);
-        //   }
-        // }
-        values.ownerGuideList[i].imageList = [];
+        if(values.ownerGuideList[i].imageList){
+          for (let j = 0; j < values.ownerGuideList[i].imageList.length; j++) {
+            values.ownerGuideList[i].imageList[j] = formatImgSrcBack(values.ownerGuideList[i].imageList[j]);
+          }
+        }
       }
     }
 

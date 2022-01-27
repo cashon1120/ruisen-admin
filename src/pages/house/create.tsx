@@ -18,7 +18,9 @@ const CreateHouse = (props: any) => {
   };
 
   const handleChange = (imgs: any[]) => {
-    if (imgs.length === 0) return;
+    if (imgs.length === 0) {
+      formInstance.setFieldsValue({ floorPlan: '' });
+    };
     if (imgs[0].status === 'done') {
       const img = imgs[0].response.data;
       formInstance.setFieldsValue({ floorPlan: img });
