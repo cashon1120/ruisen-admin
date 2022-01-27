@@ -13,6 +13,7 @@ export interface Item {
   id: number;
   title: string;
   icon: string;
+  imageList: string[];
   description: string;
 }
 
@@ -26,6 +27,7 @@ const Guid = (props: IProps) => {
       id: index++,
       title: '',
       icon: '',
+      imageList: [],
       description: '',
     });
     onFormChange(data);
@@ -57,6 +59,25 @@ const Guid = (props: IProps) => {
     data.forEach((item: Item) => {
       if (item.id === id) {
         item.description = e.target.value;
+      }
+    });
+    onFormChange(data);
+    setData([...data]);
+  };
+
+  const handleImageChange = (imgs: any[], id: number) => {
+    if (imgs.length === 0) return;
+    const result: string[] = [];
+    imgs.forEach((item: any) => {
+      if (item.response) {
+        result.push(item.response.data);
+      } else {
+        result.push(item.url);
+      }
+    });
+    data.forEach((item: Item) => {
+      if (item.id === id) {
+        item.imageList = result;
       }
     });
     onFormChange(data);
@@ -95,6 +116,18 @@ const Guid = (props: IProps) => {
                 onChange={(imgs: any[]) => handleIconChange(imgs, item.id)}
               />
               <span style={{ opacity: 0.6 }}>图片大小: 60*60</span>
+            </div>
+          </div>
+          <div>
+            <label>图片</label>
+            <div className={styles.iconWrapper}>
+              <Uploader
+                action="file/upload"
+                data={{ fileType: 'OWNER_GUIDE_IMAGE' }}
+                defaultFile={item?.imageList}
+                maxLength={6}
+                onChange={(imgs: any[]) => handleImageChange(imgs, item.id)}
+              />
             </div>
           </div>
           <div>
