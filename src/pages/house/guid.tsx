@@ -124,7 +124,7 @@ const Guid = (props: IProps) => {
                 action="file/upload"
                 data={{ fileType: 'OWNER_GUIDE_IMAGE' }}
                 defaultFile={item?.imageList}
-                maxLength={6}
+                maxLength={8}
                 onChange={(imgs: any[]) => handleImageChange(imgs, item.id)}
               />
             </div>

@@ -15,7 +15,7 @@ const Detail = (props: IProps) => {
   const renderItem = (item: TableColums) => {
     if (item.title === '操作') return null;
     return (
-      <div className={styles.list}>
+      <div className={styles.list} key="item.title">
         <div className={styles.label}>{item.title}:</div>
         <div className={styles.value}>{renderValue(item)}</div>
       </div>
