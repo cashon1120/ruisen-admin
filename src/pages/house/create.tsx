@@ -227,11 +227,6 @@ const CreateHouse = (props: any) => {
         <Form.Item
           name="transferDate"
           label="过户日期"
-          rules={[
-            {
-              message: '请选择过户日期',
-            },
-          ]}
         >
           <DatePicker />
         </Form.Item>
