@@ -119,7 +119,7 @@ const Guid = (props: IProps) => {
           </div>
           <div>
             <label>图片</label>
-            <div className={styles.iconWrapper}>
+            <div style={{ width: 450 }}>
               <Uploader
                 action="file/upload"
                 data={{ fileType: 'OWNER_GUIDE_IMAGE' }}
@@ -127,6 +127,7 @@ const Guid = (props: IProps) => {
                 maxLength={8}
                 onChange={(imgs: any[]) => handleImageChange(imgs, item.id)}
               />
+              <span style={{ opacity: 0.6 }}>最多可上传8张图片</span>
             </div>
           </div>
           <div>
