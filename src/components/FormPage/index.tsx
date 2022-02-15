@@ -76,7 +76,11 @@ const FormPage = (props: IProps) => {
 
     Object.keys(values).forEach((key: string) => {
       if (dateKeys?.includes(key)) {
-        values[key] = values[key].format('YYYY-MM-DD');
+        if(values[key]){
+          values[key] = values[key].format('YYYY-MM-DD');
+        }else{
+          values[key] = ''
+        }
       }
       if (typeof values[key] === 'boolean') {
         values[key] = values[key] ? 1 : 0;
