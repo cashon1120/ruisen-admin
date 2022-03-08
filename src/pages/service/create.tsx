@@ -1,15 +1,46 @@
+import { useState, useEffect } from 'react';
 import { Form, Input, Radio } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
+import BraftEditor from 'braft-editor'; // 引入编辑器组件
+import 'braft-editor/dist/index.css'; // 引入编辑器样式
+import HttpRequest from '@/utils/request';
+import styles from './style.less';
+
 let formInstance: any = null;
+
 const CreateData = (props: any) => {
+  const [introState, setIntroState] = useState<any>('');
+  const [processState, setProcessState] = useState<any>('');
+  const [standardState, setStandardState] = useState<any>('');
+
   const record = props.location.state ? props.location.state.record : null;
+  useEffect(() => {
+    if (record) {
+      setIntroState(BraftEditor.createEditorState(record.serviceIntro));
+      setProcessState(BraftEditor.createEditorState(record.serviceProcess));
+      setStandardState(BraftEditor.createEditorState(record.chargeStandard));
+    }
+  }, []);
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
       const img = imgs[0].response.data;
       formInstance.setFieldsValue({ image: img });
     }
+    // if (imgs.length === 0) {
+    //   formInstance.setFieldsValue({ image: [] });
+    //   return;
+    // }
+    // const result: string[] = [];
+    // imgs.forEach((item: any) => {
+    //   if (item.response) {
+    //     result.push(item.response.data);
+    //   } else {
+    //     result.push(item.url);
+    //   }
+    // });
+    // formInstance.setFieldsValue({ image: result });
   };
   const handleLogoChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
@@ -21,7 +52,39 @@ const CreateData = (props: any) => {
 
   const handleFormFormatValue = (values: any) => {
     values.enable = parseInt(values.enable);
+    values.serviceIntro = introState.toHTML();
+    values.serviceProcess = processState.toHTML();
+    values.chargeStandard = standardState.toHTML();
     return values;
+  };
+
+  const uploadFn = (param: any) => {
+    const formData = new FormData();
+    formData.append('file', param.file);
+    HttpRequest({
+      url: `file/upload`,
+      method: 'post',
+      type: 'formData',
+      params: { file: param.file, fileType: 'BUTLER_SERVICE_IMAGE' },
+    }).then((res: any) => {
+      param.success({
+        url: res,
+      });
+    });
+  };
+
+  const handleEditorChange = (state: any, type: number) => {
+    switch (type) {
+      case 1:
+        setIntroState(state);
+        break;
+      case 2:
+        setProcessState(state);
+        break;
+      default:
+        setStandardState(state);
+        break;
+    }
   };
 
   return (
@@ -34,7 +97,7 @@ const CreateData = (props: any) => {
         data={record}
         type="json"
         onRef={(from: any) => (formInstance = from)}
-        initialValues={{enable: '1'}}
+        initialValues={{ enable: '1' }}
         formatValue={handleFormFormatValue}
       >
         <Form.Item
@@ -65,7 +128,7 @@ const CreateData = (props: any) => {
 
         <Form.Item
           name="image"
-          label="图片"
+          label="视频/图片"
           extra="页面顶部banner图, 建议大小750*340"
           rules={[
             {
@@ -77,6 +140,7 @@ const CreateData = (props: any) => {
           <Uploader
             data={{ fileType: 'BUTLER_SERVICE_IMAGE' }}
             defaultFile={record?.image}
+            maxLength={6}
             onChange={handleChange}
           />
         </Form.Item>
@@ -101,17 +165,62 @@ const CreateData = (props: any) => {
           />
         </Form.Item>
 
-        <Form.Item name="serviceIntro" label="服务介绍">
+        {/* <Form.Item name="serviceIntro" label="服务介绍">
           <Input.TextArea placeholder="请输入服务介绍" />
-        </Form.Item>
+          <BraftEditor
+            value={introState}
+            onChange={(state: any) => handleEditorChange(state, 1)}
+          />
+        </Form.Item> */}
+        <div className={styles.editorWrapper}>
+          <div>
+            <span>*</span>服务介绍:
+          </div>
+          <div>
+            <BraftEditor
+              id="1"
+              media={{ uploadFn: uploadFn }}
+              value={introState}
+              onChange={(state: any) => handleEditorChange(state, 1)}
+            />
+          </div>
+        </div>
 
-        <Form.Item name="serviceProcess" label="服务流程">
+        <div className={styles.editorWrapper}>
+          <div>
+            <span>*</span>服务流程:
+          </div>
+          <div>
+            <BraftEditor
+              id="2"
+              media={{ uploadFn: uploadFn }}
+              value={processState}
+              onChange={(state: any) => handleEditorChange(state, 2)}
+            />
+          </div>
+        </div>
+
+        <div className={styles.editorWrapper}>
+          <div>
+            <span>*</span>收费标准:
+          </div>
+          <div>
+            <BraftEditor
+              id="3"
+              media={{ uploadFn: uploadFn }}
+              value={standardState}
+              onChange={(state: any) => handleEditorChange(state, 3)}
+            />
+          </div>
+        </div>
+
+        {/* <Form.Item name="serviceProcess" label="服务流程">
           <Input.TextArea placeholder="请输入服务流程" />
         </Form.Item>
 
         <Form.Item name="chargeStandard" label="收费标准">
           <Input.TextArea placeholder="请输入收费标准" />
-        </Form.Item>
+        </Form.Item> */}
 
         {!record ? (
           <Form.Item name="enable" label="是否启用">
