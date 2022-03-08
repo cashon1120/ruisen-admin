@@ -19,77 +19,34 @@ const ToDoList = (props: any) => {
 
   const columns = [
     {
-      title: '房产名',
-      dataIndex: 'houseTitle',
-      key: 'houseTitle',
-      width: 180,
+      title: '业主姓名',
+      dataIndex: 'ownerName',
+      key: 'ownerName',
     },
     {
-      title: '用户手机号',
+      title: '手机号',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
-      width: 150,
+    },
+    {
+      title: '项目名称',
+      dataIndex: 'houseTitle',
+      key: 'houseTitle',
+    },
+    {
+      title: '房号',
+      dataIndex: 'roomNo',
+      key: 'roomNo',
     },
     {
       title: '标题',
       dataIndex: 'title',
       key: 'title',
-      width: 150,
-    },
-    {
-      title: '副标题',
-      dataIndex: 'subtitle',
-      key: 'subtitle',
-      width: 150,
-    },
-    {
-      title: '图标',
-      dataIndex: 'icon',
-      key: 'icon',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-    },
-    {
-      title: '金额',
-      dataIndex: 'amount',
-      key: 'amount',
-    },
-    {
-      title: '缴费所属日期',
-      dataIndex: 'belongsDate',
-      key: 'belongsDate',
-    },
-
-    {
-      title: '缴费日期',
-      dataIndex: 'payDate',
-      key: 'payDate',
     },
     {
       title: '缴费截止日期',
       dataIndex: 'payEndDate',
       key: 'payEndDate',
-    },
-    {
-      title: '收据',
-      dataIndex: 'receipt',
-      key: 'receipt',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => state[status],
-    },
-    {
-      title: '描述信息',
-      dataIndex: 'description',
-      key: 'description',
-    },
-    {
-      title: '添加时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
     },
     {
       title: '操作',
@@ -182,7 +139,6 @@ const ToDoList = (props: any) => {
         url="to/do/list/list"
         deleteUrl="to/do/list/delete"
         addPath="/todo/create"
-        scrollWidth={2400}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

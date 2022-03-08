@@ -1,39 +1,11 @@
-import { useState } from 'react';
 import { history } from 'umi';
-import { Button, Switch, message } from 'antd';
+import { Button } from 'antd';
 import TablePage from '@/components/TablePage';
-import Loading from '@/components/Loading';
-import ImagePreview from '@/components/ImagePreview';
-import HttpRequest from '@/utils/request';
 import Detail from '@/components/Detail';
 import { houseStatus, houseType, authenticationStatus } from '@/utils/enum';
 
 const HouseList = () => {
-  const [loading, setLoading] = useState(false);
-
-  const handleChangeDisableState = (value: boolean, record: any) => {
-    setLoading(true);
-    HttpRequest({
-      method: 'post',
-      url: 'house/enable',
-      params: { id: record.id, enable: record.enable === 1 ? 2 : 1 },
-    })
-      .then(() => {
-        message.success('操作成功');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   const columns = [
-    {
-      title: '房产名',
-      dataIndex: 'title',
-      key: 'title',
-      width: 180,
-    },
-
     {
       title: '业主姓名',
       dataIndex: 'ownerName',
@@ -41,10 +13,16 @@ const HouseList = () => {
       width: 120,
     },
     {
-      title: '用户手机号码',
+      title: '手机号',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
       width: 150,
+    },
+    {
+      title: '项目名称',
+      dataIndex: 'title',
+      key: 'title',
+      width: 180,
     },
     {
       title: '房号',
@@ -52,37 +30,7 @@ const HouseList = () => {
       width: 100,
       key: 'roomNo',
     },
-    {
-      title: '户型图',
-      dataIndex: 'floorPlan',
-      key: 'floorPlan',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-      width: 180,
-    },
-    {
-      title: '房产照片',
-      dataIndex: 'photoList',
-      key: 'photoList',
-      width: 300,
-      render: (photoList: string[]) => (
-        <div>
-          {photoList.map((item: string, index: number) => (
-            <ImagePreview key={index} imgSrc={item} />
-          ))}
-        </div>
-      ),
-    },
-    {
-      title: '地址',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '面积',
-      dataIndex: 'area',
-      width: 100,
-      key: 'area',
-    },
+
     {
       title: '认证状态',
       dataIndex: 'authenticationStatus',
@@ -91,66 +39,8 @@ const HouseList = () => {
       render: (text: string) => authenticationStatus[text],
     },
     {
-      title: '开发商',
-      dataIndex: 'developer',
-      key: 'developer',
-    },
-    {
-      title: '过户日期',
-      dataIndex: 'transferDate',
-      key: 'transferDate',
-    },
-    {
-      title: '类型',
-      dataIndex: 'type',
-      key: 'type',
-      width: 100,
-      render: (type: string) => houseType[type],
-    },
-    {
-      title: '币种',
-      dataIndex: 'currency',
-      key: 'currency',
-      width: 100,
-    },
-    {
-      title: '房产状态',
-      dataIndex: 'houseStatus',
-      key: 'houseStatus',
-      width: 100,
-      render: (res: string) => houseStatus[res],
-    },
-
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
-      key: 'updateTime',
-    },
-    {
-      title: '添加时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-    },
-    {
-      title: '是否启用',
-      dataIndex: 'enable',
-      width: 100,
-      fixed: 'right',
-      key: 'enable',
-      render: (enable: number, record: any, index: boolean) => {
-        const disabled = typeof index === 'boolean' ? index : false;
-        return (
-          <Switch
-            defaultChecked={enable === 1 ? true : false}
-            disabled={disabled}
-            onChange={(value: boolean) => handleChangeDisableState(value, record)}
-          />
-        );
-      },
-    },
-    {
       title: '操作',
-      width: 140,
+      width: 100,
       fixed: 'right',
       render: (record: any) => (
         <>
@@ -242,7 +132,6 @@ const HouseList = () => {
 
   return (
     <>
-      {loading ? <Loading /> : null}
       <TablePage
         title="房产列表"
         columns={columns}
@@ -250,7 +139,6 @@ const HouseList = () => {
         url="house/list"
         addPath="/house/create"
         rowKey="id"
-        scrollWidth={2500}
       />
     </>
   );

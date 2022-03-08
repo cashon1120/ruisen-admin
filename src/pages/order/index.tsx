@@ -8,7 +8,7 @@ import ImagePreview from '@/components/ImagePreview';
 import Detail from '@/components/Detail';
 import { houseType, authenticationStatus, isEnd } from '@/utils/enum';
 import ProgressList from './progressList';
-import CreateProgress from './createProgress'
+import CreateProgress from './createProgress';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
@@ -70,24 +70,35 @@ const OrderList = () => {
 
   const handleUpdateProgress = () => {
     tableRef.getData();
-  }
+  };
 
   const columns = [
     {
       title: '订单号',
       dataIndex: 'orderNo',
       key: 'orderNo',
-      width: 200
+      width: 200,
     },
     {
-      title: '房产名',
+      title: '业主姓名',
+      dataIndex: 'houseOwnerName',
+      key: 'houseOwnerName',
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+    },
+    {
+      title: '项目名称',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
     },
     {
-      title: '用户手机号',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      title: '房号',
+      dataIndex: 'roomNo',
+      width: 100,
+      key: 'roomNo',
     },
     {
       title: '管家服务名称',
@@ -95,88 +106,17 @@ const OrderList = () => {
       key: 'butlerServiceName',
     },
     {
-      title: '管家服务LOGO',
-      dataIndex: 'butlerServiceLogo',
-      key: 'butlerServiceLogo',
-      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
-    },
-    {
-      title: '管家服务收费标准',
-      dataIndex: 'butlerServiceChargeStandard',
-      key: 'butlerServiceChargeStandard',
-    },
-    {
-      title: '当前状态',
-      dataIndex: 'currentState',
-      key: 'currentState',
-    },
-    {
-      title: '房产地址',
-      dataIndex: 'houseAddress',
-      key: 'houseAddress',
-      width: 200,
-    },
-    {
-      title: '房产认证状态',
-      dataIndex: 'houseAuthenticationStatus',
-      key: 'houseAuthenticationStatus',
-      render: (text: string) => authenticationStatus[text],
-    },
-    {
-      title: '房产国家城市',
-      dataIndex: 'houseNationalCity',
-      key: 'houseNationalCity',
-    },
-
-    {
-      title: '业主姓名',
-      dataIndex: 'houseOwnerName',
-      key: 'houseOwnerName',
-    },
-    {
-      title: '房产类型',
-      dataIndex: 'houseType',
-      key: 'houseType',
-      render: (type: string) => houseType[type],
-    },
-    {
-      title: '是否完结',
-      dataIndex: 'isEnd',
-      key: 'isEnd',
-      render: (res: string) => isEnd[res],
-    },
-    {
-      title: '备注',
-      dataIndex: 'remarks',
-      key: 'remarks',
-    },
-    {
-      title: '总价',
-      dataIndex: 'totalPrice',
-      key: 'totalPrice',
-    },
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
-      key: 'updateTime',
-      width: 180
-    },
-    {
-      title: '添加时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-      width: 180
-    },
-    {
       title: '服务进度',
       dataIndex: 'orderServiceProgressList',
       key: 'orderServiceProgressList',
       fixed: 'right',
-      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList}  updateCallBack={handleUpdateProgress}  />,
+      render: (orderServiceProgressList: any) => (
+        <ProgressList data={orderServiceProgressList} updateCallBack={handleUpdateProgress} />
+      ),
     },
     {
       title: '操作',
-      width: 300,
+      width: 280,
       fixed: 'right',
       render: (record: any) => (
         <>
@@ -191,7 +131,7 @@ const OrderList = () => {
           <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
             修改总价
           </Button>
-          <Detail title="订单详情" btnText='订单详情' columns={columns} data={record} />
+          <Detail title="订单详情" btnText="订单详情" columns={columns} data={record} />
         </>
       ),
     },
@@ -199,12 +139,12 @@ const OrderList = () => {
 
   const searchItems = [
     {
-      label: '房产名',
+      label: '项目名称',
       name: 'houseTitle',
       componentType: 'Input',
     },
     {
-      label: '用户手机号',
+      label: '手机号',
       name: 'phoneNumber',
       componentType: 'Input',
     },
@@ -257,7 +197,6 @@ const OrderList = () => {
         searchItems={searchItems}
         url="order/list"
         rowKey="id"
-        scrollWidth={3000}
         onRef={(ref: any) => (tableRef = ref)}
       />
       {visiblePrice ? (
@@ -282,7 +221,11 @@ const OrderList = () => {
       ) : null}
 
       {visibleProgress ? (
-        <CreateProgress handleSubmit={handleSubmitTotalProgressModal} loading={loading} handleCancel={() => setVisibleProgress(false)} />
+        <CreateProgress
+          handleSubmit={handleSubmitTotalProgressModal}
+          loading={loading}
+          handleCancel={() => setVisibleProgress(false)}
+        />
       ) : null}
     </>
   );

@@ -1,7 +1,6 @@
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { Button, Popconfirm } from 'antd';
 import { history } from 'umi';
-import ImagePreview from '@/components/ImagePreview';
 import Detail from '@/components/Detail';
 
 let tableRef: RefFunctions = {} as RefFunctions;
@@ -9,63 +8,35 @@ let tableRef: RefFunctions = {} as RefFunctions;
 const IncomeList = () => {
   const columns = [
     {
-      title: '房产名',
+      title: '业主姓名',
+      dataIndex: 'ownerName',
+      key: 'ownerName',
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+    },
+    {
+      title: '项目名称',
       dataIndex: 'houseTitle',
       key: 'houseTitle',
     },
     {
-      title: '币种',
-      dataIndex: 'currency',
-      key: 'currency',
+      title: '房号',
+      dataIndex: 'roomNo',
+      width: 100,
+      key: 'roomNo',
     },
     {
       title: '出租状态',
       dataIndex: 'rentalStatus',
       key: 'rentalStatus',
     },
-
-    {
-      title: '租金单位',
-      dataIndex: 'rentalUnit',
-      key: 'rentalUnit',
-      width: 120,
-    },
-    {
-      title: '总租金',
-      dataIndex: 'totalRental',
-      key: 'totalRental',
-    },
-    {
-      title: '租赁合同',
-      dataIndex: 'leaseContract',
-      key: 'leaseContract',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-    },
-    {
-      title: '账单',
-      dataIndex: 'bill',
-      key: 'bill',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-    },
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
-      key: 'updateTime',
-    },
-    {
-      title: '租期开始时间',
-      dataIndex: 'leaseStartTime',
-      key: 'leaseStartTime',
-    },
     {
       title: '租期结束时间',
       dataIndex: 'leaseEndTime',
       key: 'leaseEndTime',
-    },
-    {
-      title: '添加时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
     },
     {
       title: '操作',
@@ -97,13 +68,13 @@ const IncomeList = () => {
 
   const searchItems = [
     {
-      label: '房产名',
+      label: '项目名称',
       name: 'houseTitle',
       componentType: 'Input',
       placeholder: '请输入房产名',
     },
     {
-      label: '用户手机号码',
+      label: '手机号',
       name: 'phoneNumber',
       componentType: 'Input',
       placeholder: '请输入用户手机号码',
@@ -125,7 +96,6 @@ const IncomeList = () => {
         url="rental/income/list"
         deleteUrl="rental/income/delete"
         addPath="/income/create"
-        scrollWidth={2000}
         onRef={(ref: any) => (tableRef = ref)}
       />
     </>

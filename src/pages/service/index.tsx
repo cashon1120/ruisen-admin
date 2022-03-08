@@ -30,7 +30,7 @@ const ServiceList = () => {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
-      width: 180
+      width: 180,
     },
     {
       title: '图片',
@@ -42,44 +42,13 @@ const ServiceList = () => {
       title: 'LOGO',
       dataIndex: 'logo',
       key: 'logo',
-      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig/>,
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
     },
     {
       title: '服务地区',
       dataIndex: 'serviceArea',
       key: 'serviceArea',
-      width: 180
-    },
-    {
-      title: '服务介绍',
-      dataIndex: 'serviceIntro',
-      key: 'serviceIntro',
-      width: 280
-    },
-    {
-      title: '服务流程',
-      dataIndex: 'serviceProcess',
-      key: 'serviceProcess',
-      width: 280
-    },
-
-    {
-      title: '收费标准',
-      dataIndex: 'chargeStandard',
-      key: 'chargeStandard',
-      width: 280
-    },
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
-      key: 'updateTime',
-    width: 180
-  },
-    {
-      title: '添加时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-      width: 180
+      width: 180,
     },
     {
       title: '是否启用',
@@ -88,12 +57,14 @@ const ServiceList = () => {
       fixed: 'right',
       width: 100,
       render: (enable: number, record: any, index: boolean) => {
-        const disabled = typeof index === 'boolean' ? index : false
-        return  <Switch
-          defaultChecked={enable === 1 ? true : false}
-          disabled={disabled}
-          onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
-        />
+        const disabled = typeof index === 'boolean' ? index : false;
+        return (
+          <Switch
+            defaultChecked={enable === 1 ? true : false}
+            disabled={disabled}
+            onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
+          />
+        );
       },
     },
     {
@@ -148,7 +119,6 @@ const ServiceList = () => {
         title="管家服务"
         columns={columns}
         searchItems={searchItems}
-        scrollWidth={2200}
         url="butler/service/list"
         addPath="/service/create"
       />
