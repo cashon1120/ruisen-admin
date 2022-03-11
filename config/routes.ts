@@ -120,7 +120,18 @@
     path: '/operation/log',
     component: './logs/index',
   },
-
+  {
+    name: '出租记录',
+    icon: 'rental',
+    path: '/rental',
+    component: './rental/index',
+  },
+  {
+    name: '添加出租记录',
+    path: '/rental/create',
+    component: './rental/create',
+    hideInMenu: true,
+  },
   {
     name: '租金收益',
     icon: 'income',
@@ -133,5 +144,5 @@
     component: './income/create',
     hideInMenu: true,
   },
-  {path: '/404', component: './404' },
+  { path: '/404', component: './404' },
 ];

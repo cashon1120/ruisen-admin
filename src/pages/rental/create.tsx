@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { Form, DatePicker, InputNumber, Select } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select } from 'antd';
 import { connect } from 'dva';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 let formInstance: any = null;
 const CreateIncome = (props: any) => {
   const record = props.location.state ? props.location.state.record : null;
-  const { rentalList, fetchList } = props;
+  const { houseList, fetchList } = props;
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
@@ -15,45 +15,37 @@ const CreateIncome = (props: any) => {
     }
   };
 
-  const handleBillChange = (imgs: any[]) => {
-    if (imgs.length === 0) return;
-    if (imgs[0].status === 'done') {
-      const img = imgs[0].response.data;
-      console.log(img);
-      formInstance.setFieldsValue({ bill: img });
-    }
-  };
-
   useEffect(() => {
-    if (rentalList.length === 0) {
+    if (houseList.length === 0) {
       fetchList();
     }
   }, []);
+
   return (
     <>
       <FormPage
-        title={record ? '编辑收益记录' : '添加收益记录'}
-        createUrl="rental/income/add"
-        updateUrl="rental/income/update"
-        backPath="/income"
-        dateKeys={['leaseStartTime', 'leaseEndTime']}
+        title={record ? '编辑出租记录' : '添加出租记录'}
+        createUrl="rental/record/add"
+        updateUrl="rental/record/update"
+        backPath="/rental"
+        dateKeys={['startTime', 'endTime']}
         type="json"
         data={record}
         onRef={(from: any) => (formInstance = from)}
         initialValues={{ currency: '泰铢' }}
       >
         <Form.Item
-          name="rentalRecordId"
-          label="出租记录"
+          name="houseId"
+          label="房产"
           rules={[
             {
               required: true,
-              message: '请选择出租记录!',
+              message: '请选择房产!',
             },
           ]}
         >
-          <Select placeholder="请选择出租记录">
-            {rentalList.map((item: any) => (
+          <Select placeholder="请选择房产">
+            {houseList.map((item: any) => (
               <Select.Option key={item.value} value={item.value}>
                 {item.text}
               </Select.Option>
@@ -74,20 +66,33 @@ const CreateIncome = (props: any) => {
         </Form.Item> */}
 
         <Form.Item
-          name="rental"
-          label="租金"
+          name="totalRental"
+          label="总租金"
           rules={[
             {
               required: true,
-              message: '请输入租金',
+              message: '请输入总租金',
             },
           ]}
         >
-          <InputNumber placeholder="请输入租金" style={{ width: 150 }} />
+          <InputNumber placeholder="请输入总租金" style={{ width: 150 }} />
         </Form.Item>
 
         <Form.Item
-          name="leaseStartTime"
+          name="rentalStatus"
+          label="出租状态"
+          rules={[
+            {
+              required: true,
+              message: '请输入出租状态',
+            },
+          ]}
+        >
+          <Input placeholder="请输入出租状态" />
+        </Form.Item>
+
+        <Form.Item
+          name="startTime"
           label="租期开始时间"
           rules={[
             {
@@ -100,7 +105,7 @@ const CreateIncome = (props: any) => {
         </Form.Item>
 
         <Form.Item
-          name="leaseEndTime"
+          name="endTime"
           label="租期结束时间"
           rules={[
             {
@@ -113,20 +118,23 @@ const CreateIncome = (props: any) => {
         </Form.Item>
 
         <Form.Item
-          name="bill"
-          label="账单"
+          name="leaseContract"
+          label="租赁合同"
           rules={[
             {
               required: true,
-              message: '请输上传账单!',
+              message: '请输上传租赁合同!',
             },
           ]}
         >
           <Uploader
-            data={{ fileType: 'BILL' }}
-            defaultFile={record?.bill}
-            onChange={handleBillChange}
+            data={{ fileType: 'LEASE_CONTRACT' }}
+            defaultFile={record?.leaseContract}
+            onChange={handleChange}
           />
+        </Form.Item>
+        <Form.Item name="desc" label="备注">
+          <Input.TextArea />
         </Form.Item>
       </FormPage>
     </>
@@ -135,7 +143,7 @@ const CreateIncome = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    rentalList: state.global.rentalList,
+    houseList: state.global.houseList,
   };
 };
 
@@ -143,7 +151,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchList() {
       dispatch({
-        type: 'global/getRentalList',
+        type: 'global/getHouseList',
       });
     },
   };

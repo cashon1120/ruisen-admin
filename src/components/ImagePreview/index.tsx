@@ -6,6 +6,7 @@ interface IProps {
   showBgColor?: boolean;
 }
 const defaultSrc = '/images/noimg.jpg';
+const videoSrc = '/images/video.png';
 const ImagePreview = (props: IProps) => {
   const { imgSrc, showBgColor, disableShowBig } = props;
   const [visible, setVisible] = useState(false);
@@ -15,12 +16,13 @@ const ImagePreview = (props: IProps) => {
   const handleError = (e: any) => {
     e.target.src = defaultSrc;
   };
+  const isVideo = imgSrc.indexOf('.mp4') > -1;
   return (
     <>
       <img
         // src={formatImgSrc(imgSrc || defaultSrc)}
-        src={imgSrc || defaultSrc}
-        title="点击查看大图"
+        src={isVideo ? videoSrc : imgSrc || defaultSrc}
+        title="点击预览"
         style={{
           height: 50,
           marginRight: 5,
@@ -33,18 +35,22 @@ const ImagePreview = (props: IProps) => {
       />
       <Modal
         footer={[]}
-        title="图片预览"
+        title="预览"
         width={750}
         visible={visible}
         onCancel={handleTriggerVisible}
         onOk={handleTriggerVisible}
       >
         <div style={{ textAlign: 'center' }}>
-          <img
-            src={imgSrc}
-            style={{ maxWidth: '100%', background: showBgColor ? '#752117' : '#fafafa' }}
-            onError={handleError}
-          />
+          {!isVideo ? (
+            <img
+              src={imgSrc}
+              style={{ maxWidth: '100%', background: showBgColor ? '#752117' : '#fafafa' }}
+              onError={handleError}
+            />
+          ) : (
+            <video src={imgSrc} autoPlay controls style={{ height: 400 }} />
+          )}
         </div>
       </Modal>
     </>

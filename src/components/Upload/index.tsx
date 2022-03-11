@@ -10,7 +10,8 @@ interface IProps {
   colorbg?: boolean;
   defaultFile?: string | string[];
   maxLength?: number;
-  disablePreview?: boolean
+  disablePreview?: boolean;
+  accept?: string;
 }
 
 let index = 0;
@@ -19,7 +20,7 @@ const Uploader = (props: IProps) => {
   const [showModal, setShowModal] = useState(false);
   const [fileList, setFileList] = useState<any>([]);
   const [previewImage, setPreviewImage] = useState('');
-  const { onChange, action, data, maxLength, defaultFile, colorbg, disablePreview } = props;
+  const { onChange, action, data, maxLength, defaultFile, colorbg, disablePreview, accept } = props;
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -71,7 +72,7 @@ const Uploader = (props: IProps) => {
         fileList={fileList}
         onChange={handleUploadChange}
         data={data}
-        accept=".png, .jpg, .jpeg, .gif"
+        accept={accept ? accept : '.png, .jpg, .jpeg, .gif'}
         headers={{
           token: localStorage.getItem('token') || '',
         }}
@@ -85,12 +86,18 @@ const Uploader = (props: IProps) => {
       </Upload>
       <Modal
         visible={showModal}
-        title={'图片预览'}
+        title={'预览'}
         width={750}
         footer={null}
         onCancel={() => setShowModal(false)}
       >
-        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <div style={{ textAlign: 'center' }}>
+          {previewImage.indexOf('.mp4') > -1 ? (
+            <video controls autoPlay style={{ height: 400 }} src={previewImage} />
+          ) : (
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          )}
+        </div>
       </Modal>
     </>
   );

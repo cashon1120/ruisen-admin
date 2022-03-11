@@ -12,7 +12,8 @@ import {
   CommentOutlined,
   DollarOutlined,
   MoneyCollectOutlined,
-  SettingOutlined
+  SettingOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
 const Icon = (props: Props) => {
   const { name } = props;
   let icon = <></>;
+
   switch (name) {
     case 'home':
       icon = <HomeOutlined />;
@@ -63,8 +65,11 @@ const Icon = (props: Props) => {
       icon = <MoneyCollectOutlined />;
       break;
     case 'setting':
-      icon = <SettingOutlined />
-      break
+      icon = <SettingOutlined />;
+      break;
+    case 'rental':
+      icon = <UnorderedListOutlined />;
+      break;
     default:
   }
   return <>{icon}</>;

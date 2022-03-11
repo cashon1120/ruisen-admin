@@ -24,6 +24,61 @@ const ServiceList = () => {
         setLoading(false);
       });
   };
+  const detailColumns = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+    },
+    {
+      title: 'LOGO',
+      dataIndex: 'logo',
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
+    },
+    {
+      title: '图片',
+      dataIndex: 'imageList',
+      render: (res: string[]) => (
+        <>
+          {res.map((src: string) => (
+            <ImagePreview key={src} imgSrc={src} />
+          ))}
+        </>
+      ),
+    },
+    {
+      title: '视频',
+      dataIndex: 'videoList',
+      render: (res: string[]) => (
+        <>
+          {res.map((src: string) => (
+            <ImagePreview key={src} imgSrc={src} />
+          ))}
+        </>
+      ),
+    },
+    {
+      title: '服务地区',
+      dataIndex: 'serviceArea',
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNumber',
+    },
+    {
+      title: '是否启用',
+      dataIndex: 'enable',
+      render: (enable: number, record: any, index: boolean) => {
+        const disabled = typeof index === 'boolean' ? index : false;
+        return (
+          <Switch
+            defaultChecked={enable === 1 ? true : false}
+            disabled={disabled}
+            onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
+          />
+        );
+      },
+    },
+  ];
 
   const columns = [
     {
@@ -33,16 +88,15 @@ const ServiceList = () => {
       width: 180,
     },
     {
-      title: '图片',
-      dataIndex: 'image',
-      key: 'image',
-      render: (res: string) => <ImagePreview imgSrc={res} />,
-    },
-    {
       title: 'LOGO',
       dataIndex: 'logo',
       key: 'logo',
       render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNumber',
+      key: 'sortNumber',
     },
     {
       title: '服务地区',
@@ -80,7 +134,7 @@ const ServiceList = () => {
           >
             编辑
           </Button>
-          <Detail title={record.name} columns={columns} data={record} />
+          <Detail title={record.name} columns={detailColumns} data={record} />
         </>
       ),
     },

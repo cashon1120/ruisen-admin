@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, Radio } from 'antd';
+import { Form, Input, InputNumber, message, Radio } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import BraftEditor from 'braft-editor'; // 引入编辑器组件
@@ -23,25 +23,42 @@ const CreateData = (props: any) => {
     }
   }, []);
   const handleChange = (imgs: any[]) => {
-    if (imgs.length === 0) return;
-    if (imgs[0].status === 'done') {
-      const img = imgs[0].response.data;
-      formInstance.setFieldsValue({ image: img });
-    }
-    // if (imgs.length === 0) {
-    //   formInstance.setFieldsValue({ image: [] });
-    //   return;
+    // if (imgs.length === 0) return;
+    // if (imgs[0].status === 'done') {
+    //   const img = imgs[0].response.data;
+    //   formInstance.setFieldsValue({ image: img });
     // }
-    // const result: string[] = [];
-    // imgs.forEach((item: any) => {
-    //   if (item.response) {
-    //     result.push(item.response.data);
-    //   } else {
-    //     result.push(item.url);
-    //   }
-    // });
-    // formInstance.setFieldsValue({ image: result });
+    if (imgs.length === 0) {
+      formInstance.setFieldsValue({ imageList: [] });
+      return;
+    }
+    const result: string[] = [];
+    imgs.forEach((item: any) => {
+      if (item.response) {
+        result.push(item.response.data);
+      } else {
+        result.push(item.url);
+      }
+    });
+    formInstance.setFieldsValue({ imageList: result });
   };
+
+  const handleVideoChange = (imgs: any[]) => {
+    if (imgs.length === 0) {
+      formInstance.setFieldsValue({ videoList: [] });
+      return;
+    }
+    const result: string[] = [];
+    imgs.forEach((item: any) => {
+      if (item.response) {
+        result.push(item.response.data);
+      } else {
+        result.push(item.url);
+      }
+    });
+    formInstance.setFieldsValue({ videoList: result });
+  };
+
   const handleLogoChange = (imgs: any[]) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
@@ -52,6 +69,18 @@ const CreateData = (props: any) => {
 
   const handleFormFormatValue = (values: any) => {
     values.enable = parseInt(values.enable);
+    if (!introState) {
+      message.error('请输入服务介绍');
+      return;
+    }
+    if (!processState) {
+      message.error('请输入服务流程');
+      return;
+    }
+    if (!standardState) {
+      message.error('请输入收费标准');
+      return;
+    }
     values.serviceIntro = introState.toHTML();
     values.serviceProcess = processState.toHTML();
     values.chargeStandard = standardState.toHTML();
@@ -65,7 +94,7 @@ const CreateData = (props: any) => {
       url: `file/upload`,
       method: 'post',
       type: 'formData',
-      params: { file: param.file, fileType: 'BUTLER_SERVICE_IMAGE' },
+      params: { file: param.file, fileType: 'BUTLER_SERVICE_RICH_TEXT_IMAGE' },
     }).then((res: any) => {
       param.success({
         url: res,
@@ -127,25 +156,6 @@ const CreateData = (props: any) => {
         </Form.Item>
 
         <Form.Item
-          name="image"
-          label="视频/图片"
-          extra="页面顶部banner图, 建议大小750*340"
-          rules={[
-            {
-              required: true,
-              message: '请输上传图片!',
-            },
-          ]}
-        >
-          <Uploader
-            data={{ fileType: 'BUTLER_SERVICE_IMAGE' }}
-            defaultFile={record?.image}
-            maxLength={6}
-            onChange={handleChange}
-          />
-        </Form.Item>
-
-        <Form.Item
           name="logo"
           label="LOGO"
           extra="小程序中显示的小图标, 大小70*70, 白色透明png"
@@ -162,6 +172,43 @@ const CreateData = (props: any) => {
             disablePreview
             defaultFile={record?.logo}
             onChange={handleLogoChange}
+          />
+        </Form.Item>
+        <Form.Item
+          name="imageList"
+          label="图片"
+          extra="页面顶部banner图, 建议大小750*340"
+          rules={[
+            {
+              required: true,
+              message: '请输上传图片!',
+            },
+          ]}
+        >
+          <Uploader
+            data={{ fileType: 'BUTLER_SERVICE_IMAGE' }}
+            defaultFile={record?.imageList}
+            maxLength={6}
+            onChange={handleChange}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="videoList"
+          label="视频"
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: '请输上传图片!',
+          //   },
+          // ]}
+        >
+          <Uploader
+            data={{ fileType: 'BUTLER_SERVICE_VIDEO' }}
+            defaultFile={record?.videoList}
+            maxLength={6}
+            accept=".mp4"
+            onChange={handleVideoChange}
           />
         </Form.Item>
 
@@ -221,6 +268,10 @@ const CreateData = (props: any) => {
         <Form.Item name="chargeStandard" label="收费标准">
           <Input.TextArea placeholder="请输入收费标准" />
         </Form.Item> */}
+
+        <Form.Item name="sortNumber" label="排序">
+          <InputNumber placeholder="请输排序编号" />
+        </Form.Item>
 
         {!record ? (
           <Form.Item name="enable" label="是否启用">

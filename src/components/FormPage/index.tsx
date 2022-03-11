@@ -76,10 +76,10 @@ const FormPage = (props: IProps) => {
 
     Object.keys(values).forEach((key: string) => {
       if (dateKeys?.includes(key)) {
-        if(values[key]){
+        if (values[key]) {
           values[key] = values[key].format('YYYY-MM-DD');
-        }else{
-          values[key] = ''
+        } else {
+          values[key] = '';
         }
       }
       if (typeof values[key] === 'boolean') {
@@ -113,9 +113,11 @@ const FormPage = (props: IProps) => {
     if (values.ownerGuideList) {
       for (let i = 0; i < values.ownerGuideList.length; i++) {
         values.ownerGuideList[i].icon = formatImgSrcBack(values.ownerGuideList[i].icon);
-        if(values.ownerGuideList[i].imageList){
+        if (values.ownerGuideList[i].imageList) {
           for (let j = 0; j < values.ownerGuideList[i].imageList.length; j++) {
-            values.ownerGuideList[i].imageList[j] = formatImgSrcBack(values.ownerGuideList[i].imageList[j]);
+            values.ownerGuideList[i].imageList[j] = formatImgSrcBack(
+              values.ownerGuideList[i].imageList[j],
+            );
           }
         }
       }
@@ -124,7 +126,7 @@ const FormPage = (props: IProps) => {
     if (formatValue) {
       values = formatValue(values);
     }
-
+    if (!values) return;
     setLoading(true);
     HttpRequest({ method: 'post', params: values, url: data ? updateUrl : createUrl, type })
       .then(() => {
