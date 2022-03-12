@@ -61,22 +61,28 @@ const ServiceList = () => {
       dataIndex: 'serviceArea',
     },
     {
+      title: '服务介绍',
+      dataIndex: 'serviceIntro',
+      render: (res: string) => <div dangerouslySetInnerHTML={{__html: res}}></div>
+    },
+    {
+      title: '服务流程',
+      dataIndex: 'serviceProcess',
+      render: (res: string) => <div dangerouslySetInnerHTML={{__html: res}}></div>
+    },
+    {
+      title: '收费标准',
+      dataIndex: 'chargeStandard',
+      render: (res: string) => <div dangerouslySetInnerHTML={{__html: res}}></div>
+    },
+    {
       title: '排序',
       dataIndex: 'sortNumber',
     },
     {
       title: '是否启用',
       dataIndex: 'enable',
-      render: (enable: number, record: any, index: boolean) => {
-        const disabled = typeof index === 'boolean' ? index : false;
-        return (
-          <Switch
-            defaultChecked={enable === 1 ? true : false}
-            disabled={disabled}
-            onChange={(value: boolean) => handleChangeDisableState(value, record.id)}
-          />
-        );
-      },
+      render: (enable: number) => enable === 1 ? '是' : "否"
     },
   ];
 

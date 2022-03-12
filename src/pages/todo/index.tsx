@@ -16,6 +16,51 @@ export const state = {
 
 const ToDoList = (props: any) => {
   const { houseList, fetchList } = props;
+  const detailColumns = [
+    {
+      title: '房产名',
+      dataIndex: 'houseTitle',
+    },
+    {
+      title: '用户手机号',
+      dataIndex: 'phoneNumber',
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
+    {
+      title: '副标题',
+      dataIndex: 'subtitle',
+    },
+    {
+      title: '图标',
+      dataIndex: 'icon',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+    },
+    {
+      title: '金额',
+      dataIndex: 'amount',
+    },
+    {
+      title: '缴费截止日期',
+      dataIndex: 'payEndDate',
+    },
+    {
+      title: '收据',
+      dataIndex: 'receipt',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (status: string) => state[status],
+    },
+    {
+      title: '添加时间',
+      dataIndex: 'createTime',
+    },
+  ];
 
   const columns = [
     {
@@ -70,7 +115,7 @@ const ToDoList = (props: any) => {
               删除
             </Button>
           </Popconfirm>
-          <Detail title="待办事项详情" columns={columns} data={record} />
+          <Detail title="待办事项详情" columns={detailColumns} data={record} />
         </>
       ),
     },

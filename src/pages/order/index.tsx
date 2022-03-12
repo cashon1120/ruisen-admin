@@ -72,6 +72,79 @@ const OrderList = () => {
     tableRef.getData();
   };
 
+  const detailColumns = [
+    {
+      title: '订单号',
+      dataIndex: 'orderNo',
+    },
+    {
+      title: '房产名',
+      dataIndex: 'houseTitle',
+    },
+    {
+      title: '用户手机号',
+      dataIndex: 'phoneNumber',
+    },
+    {
+      title: '管家服务名称',
+      dataIndex: 'butlerServiceName',
+    },
+    {
+      title: '管家服务LOGO',
+      dataIndex: 'butlerServiceLogo',
+      render: (res: string) => <ImagePreview imgSrc={res} showBgColor disableShowBig />,
+    },
+    {
+      title: '管家服务收费标准',
+      dataIndex: 'butlerServiceChargeStandard',
+    },
+    {
+      title: '当前状态',
+      dataIndex: 'currentState',
+    },
+    {
+      title: '房产地址',
+      dataIndex: 'houseAddress',
+    },
+    {
+      title: '房产认证状态',
+      dataIndex: 'houseAuthenticationStatus',
+      render: (text: string) => authenticationStatus[text],
+    },
+    {
+      title: '房产国家城市',
+      dataIndex: 'houseNationalCity',
+    },
+
+    {
+      title: '业主姓名',
+      dataIndex: 'houseOwnerName',
+    },
+    {
+      title: '房产类型',
+      dataIndex: 'houseType',
+      render: (type: string) => houseType[type],
+    },
+    {
+      title: '是否完结',
+      dataIndex: 'isEnd',
+      render: (res: string) => isEnd[res],
+    },
+    {
+      title: '添加时间',
+      dataIndex: 'createTime',
+    },
+    {
+      title: '服务进度',
+      dataIndex: 'orderServiceProgressList',
+      render: (orderServiceProgressList: any) => <ProgressList data={orderServiceProgressList}  updateCallBack={handleUpdateProgress}  />,
+    },
+    {
+      title: '备注',
+      dataIndex: 'remarks',
+    },
+  ];
+
   const columns = [
     {
       title: '订单号',
@@ -131,7 +204,7 @@ const OrderList = () => {
           <Button size="small" type="primary" onClick={() => handleUpdatePrice(record)}>
             修改总价
           </Button>
-          <Detail title="订单详情" btnText="订单详情" columns={columns} data={record} />
+          <Detail title="订单详情" btnText="订单详情" columns={detailColumns} data={record} />
         </>
       ),
     },

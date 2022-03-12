@@ -1,10 +1,96 @@
 import { history } from 'umi';
 import { Button } from 'antd';
 import TablePage from '@/components/TablePage';
+import ImagePreview from '@/components/ImagePreview';
 import Detail from '@/components/Detail';
 import { houseStatus, houseType, authenticationStatus } from '@/utils/enum';
 
 const HouseList = () => {
+
+  const detailColumns = [
+    {
+      title: '业主姓名',
+      dataIndex: 'ownerName',
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phoneNumber',
+    },
+    {
+      title: '项目名称',
+      dataIndex: 'title',
+    },
+    {
+      title: '房号',
+      dataIndex: 'roomNo',
+    },
+    {
+      title: '户型图',
+      dataIndex: 'floorPlan',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+    },
+    {
+      title: '房产照片',
+      dataIndex: 'photoList',
+      render: (photoList: string[]) => (
+        <div>
+          {photoList.map((item: string, index: number) => (
+            <ImagePreview key={index} imgSrc={item} />
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+    },
+    {
+      title: '面积',
+      dataIndex: 'area',
+    },
+    {
+      title: '认证状态',
+      dataIndex: 'authenticationStatus',
+      render: (text: string) => authenticationStatus[text],
+    },
+    {
+      title: '开发商',
+      dataIndex: 'developer',
+    },
+    {
+      title: '过户日期',
+      dataIndex: 'transferDate',
+    },
+    {
+      title: '类型',
+      dataIndex: 'type',
+      render: (type: string) => houseType[type],
+    },
+    {
+      title: '币种',
+      dataIndex: 'currency',
+    },
+    {
+      title: '房产状态',
+      dataIndex: 'houseStatus',
+      render: (res: string) => houseStatus[res],
+    },
+
+    {
+      title: '修改时间',
+      dataIndex: 'updateTime',
+    },
+    {
+      title: '添加时间',
+      dataIndex: 'createTime',
+    },
+    {
+      title: '是否启用',
+      dataIndex: 'enable',
+      render: (enable: number) => enable === 1 ? '是' : "否"
+    },
+  ];
+
   const columns = [
     {
       title: '业主姓名',
@@ -51,7 +137,7 @@ const HouseList = () => {
           >
             编辑
           </Button>
-          <Detail title="房产详情" columns={columns} data={record} />
+          <Detail title="房产详情" columns={detailColumns} data={record} />
         </>
       ),
     },

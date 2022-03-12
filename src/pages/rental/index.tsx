@@ -1,11 +1,62 @@
 import TablePage, { RefFunctions } from '@/components/TablePage';
 import { Button, Popconfirm } from 'antd';
 import { history } from 'umi';
+import ImagePreview from '@/components/ImagePreview';
 import Detail from '@/components/Detail';
 
 let tableRef: RefFunctions = {} as RefFunctions;
 
 const IncomeList = () => {
+
+  const detailColumns = [
+    {
+      title: '业主姓名',
+      dataIndex: 'ownerName',
+    },
+    {
+      title: '手机号',
+      dataIndex: 'phoneNumber',
+    },
+    {
+      title: '项目名称',
+      dataIndex: 'houseTitle',
+    },
+    {
+      title: '房号',
+      dataIndex: 'roomNo',
+    },
+    {
+      title: '总租金',
+      dataIndex: 'totalRental',
+    },
+    {
+      title: '币种',
+      dataIndex: 'currency',
+    },
+    {
+      title: '出租状态',
+      dataIndex: 'rentalStatus',
+    },
+    {
+      title: '租期开始时间',
+      dataIndex: 'startTime',
+    },
+    {
+      title: '租期结束时间',
+      dataIndex: 'endTime',
+    },
+    {
+      title: '租赁合同',
+      dataIndex: 'leaseContract',
+      render: (res: string) => <ImagePreview imgSrc={res} />,
+    },
+    {
+      title: '备注',
+      dataIndex: 'desc',
+    },
+    
+  ];
+
   const columns = [
     {
       title: '业主姓名',
@@ -27,6 +78,11 @@ const IncomeList = () => {
       dataIndex: 'roomNo',
       width: 100,
       key: 'roomNo',
+    },
+    {
+      title: '总租金',
+      dataIndex: 'totalRental',
+      key: 'totalRental',
     },
     {
       title: '出租状态',
@@ -65,7 +121,7 @@ const IncomeList = () => {
               删除
             </Button>
           </Popconfirm>
-          <Detail title="收益详情" columns={columns} data={record} />
+          <Detail title="收益详情" columns={detailColumns} data={record} />
         </>
       ),
     },

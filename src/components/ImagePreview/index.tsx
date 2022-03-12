@@ -16,6 +16,19 @@ const ImagePreview = (props: IProps) => {
   const handleError = (e: any) => {
     e.target.src = defaultSrc;
   };
+  if(!imgSrc){
+    return  <img
+    src={defaultSrc}
+    title="点击预览"
+    style={{
+      height: 50,
+      marginRight: 5,
+      borderRadius: 5,
+      cursor: disableShowBig ? 'default' : 'pointer',
+      background: showBgColor ? '#752117' : 'transparent',
+    }}
+  />
+  }
   const isVideo = imgSrc.indexOf('.mp4') > -1;
   return (
     <>
