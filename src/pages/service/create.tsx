@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, message, Radio } from 'antd';
+import { Form, Input, InputNumber, message, Radio, Row, Col } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import BraftEditor from 'braft-editor'; // 引入编辑器组件
@@ -193,16 +193,7 @@ const CreateData = (props: any) => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="videoList"
-          label="视频"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: '请输上传图片!',
-          //   },
-          // ]}
-        >
+        <Form.Item name="videoList" label="视频" extra="格式只能为mp4,且不能超过20M">
           <Uploader
             data={{ fileType: 'BUTLER_SERVICE_VIDEO' }}
             defaultFile={record?.videoList}
@@ -212,62 +203,47 @@ const CreateData = (props: any) => {
           />
         </Form.Item>
 
-        {/* <Form.Item name="serviceIntro" label="服务介绍">
-          <Input.TextArea placeholder="请输入服务介绍" />
-          <BraftEditor
-            value={introState}
-            onChange={(state: any) => handleEditorChange(state, 1)}
-          />
-        </Form.Item> */}
-        <div className={styles.editorWrapper}>
-          <div>
+        <Row>
+          <Col span={4} className={styles.editorLabel}>
             <span>*</span>服务介绍:
-          </div>
-          <div>
+          </Col>
+          <Col span={18} className={styles.editorContent}>
             <BraftEditor
               id="1"
               media={{ uploadFn: uploadFn }}
               value={introState}
               onChange={(state: any) => handleEditorChange(state, 1)}
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className={styles.editorWrapper}>
-          <div>
+        <Row>
+          <Col span={4} className={styles.editorLabel}>
             <span>*</span>服务流程:
-          </div>
-          <div>
+          </Col>
+          <Col span={18} className={styles.editorContent}>
             <BraftEditor
               id="2"
               media={{ uploadFn: uploadFn }}
               value={processState}
               onChange={(state: any) => handleEditorChange(state, 2)}
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className={styles.editorWrapper}>
-          <div>
+        <Row>
+          <Col span={4} className={styles.editorLabel}>
             <span>*</span>收费标准:
-          </div>
-          <div>
+          </Col>
+          <Col span={18} className={styles.editorContent}>
             <BraftEditor
               id="3"
               media={{ uploadFn: uploadFn }}
               value={standardState}
               onChange={(state: any) => handleEditorChange(state, 3)}
             />
-          </div>
-        </div>
-
-        {/* <Form.Item name="serviceProcess" label="服务流程">
-          <Input.TextArea placeholder="请输入服务流程" />
-        </Form.Item>
-
-        <Form.Item name="chargeStandard" label="收费标准">
-          <Input.TextArea placeholder="请输入收费标准" />
-        </Form.Item> */}
+          </Col>
+        </Row>
 
         <Form.Item name="sortNumber" label="排序">
           <InputNumber placeholder="请输排序编号" />

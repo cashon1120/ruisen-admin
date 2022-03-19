@@ -15,6 +15,8 @@ interface IProps {
 }
 
 let index = 0;
+const videoSrc = '/images/previewVideo.png';
+const isVideo = (url: string) => /\.mp4$/.test(url);
 
 const Uploader = (props: IProps) => {
   const [showModal, setShowModal] = useState(false);
@@ -29,17 +31,37 @@ const Uploader = (props: IProps) => {
   );
 
   const handleUploadChange = (files: any) => {
+    files.fileList.forEach((item: any) => {
+      if (item.url) {
+        if (isVideo(item.url)) {
+          item.thumbUrl = videoSrc;
+        }
+      }
+      if (item.response && isVideo(item.response.data)) {
+        item.thumbUrl = videoSrc;
+      }
+    });
     onChange(files.fileList);
     setFileList(files.fileList);
   };
 
   const handlePreview = (file: any) => {
-    setPreviewImage(file.url || file.thumbUrl);
+    let url = file.url || file.thumbUrl;
+    if (file.thumbUrl === videoSrc && file.response) {
+      url = file.response.data;
+    }
+    setPreviewImage(url);
     setShowModal(true);
   };
 
   useEffect(() => {
     const fileList = [];
+    const setThumbUrl = (url: string) => {
+      if (isVideo(url)) {
+        return videoSrc;
+      }
+      return url;
+    };
     if (defaultFile) {
       if (typeof defaultFile === 'string') {
         fileList.push({
@@ -47,6 +69,7 @@ const Uploader = (props: IProps) => {
           name: defaultFile,
           status: 'done',
           url: defaultFile,
+          thumbUrl: setThumbUrl(defaultFile),
         });
       } else {
         defaultFile.forEach((item: string) => {
@@ -55,6 +78,7 @@ const Uploader = (props: IProps) => {
             name: item,
             status: 'done',
             url: item,
+            thumbUrl: setThumbUrl(item),
           });
         });
       }
@@ -86,14 +110,14 @@ const Uploader = (props: IProps) => {
       </Upload>
       <Modal
         visible={showModal}
-        title={'预览'}
+        title={isVideo(previewImage) ? '视频预览' : '图片预览'}
         width={750}
         footer={null}
         onCancel={() => setShowModal(false)}
       >
-        <div style={{ textAlign: 'center' }}>
+        <div className={styles.preview}>
           {previewImage.indexOf('.mp4') > -1 ? (
-            <video controls autoPlay style={{ height: 400 }} src={previewImage} />
+            <video controls autoPlay src={previewImage} />
           ) : (
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           )}

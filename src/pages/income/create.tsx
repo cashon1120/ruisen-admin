@@ -19,7 +19,6 @@ const CreateIncome = (props: any) => {
     if (imgs.length === 0) return;
     if (imgs[0].status === 'done') {
       const img = imgs[0].response.data;
-      console.log(img);
       formInstance.setFieldsValue({ bill: img });
     }
   };

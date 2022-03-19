@@ -82,7 +82,6 @@ const model: Model = {
         });
       };
       const data = yield call(getData, 'global');
-      console.log(data);
       yield put({ type: 'updateRentalList', playload: { data } });
     },
 
