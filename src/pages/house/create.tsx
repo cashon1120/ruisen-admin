@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Input, InputNumber, Select, DatePicker } from 'antd';
+import { Form, Input, InputNumber, Select, DatePicker, message } from 'antd';
 import FormPage from '@/components/FormPage';
 import Uploader from '@/components/Upload';
 import { houseStatus, houseType, authenticationStatus } from '@/utils/enum';
@@ -20,6 +20,7 @@ const CreateHouse = (props: any) => {
   const handleChange = (imgs: any[]) => {
     if (imgs.length === 0) {
       formInstance.setFieldsValue({ floorPlan: '' });
+      return;
     }
     if (imgs[0].status === 'done') {
       const img = imgs[0].response.data;
@@ -49,6 +50,25 @@ const CreateHouse = (props: any) => {
     }
   }, []);
 
+  const formatValue = (values: any) => {
+    let hasError = false;
+    if (values.ownerGuideList) {
+      values.ownerGuideList.forEach((item: any, index: number) => {
+        if (!item.title) {
+          message.error(`请输入第${index + 1}条业主指南名称`);
+          hasError = true;
+          return;
+        }
+        if (!item.icon || item.icon === '/images/noimg.jpg') {
+          message.error(`请上传业主指南"${item.title || index + 1}"的图标`);
+          hasError = true;
+        }
+      });
+    }
+    if (hasError) return;
+    return values;
+  };
+
   return (
     <>
       <FormPage
@@ -61,6 +81,7 @@ const CreateHouse = (props: any) => {
         data={record}
         initialValues={{ record }}
         showDetail={showDetail}
+        formatValue={formatValue}
         onRef={(form: any) => (formInstance = form)}
       >
         <Form.Item
@@ -224,10 +245,7 @@ const CreateHouse = (props: any) => {
           <Input placeholder="请输入币种" maxLength={10} />
         </Form.Item>
 
-        <Form.Item
-          name="transferDate"
-          label="过户日期"
-        >
+        <Form.Item name="transferDate" label="过户日期">
           <DatePicker />
         </Form.Item>
 

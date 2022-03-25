@@ -45,10 +45,13 @@ const Guid = (props: IProps) => {
   };
 
   const handleIconChange = (imgs: any[], id: number) => {
-    if (imgs.length === 0) return;
     data.forEach((item: Item) => {
       if (item.id === id) {
-        item.icon = imgs[0].response?.data;
+        if (imgs.length === 0) {
+          item.icon = '';
+        } else {
+          item.icon = imgs[0].response?.data;
+        }
       }
     });
     onFormChange(data);
