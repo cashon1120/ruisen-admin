@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: "14.x"
       - name: install deps
-        run: npm install
+        run: yarn
       - name: build app
         run: npm run build
       - name: copy dist file with scp
