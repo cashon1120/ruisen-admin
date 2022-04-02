@@ -33,9 +33,9 @@ jobs:
       - name: copy dist file with scp
         uses: appleboy/scp-action@v0.0.1
         with:
-          host: ${{ secrets.RUISEN_ADMIN_HOST }}
-          username: ${{ secrets.RUISEN_ADMIN_USERNAME }}
-          password: ${{ secrets.RUISEN_ADMIN_PASSWORD }}
+          host: ${{ secrets.actions.RUISEN_ADMIN_HOST }}
+          username: ${{ secrets.actions.RUISEN_ADMIN_USERNAME }}
+          password: ${{ secrets.actions.RUISEN_ADMIN_PASSWORD }}
           port: 22,
           source: 'dist/'
           target: '/usr/web/ruisen_admin/'
