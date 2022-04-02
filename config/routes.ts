@@ -33,7 +33,7 @@
     name: '用户管理',
     icon: 'user',
     path: '/user',
-    component: './userlist/index',
+    component: './user/index',
   },
   {
     name: '管家服务',
